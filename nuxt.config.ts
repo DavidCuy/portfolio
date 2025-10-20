@@ -4,10 +4,12 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/ui',
+    '@nuxt/icon',
     '@nuxt/content',
     '@vueuse/nuxt',
     'nuxt-og-image',
-    'motion-v/nuxt'
+    'motion-v/nuxt',
+    '@nuxtjs/i18n'
   ],
 
   devtools: {
@@ -15,6 +17,23 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
+
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+        file: 'en.json'
+      },
+      {
+        code: 'es',
+        name: 'Español',
+        file: 'es.json'
+      }
+    ],
+    defaultLocale: 'en',
+    langDir: 'locales',
+  },
 
   compatibilityDate: '2024-11-01',
 

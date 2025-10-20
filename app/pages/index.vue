@@ -2,6 +2,7 @@
 const { data: page } = await useAsyncData('index', () => {
   return queryCollection('index').first()
 })
+
 if (!page.value) {
   throw createError({
     statusCode: 404,
