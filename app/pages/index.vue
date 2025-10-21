@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from '#i18n'
+import { getLocalized } from '~/utils/getLocalized'
 
 const { locale } = useI18n()
 
@@ -15,14 +16,21 @@ if (!page.value) {
   })
 }
 
-const languageSelected = locale.value?.toString() || 'en'
-const seoRef = (page.value?.seo?.[languageSelected] as { title?: string; description?: string }) || { title: '', description: '' }
+const title = computed(() => {
+  const seoTitle = page.value?.seo?.title
+  return getLocalized(seoTitle, locale.value?.toString()) || getLocalized(page.value?.seo?.title, locale.value?.toString()) || ''
+})
+
+const description = computed(() => {
+  const seoDesc = page.value?.seo?.description
+  return getLocalized(seoDesc, locale.value?.toString()) || getLocalized(page.value?.seo?.description, locale.value?.toString()) || ''
+})
 
 useSeoMeta({
-  title: seoRef.title || 'Home',
-  ogTitle: seoRef.title || 'Home',
-  description: seoRef.description || '',
-  ogDescription: seoRef.description || ''
+  title: title || 'Home',
+  ogTitle: title || 'Home',
+  description: description || '',
+  ogDescription: description || ''
 })
 </script>
 
