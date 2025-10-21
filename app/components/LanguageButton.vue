@@ -2,7 +2,6 @@
 const languageSelected = useState('language', () => 'en')
 
 const switchLocalePath = useSwitchLocalePath()
-const localePath = useLocalePath()
 
 const switchLanguage = () => {
   const nextLanguage = languageSelected.value === 'en' ? 'es' : 'en'

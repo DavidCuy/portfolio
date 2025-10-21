@@ -1,11 +1,39 @@
 <script setup lang="ts">
+import { useI18n } from '#i18n'
 import type { IndexCollectionItem } from '@nuxt/content'
+import { computed } from 'vue'
+import { getLocalized } from '~/utils/getLocalized'
 
+const { locale } = useI18n()
 const { footer, global } = useAppConfig()
 
-defineProps<{
-  page: IndexCollectionItem
-}>()
+// --- localized computed helpers (uses shared util) ---
+
+const props = defineProps<{ page: IndexCollectionItem }>()
+
+const title = computed(() => {
+  const p = props.page
+  const seoTitle = p?.seo?.title
+  return getLocalized(seoTitle, locale.value?.toString()) || getLocalized(p?.title, locale.value?.toString()) || ''
+})
+
+const description = computed(() => {
+  const p = props.page
+  const seoDesc = p?.seo?.description
+  return getLocalized(seoDesc, locale.value?.toString()) || getLocalized(p?.description, locale.value?.toString()) || ''
+})
+
+const heroLinks = computed(() => {
+  const p = props.page
+  const links = Array.isArray(p?.hero?.links) ? p.hero.links : []
+  const loc = locale.value?.toString() || 'en'
+  return links.map((l: any) => ({ ...l, label: getLocalized(l.label, loc) }))
+})
+
+const heroImages = computed(() => {
+  const p = props.page
+  return Array.isArray(p?.hero?.images) ? p.hero.images : []
+})
 </script>
 
 <template>
@@ -44,8 +72,6 @@ defineProps<{
 
     <template #title>
       <div>
-        <h1>{{ $t('welcome') }}</h1>
-        <p>{{ $t('message') }}</p>
       </div>
       <Motion
         :initial="{
@@ -63,7 +89,7 @@ defineProps<{
           delay: 0.1
         }"
       >
-        {{ page.title }}
+  {{ title }}
       </Motion>
     </template>
 
@@ -84,7 +110,7 @@ defineProps<{
           delay: 0.3
         }"
       >
-        {{ page.description }}
+  {{ description }}
       </Motion>
     </template>
 
@@ -106,10 +132,10 @@ defineProps<{
         }"
       >
         <div
-          v-if="page.hero.links"
+          v-if="heroLinks && heroLinks.length"
           class="flex items-center gap-2"
         >
-          <UButton v-bind="page.hero.links[0]" />
+          <UButton v-bind="heroLinks[0]" />
           <UButton
             :color="global.available ? 'success' : 'error'"
             variant="ghost"
@@ -165,7 +191,7 @@ defineProps<{
       class="py-2 -mx-8 sm:-mx-12 lg:-mx-16 [--duration:40s]"
     >
       <Motion
-        v-for="(img, index) in page.hero.images"
+        v-for="(img, index) in heroImages"
         :key="index"
         :initial="{
           scale: 1.1,

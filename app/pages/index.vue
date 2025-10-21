@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from '#i18n'
+
+const { locale } = useI18n()
+
 const { data: page } = await useAsyncData('index', () => {
   return queryCollection('index').first()
 })
@@ -11,11 +15,14 @@ if (!page.value) {
   })
 }
 
+const languageSelected = locale.value?.toString() || 'en'
+const seoRef = (page.value?.seo?.[languageSelected] as { title?: string; description?: string }) || { title: '', description: '' }
+
 useSeoMeta({
-  title: page.value?.seo.title || page.value?.title,
-  ogTitle: page.value?.seo.title || page.value?.title,
-  description: page.value?.seo.description || page.value?.description,
-  ogDescription: page.value?.seo.description || page.value?.description
+  title: seoRef.title || 'Home',
+  ogTitle: seoRef.title || 'Home',
+  description: seoRef.description || '',
+  ogDescription: seoRef.description || ''
 })
 </script>
 

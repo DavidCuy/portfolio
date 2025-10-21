@@ -1,8 +1,16 @@
 seo:
-  title: "David Cuy - UX/UI Designer"
-  description: "Welcome to my portfolio! I'm David Cuy, a UX/UI designer and front-end developer based in Boston. I specialize in creating user-centered digital experiences that are both beautiful and functional."
-title: "Hey, I'm David Cuy UX/UI Designer"
-description: "I craft intuitive digital experiences where design meets functionality. Based in Boston, bringing ideas to life through code and creativity."
+  title:
+    en: "David Cuy - UX/UI Designer & Front-End Developer"
+    es: "David Cuy - Diseñador UX/UI y Desarrollador Front-End"
+  description: 
+    en: "Welcome to my portfolio! I'm David Cuy, a UX/UI designer and front-end developer based in Boston. I specialize in creating user-centered digital experiences that are both beautiful and functional."
+    es: "¡Bienvenido a mi portafolio! Soy David Cuy, un diseñador UX/UI y desarrollador front-end con sede en Boston. Me especializo en crear experiencias digitales centradas en el usuario que son tanto hermosas como funcionales."
+title: 
+  en: "Hey, I'm David Cuy UX/UI Designer"
+  es: "Hola, soy David Cuy Diseñador UX/UI"
+description: 
+  en: "I craft intuitive digital experiences where design meets functionality. Based in Boston, bringing ideas to life through code and creativity."
+  es: "Creo experiencias digitales intuitivas donde el diseño se encuentra con la funcionalidad. Con sede en Boston, dando vida a las ideas a través del código y la creatividad."
 hero:
   links:
     - label: "Use this template"
