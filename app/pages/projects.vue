@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { useI18n } from '#i18n'
+import { getLocalized } from '~/utils/getLocalized'
+
+const { locale } = useI18n()
+
 const { data: page } = await useAsyncData('projects-page', () => {
   return queryCollection('pages').path('/projects').first()
 })
@@ -10,6 +15,16 @@ if (!page.value) {
   })
 }
 
+const title = computed(() => {
+  const seoTitle = page.value?.seo?.title
+  return getLocalized(seoTitle, locale.value?.toString()) || getLocalized(page.value?.seo?.title, locale.value?.toString()) || ''
+})
+
+const description = computed(() => {
+  const seoDesc = page.value?.seo?.description
+  return getLocalized(seoDesc, locale.value?.toString()) || getLocalized(page.value?.seo?.description, locale.value?.toString()) || ''
+})
+
 const { data: projects } = await useAsyncData('projects', () => {
   return queryCollection('projects').all()
 })
@@ -17,18 +32,18 @@ const { data: projects } = await useAsyncData('projects', () => {
 const { global } = useAppConfig()
 
 useSeoMeta({
-  title: page.value?.seo?.title || page.value?.title,
-  ogTitle: page.value?.seo?.title || page.value?.title,
-  description: page.value?.seo?.description || page.value?.description,
-  ogDescription: page.value?.seo?.description || page.value?.description
+  title: title.value,
+  ogTitle: title.value,
+  description: description.value,
+  ogDescription: description.value
 })
 </script>
 
 <template>
   <UPage v-if="page">
     <UPageHero
-      :title="page.title"
-      :description="page.description"
+      :title="title"
+      :description="description"
       :links="page.links"
       :ui="{
         title: '!mx-0 text-left',
