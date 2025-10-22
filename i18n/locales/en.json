@@ -1,4 +1,11 @@
 {
   "welcome": "Welcome!",
-  "message": "This is an example message."
+  "message": "This is an example message.",
+  "topbar": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "blog": "Blog",
+    "speaking": "Speaking"
+  }
 }

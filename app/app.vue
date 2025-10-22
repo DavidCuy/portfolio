@@ -24,6 +24,10 @@ useSeoMeta({
   twitterCard: 'summary_large_image'
 })
 
+import { useNavLinks } from '~/utils/links'
+
+const navLinks = useNavLinks()
+
 const [{ data: navigation }, { data: files }] = await Promise.all([
   useAsyncData('navigation', () => {
     return Promise.all([
@@ -56,7 +60,7 @@ const [{ data: navigation }, { data: files }] = await Promise.all([
         :files="files"
         :navigation="navigation"
         shortcut="meta_k"
-        :links="navLinks"
+  :links="navLinks"
         :fuse="{ resultLimit: 42 }"
       />
     </ClientOnly>

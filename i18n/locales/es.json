@@ -1,4 +1,11 @@
 {
   "welcome": "¡Bienvenido!",
-  "message": "Este es un mensaje de ejemplo."
+  "message": "Este es un mensaje de ejemplo.",
+  "topbar": {
+    "home": "Inicio",
+    "projects": "Proyectos",
+    "about": "Acerca de",
+    "blog": "Blog",
+    "speaking": "Pláticas"
+  }
 }
