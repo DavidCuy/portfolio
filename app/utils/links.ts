@@ -9,6 +9,7 @@ import { useI18n } from '#i18n'
  */
 export function useNavLinks() {
   const { locale, t } = useI18n()
+  console.log('Current locale in useNavLinks():', locale.value)
   const prefix = computed(() => locale.value === 'en' ? '' : `/${locale.value}`)
 
   return computed<NavigationMenuItem[]>(() => [{

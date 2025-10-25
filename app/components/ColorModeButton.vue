@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
+const { t } = useI18n()
 
 const nextTheme = computed(() => (colorMode.value === 'dark' ? 'light' : 'dark'))
 
@@ -45,15 +46,19 @@ const startViewTransition = (event: MouseEvent) => {
 
 <template>
   <ClientOnly>
-    <UButton
-      :aria-label="`Switch to ${nextTheme} mode`"
-      :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
-      color="neutral"
-      variant="ghost"
-      size="sm"
-      class="rounded-full"
-      @click="startViewTransition"
-    />
+    <UTooltip
+        :text="`${t('topbar.buttons.theme.tooltipTxt')}`"
+        :delay-duration="0.5">
+        <UButton
+            :aria-label="`${t('topbar.buttons.theme.aria-label')}`"
+            :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
+            color="neutral"
+            variant="ghost"
+            size="sm"
+            class="rounded-full cursor-pointer"
+            @click="startViewTransition"
+        />
+    </UTooltip>
     <template #fallback>
       <div class="size-4" />
     </template>

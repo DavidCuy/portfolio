@@ -1,5 +1,5 @@
 export function getLocalized(field: any, loc?: string) {
-  const locale = loc || 'en'
+  const locale = loc || 'es'
   if (field == null) return ''
   if (typeof field === 'string') return field
   if (typeof field === 'object') {

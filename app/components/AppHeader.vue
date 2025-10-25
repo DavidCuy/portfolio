@@ -21,6 +21,7 @@ defineProps<{
       <template #list-trailing>
         <ColorModeButton />
         <LanguageButton />
+        <ResumeButton />
       </template>
     </UNavigationMenu>
   </div>

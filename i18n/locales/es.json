@@ -6,6 +6,20 @@
     "projects": "Proyectos",
     "about": "Acerca de",
     "blog": "Blog",
-    "speaking": "Pláticas"
+    "speaking": "Pláticas",
+    "buttons": {
+      "language": {
+        "aria-label": "Cambiar idioma a",
+        "tooltipTxt": "Cambiar idioma"
+      },
+      "theme": {
+        "aria-label": "Cambiar tema",
+        "tooltipTxt": "Alternar modo oscuro/claro"
+      },
+      "resume": {
+        "aria-label": "Descargar CV",
+        "tooltipTxt": "Obtener mi CV"
+      }
+    }
   }
 }
