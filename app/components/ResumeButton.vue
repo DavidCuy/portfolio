@@ -34,7 +34,6 @@ const downloadResume = async () => {
         :text="`${t('topbar.buttons.resume.tooltipTxt')}`"
         :delay-duration="0.5">
         <UButton
-            :aria-label="`${t('topbar.buttons.resume.aria-label')}`"
             :icon="`i-lucide-file-text`"
             color="neutral"
             variant="ghost"

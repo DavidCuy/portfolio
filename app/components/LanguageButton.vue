@@ -1,47 +1,53 @@
 <script setup lang="ts">
-const languageSelected = useState('language', () => 'en')
-const { locale, t } = useI18n()
+const { locale, t, loadLocaleMessages } = useI18n() 
+import { useRoute, navigateTo } from '#imports'
 
-const switchLanguage = () => {
-  const nextLanguage = languageSelected.value === 'en' ? 'es' : 'en'
-  
-  languageSelected.value = nextLanguage
-  locale.value = nextLanguage
+const switchLanguage = async () => {
+  const nextLanguage = locale.value === 'en' ? 'es' : 'en'
+  try {
+    await loadLocaleMessages(nextLanguage)
+  } catch (error) {
+    console.error(`Error loading locale messages for ${nextLanguage}:`, error)
+    return 
+  }
+  locale.value = nextLanguage 
 
-  // compute new path: replace first path segment (locale) with nextLanguage
+  // 3. ACTUALIZAR LA RUTA
   const route = useRoute()
   const currentPath = route.path || '/'
 
-  // If path begins with a 2-letter segment like /en or /es, replace it.
-  // Otherwise, prefix the path with the new locale.
   const selectedPathLanguage = nextLanguage !== 'en' ? `/${nextLanguage}` : ''
-  let newPath = currentPath.replace(/^\/([a-z]{2})(?=\/|$)/, selectedPathLanguage)
+  let newPath = currentPath.replace(/^\/(es|en)(?=\/|$)/, selectedPathLanguage)
+
   if (newPath === currentPath) {
-    // No leading locale segment found — prefix it
-    if (currentPath === '/') newPath = selectedPathLanguage
-    else newPath = `${selectedPathLanguage}${currentPath}`
+    if (currentPath === '/') {
+        newPath = selectedPathLanguage || '/'
+    } else {
+        newPath = `${selectedPathLanguage}${currentPath}`
+    }
   }
 
-  // navigate client-side; replace history so toggles don't bloat history
+  if (newPath === selectedPathLanguage) {
+     newPath = selectedPathLanguage || '/'
+  }
   navigateTo(newPath, { replace: true })
 }
- 
 </script>
 
 <template>
   <ClientOnly>
     <UTooltip
-        :text="`${t('topbar.buttons.language.tooltipTxt')}`"
-        :delay-duration="0.5">
-        <UButton
-            :aria-label="`${t('topbar.buttons.language.aria-label')} ${languageSelected}`"
-            :icon="`${languageSelected === 'en' ? 'flag:us-4x3' : 'flag:mx-4x3'}`"
-            color="neutral"
-            variant="ghost"
-            size="sm"
-            class="rounded-full cursor-pointer"
-            @click="switchLanguage"
-        />
+      :text="t('topbar.buttons.language.tooltipTxt')"
+      :delay-duration="0.5"
+    >
+      <UButton
+        :icon="locale === 'en' ? 'flag:us-4x3' : 'flag:mx-4x3'"
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        class="rounded-full cursor-pointer"
+        @click="switchLanguage"
+      />
     </UTooltip>
     <template #fallback>
       <div class="size-4" />

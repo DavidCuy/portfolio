@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { locale } = useI18n()
 const colorMode = useColorMode()
 
 const color = computed(() => colorMode.value === 'dark' ? '#020618' : 'white')
@@ -13,7 +14,7 @@ useHead({
     { rel: 'icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
-    lang: 'en'
+    lang: locale.value?.toString() || 'en'
   }
 })
 
@@ -58,9 +59,10 @@ const [{ data: navigation }, { data: files }] = await Promise.all([
     <ClientOnly>
       <LazyUContentSearch
         :files="files"
+        :key="locale"
         :navigation="navigation"
         shortcut="meta_k"
-  :links="navLinks"
+        :links="navLinks"
         :fuse="{ resultLimit: 42 }"
       />
     </ClientOnly>

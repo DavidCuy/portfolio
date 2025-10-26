@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useI18n } from '#i18n'
 import type { IndexCollectionItem } from '@nuxt/content'
 import { computed } from 'vue'
 import { getLocalized } from '~/utils/getLocalized'

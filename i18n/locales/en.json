@@ -9,15 +9,12 @@
     "speaking": "Speaking",
     "buttons": {
       "language": {
-        "aria-label": "Change language to",
         "tooltipTxt": "Switch language"
       },
       "theme": {
-        "aria-label": "Change theme",
         "tooltipTxt": "Toggle dark/light mode"
       },
       "resume": {
-        "aria-label": "Download Resume",
         "tooltipTxt": "Get my resume"
       }
     }

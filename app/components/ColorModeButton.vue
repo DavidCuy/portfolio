@@ -50,7 +50,6 @@ const startViewTransition = (event: MouseEvent) => {
         :text="`${t('topbar.buttons.theme.tooltipTxt')}`"
         :delay-duration="0.5">
         <UButton
-            :aria-label="`${t('topbar.buttons.theme.aria-label')}`"
             :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
             color="neutral"
             variant="ghost"

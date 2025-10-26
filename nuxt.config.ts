@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
+  ogImage: {
+    enabled: false,
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/image',
@@ -20,20 +23,19 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   i18n: {
-    locales: [
-      {
-        code: 'en',
-        name: 'English',
-        file: 'en.json'
-      },
-      {
-        code: 'es',
-        name: 'Español',
-        file: 'es.json'
-      }
-    ],
     defaultLocale: 'en',
-    langDir: 'locales',
+  strategy: 'prefix_except_default',
+
+  locales: [
+    { code: 'en', file: 'en.json' },
+    { code: 'es', file: 'es.json' }
+  ],
+
+  langDir: 'locales/',
+  vueI18n: './i18n.config.ts',
+
+  routing: { redirectOn: 'no_redirect' },
+  experimental: { localeDetector: false }
   },
 
   compatibilityDate: '2024-11-01',

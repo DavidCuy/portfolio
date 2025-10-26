@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useI18n } from '#i18n'
 import { getLocalized } from '~/utils/getLocalized'
 
 const { locale } = useI18n()
