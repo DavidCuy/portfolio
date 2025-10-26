@@ -5,9 +5,21 @@ export default defineAppConfig({
       light: '/avatar/coding-light.png',
       alt: 'My profile picture'
     },
-    meetingLink: 'https://calendar.app.google/r6XjXkTZbHbuWuAj9',
+    meeting: {
+      link: 'https://calendar.app.google/r6XjXkTZbHbuWuAj9'
+    },
     email: 'david.cuy.sanchez@gmail.com',
-    available: true
+    available: {
+      status: true,
+      availableText: {
+        en: 'Available for new projects',
+        es: 'Disponible para nuevos proyectos'
+      },
+      unavailableText: {
+        en: 'Not available at the moment',
+        es: 'No disponible en este momento'
+      }
+    }
   },
   ui: {
     colors: {

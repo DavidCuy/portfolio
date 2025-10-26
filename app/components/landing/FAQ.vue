@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
 
+const { locale } = useI18n()
+
 const props = defineProps<{
   page: IndexCollectionItem
 }>()
@@ -15,6 +17,16 @@ const items = computed(() => {
   })
 })
 
+const faqTitle = computed(() => {
+  const titleSection = props.page.faq
+  return getLocalized(titleSection?.title, locale.value?.toString()) || ''
+})
+
+const faqDescription = computed(() => {
+  const descSection = props.page.faq
+  return getLocalized(descSection?.description, locale.value?.toString()) || ''
+})
+
 const ui = {
   root: 'flex items-center gap-4 w-full',
   list: 'relative flex bg-transparent dark:bg-transparent gap-2 px-0',
@@ -26,8 +38,8 @@ const ui = {
 
 <template>
   <UPageSection
-    :title="page.faq.title"
-    :description="page.faq.description"
+    :title="faqTitle"
+    :description="faqDescription"
     :ui="{
       container: 'px-0 !pt-0 gap-4 sm:gap-4',
       title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',

@@ -7,8 +7,11 @@ seo:
     es: "¡Bienvenido a mi portafolio! Soy David Cuy, un Cloud Engineer en Mérida, México. Me especializo en AWS Cloud, lidero equipos y construyo aplicaciones escalables."
 hero:
   links:
-    - label: "Use this template"
-      to: https://github.com/nuxt-ui-templates/portfolio
+    - label:
+        en: "Click here!"
+        es: "Haz clic aquí!"
+      to: https://www.nyan.cat/
+      target: _blank
       color: "neutral"
   title: 
     en: "Hey, I'm David Cuy"
@@ -45,10 +48,18 @@ hero:
     - src: /hero/random-9.avif
       alt: Random Image 9
 about:
-  title: "About Me"
-  description: |
-    As a UX/UI designer and front-end developer with 6 years of experience, I leverage my Boston University Interactive Design degree to craft user-centered digital experiences.
-    My approach blends creative strategy with technical expertise, transforming concepts into functional, purposeful digital products that seamlessly integrate design and technology.
+  title:
+    en: "About Me"
+    es: "Acerca de mí"
+  description:
+    es: |
+      Profesional en arquitectura de la nube con amplia experiencia en desarrollo de software, diseño de soluciones escalables y liderazgo técnico.
+      Capaz de integrar equipos, traducir necesidades de negocio a tecnología y optimizar procesos.
+      Orientado a la calidad, la eficiencia y la mejora continua.
+    en: |
+      Cloud architect with extensive experience in software development, scalable solution design, and technical leadership.
+      Skilled at integrating teams, translating business needs into technology, and optimizing processes.
+      Focused on quality, efficiency, and continuous improvement.
 experience:
   title: Work Experience
   items:
@@ -95,12 +106,13 @@ testimonials:
       avatar:
         src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
         srcset: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
-blog:
-  title: "Latest Articles"
-  description: "Some of my recent thoughts"
 faq:
-  title: Frequently Asked Questions
-  description: Answers to common questions about my process and services.
+  title:
+    en: "Frequently Asked Questions"
+    es: "Preguntas Frecuentes"
+  description: 
+    en: "Here are some common questions I get about my services, process, and pricing."
+    es: "Aquí hay algunas preguntas comunes que recibo sobre mis servicios, proceso y precios."
   categories:
     - title: Services & Process
       questions:

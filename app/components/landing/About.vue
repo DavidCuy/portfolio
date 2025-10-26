@@ -1,15 +1,26 @@
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
 
-defineProps<{
+const { locale } = useI18n()
+const props = defineProps<{
   page: IndexCollectionItem
 }>()
+
+const aboutTitle = computed(() => {
+  const aboutSection = props.page.about
+  return getLocalized(aboutSection?.title, locale.value?.toString()) || ''
+})
+
+const aboutDescription = computed(() => {
+  const aboutSection = props.page.about
+  return getLocalized(aboutSection?.description, locale.value?.toString()) || ''
+})
 </script>
 
 <template>
   <UPageSection
-    :title="page.about.title"
-    :description="page.about.description"
+    :title="aboutTitle"
+    :description="aboutDescription"
     :ui="{
       container: '!p-0',
       title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',

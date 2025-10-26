@@ -28,14 +28,17 @@ const heroLinks = computed(() => {
   return links.map((l: any) => ({ ...l, label: getLocalized(l.label, loc) }))
 })
 
-const heroImages = computed(() => {
-  const p = props.page
-  return Array.isArray(p?.hero?.images) ? p.hero.images : []
-})
-
 const texts = props.page?.hero?.highlightedText?.length
   ? props.page.hero.highlightedText.map((t: any) => getLocalized(t, locale.value?.toString() || 'en'))
   : [];
+
+const availableText = computed(() => {
+  const availableSection = global.available
+  const availableStatus = availableSection?.status || false
+  if (availableStatus) return getLocalized(availableSection?.availableText, locale.value?.toString()) || ''
+
+  return getLocalized(availableSection?.unavailableText, locale.value?.toString()) || ''
+})
 
 </script>
 
@@ -144,21 +147,21 @@ const texts = props.page?.hero?.highlightedText?.length
         >
           <UButton v-bind="heroLinks[0]" />
           <UButton
-            :color="global.available ? 'success' : 'error'"
+            :color="global.available.status ? 'success' : 'error'"
             variant="ghost"
             class="gap-2"
-            :to="global.available ? global.meetingLink : ''"
-            :label="global.available ? 'Available for new projects' : 'Not available at the moment'"
+            :to="global.available.status ? global.meeting.link : ''"
+            :label="availableText"
           >
             <template #leading>
               <span class="relative flex size-2">
                 <span
                   class="absolute inline-flex size-full rounded-full opacity-75"
-                  :class="global.available ? 'bg-success animate-ping' : 'bg-error'"
+                  :class="global.available.status ? 'bg-success animate-ping' : 'bg-error'"
                 />
                 <span
                   class="relative inline-flex size-2 scale-90 rounded-full"
-                  :class="global.available ? 'bg-success' : 'bg-error'"
+                  :class="global.available.status ? 'bg-success' : 'bg-error'"
                 />
               </span>
             </template>
@@ -193,36 +196,5 @@ const texts = props.page?.hero?.highlightedText?.length
       </div>
     </template>
 
-    <UMarquee
-      pause-on-hover
-      class="py-2 -mx-8 sm:-mx-12 lg:-mx-16 [--duration:40s]"
-    >
-      <Motion
-        v-for="(img, index) in heroImages"
-        :key="index"
-        :initial="{
-          scale: 1.1,
-          opacity: 0,
-          filter: 'blur(20px)'
-        }"
-        :animate="{
-          scale: 1,
-          opacity: 1,
-          filter: 'blur(0px)'
-        }"
-        :transition="{
-          duration: 0.6,
-          delay: index * 0.1
-        }"
-      >
-        <NuxtImg
-          width="234"
-          height="234"
-          class="rounded-lg aspect-square object-cover"
-          :class="index % 2 === 0 ? '-rotate-2' : 'rotate-2'"
-          v-bind="img"
-        />
-      </Motion>
-    </UMarquee>
   </UPageHero>
 </template>
