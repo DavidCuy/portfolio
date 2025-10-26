@@ -12,9 +12,8 @@ const { footer, global } = useAppConfig()
 const props = defineProps<{ page: IndexCollectionItem }>()
 
 const title = computed(() => {
-  const p = props.page
-  const seoTitle = p?.seo?.title
-  return getLocalized(seoTitle, locale.value?.toString()) || getLocalized(p?.title, locale.value?.toString()) || ''
+  const heroTitle = props.page?.hero.title
+  return getLocalized(heroTitle, locale.value?.toString()) || ''
 })
 
 const description = computed(() => {
@@ -34,6 +33,11 @@ const heroImages = computed(() => {
   const p = props.page
   return Array.isArray(p?.hero?.images) ? p.hero.images : []
 })
+
+const texts = props.page?.hero?.highlightedText?.length
+  ? props.page.hero.highlightedText.map((t: any) => getLocalized(t, locale.value?.toString() || 'en'))
+  : [];
+
 </script>
 
 <template>
@@ -89,8 +93,12 @@ const heroImages = computed(() => {
           delay: 0.1
         }"
       >
-  {{ title }}
+      {{ title }}
       </Motion>
+      <TextWriter
+        :texts="texts"
+        :interval="5000"
+      />
     </template>
 
     <template #description>

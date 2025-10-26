@@ -1,21 +1,30 @@
 seo:
   title:
-    en: "David Cuy - UX/UI Designer & Front-End Developer"
-    es: "David Cuy - Diseñador UX/UI y Desarrollador Front-End"
+    en: "David Cuy - Cloud Engineer"
+    es: "David Cuy - Cloud Engineer"
   description: 
-    en: "Welcome to my portfolio! I'm David Cuy, a UX/UI designer and front-end developer based in Boston. I specialize in creating user-centered digital experiences that are both beautiful and functional."
-    es: "¡Bienvenido a mi portafolio! Soy David Cuy, un diseñador UX/UI y desarrollador front-end con sede en Boston. Me especializo en crear experiencias digitales centradas en el usuario que son tanto hermosas como funcionales."
-title: 
-  en: "Hey, I'm David Cuy UX/UI Designer"
-  es: "Hola, soy David Cuy Diseñador UX/UI"
-description: 
-  en: "I craft intuitive digital experiences where design meets functionality. Based in Boston, bringing ideas to life through code and creativity."
-  es: "Creo experiencias digitales intuitivas donde el diseño se encuentra con la funcionalidad. Con sede en Boston, dando vida a las ideas a través del código y la creatividad."
+    en: "Welcome to my portfolio! I'm David Cuy, a Cloud Engineer based in Mérida, México. I specialize in AWS Cloud, lead teams, and build scalable applications."
+    es: "¡Bienvenido a mi portafolio! Soy David Cuy, un Cloud Engineer con sede en Mérida, México. Me especializo en AWS Cloud, lidero equipos y construyo aplicaciones escalables."
 hero:
   links:
     - label: "Use this template"
       to: https://github.com/nuxt-ui-templates/portfolio
       color: "neutral"
+  title: 
+    en: "Hey, I'm David Cuy"
+    es: "Hola, soy David Cuy"
+  highlightedText:
+    - en: "I do magic on AWS without breaking things ☁️"
+      es: "Hago magia en AWS sin romper nada ☁️"
+    - en: "Coffee lover ☕ who fixes things at 2am"
+      es: "Amante del café ☕ que arregla cosas a las 2am"
+    - en: "I lead teams building awesome stuff 🚀"
+      es: "Guío equipos que construyen cosas increíbles 🚀"
+    - es: "Supervisado por gatos, potenciado por café 🐱☕"
+      en: "Cat supervised, coffee powered 🐱☕"
+  description: 
+    en: "I scale cloud solutions, help teams build scalable applications. Based in Mérida Yucatán, I enjoy growing projects and people."
+    es: "Escalo soluciones en la nube, ayudo a los equipos a construir aplicaciones escalables. Con sede en Mérida Yucatán, me gusta hacer crecer proyectos y personas."
   images:
     - src: /hero/random-1.avif
       alt: Random Image 1
