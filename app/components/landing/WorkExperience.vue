@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
+const { locale } = useI18n()
 
-defineProps<{
+const props = defineProps<{
   page: IndexCollectionItem
 }>()
+
+const title = computed(() => {
+  const experienceTitle = props.page?.experience.title
+  return getLocalized(experienceTitle, locale.value?.toString()) || ''
+})
+
 </script>
 
 <template>
   <UPageSection
-    :title="page.experience.title"
+    :title="title"
     :ui="{
       container: '!p-0 gap-4 sm:gap-4',
       title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',
@@ -27,7 +34,7 @@ defineProps<{
           class="text-muted flex items-center text-nowrap gap-2"
         >
           <p class="text-sm">
-            {{ experience.date }}
+            {{ getLocalized(experience.date, locale?.toString()) || '' }}
           </p>
           <USeparator />
           <ULink
@@ -36,7 +43,7 @@ defineProps<{
             target="_blank"
           >
             <span class="text-sm">
-              {{ experience.position }}
+              {{ getLocalized(experience.position, locale?.toString()) || '' }}
             </span>
             <div
               class="inline-flex items-center gap-1"

@@ -61,51 +61,97 @@ about:
       Skilled at integrating teams, translating business needs into technology, and optimizing processes.
       Focused on quality, efficiency, and continuous improvement.
 experience:
-  title: Work Experience
+  title:
+    en: Work Experience
+    es: Experiencia Laboral
   items:
-    - position: "Brand Designer at"
-      date: "2023 - Present"
+    - position:
+        en: "Head of Dev and Arch"
+        es: "Jefe de Desarrollo y Arquitectura"
+      date:
+        en: "2025 - Present"
+        es: "2025 - Presente"
       company:
-        name: Nuxt
-        logo: "i-simple-icons-nuxtdotjs"
-        url: "https://nuxt.com"
-        color: "#00DC82"
-    - position: "Assets Designer at"
-      date: "2022 - 2023"
+        name: Hertz Mexico
+        logo: "i-lucide-car"
+        url: "https://www.hertzmexico.com"
+        color: "#ffd100"
+    - position:
+        en: "Architect Lead"
+        es: "Líder de Arquitectura"
+      date:
+        en: "2024 - 2025"
+        es: "2024 - 2025"
       company:
-        name: Raycast
-        logo: "i-simple-icons-raycast"
-        url: "https://raycast.com"
-        color: "#FF6363"
-    - position: "Senior UX/UI Designer at"
-      date: "2020 - 2021"
+        name: ActDigital
+        url: "https://actdigital.com"
+        logo: "i-lucide-cloud"
+        color: "#0071c5"
+    - position:
+        en: "Technical Lead"
+        es: "Líder Técnico"
+      date:
+        en: "2022 - 2024"
+        es: "2022 - 2024"
       company:
-        name: Linear
-        logo: "i-simple-icons-linear"
-        url: "https://linear.app"
-        color: "#5E6AD2"
+        name: Millicom (Tigo Money)
+        logo: "i-lucide-banknote"
+        url: "https://www.tigomoney.com/"
+        color: "#fabe00"
+    - position:
+        en: "Solution Architect"
+        es: "Arquitecto de Soluciones"
+      date:
+        en: "2020 - 2022"
+        es: "2020 - 2022"
+      company:
+        name: diram
+        logo: i-lucide-lightbulb
+        url: "https://www.diram.com"
+        color: "#ffd104"
 testimonials:
-  - quote: "Emma's approach to UX design completely transformed our product. She has a rare ability to balance beautiful aesthetics with functional simplicity. The redesign not only looked better, but it reduced our customer support tickets by 40% and increased conversion rates across all key metrics."
+  - quote: 
+      es: |
+        Tuve la oportunidad de trabajar con David en varias ocasiones, incluyendo proyectos en Gesta Venture, Gesta Labs y Tigo Money. Es un excelente profesional, con un profundo conocimiento en arquitecturas modernas de software, AWS y servicios en la nube.
+        Además de su solidez técnica, David destaca por su creatividad y su capacidad para encontrar soluciones innovadoras a problemas complejos. Tiene una visión integral del desarrollo tecnológico, combinando capacidad analítica, liderazgo técnico y orientación a resultados.
+        Sin duda, es una persona con la que siempre es un placer colaborar y en quien se puede confiar para llevar adelante proyectos desafiantes.
+      en: |
+        I had the opportunity to work with David on several occasions, including projects at Gesta Venture, Gesta Labs, and Tigo Money. He is an excellent professional with deep knowledge of modern software architectures, AWS, and cloud services.
+        In addition to his technical strength, David stands out for his creativity and ability to find innovative solutions to complex problems. He has a comprehensive vision of technological development, combining analytical skills, technical leadership, and results orientation.
+        Without a doubt, he is a person with whom it is always a pleasure to collaborate and someone you can trust to carry out challenging projects.
     author:
-      name: 'Sarah Chen'
-      description: 'Product Director at Bloom Finance'
+      name: 'Sebastian Redondo'
+      description: 'CTO @ Guavapay LATAM | Co-founder @ HiveAgents.dev'
       avatar:
-        src: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
-        srcset: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
-  - quote: "Working with Emma was the best decision we made for our startup. She didn't just deliver designs—she challenged our assumptions, conducted thorough user research, and created an experience that truly resonated with our audience. Her technical knowledge of front-end development meant the handoff to our engineering team was seamless."
+        src: 'https://media.licdn.com/dms/image/v2/D4D03AQFE6NU0IC4eOA/profile-displayphoto-scale_100_100/B4DZiJrHOeGkAg-/0/1754656437887?e=1762992000&v=beta&t=i525Ae8EWlaSUQkA0QSXUtUwJSYuUVZbZlgf-LRgJIM'
+        srcset: 'https://media.licdn.com/dms/image/v2/D4D03AQFE6NU0IC4eOA/profile-displayphoto-scale_100_100/B4DZiJrHOeGkAg-/0/1754656437887?e=1762992000&v=beta&t=i525Ae8EWlaSUQkA0QSXUtUwJSYuUVZbZlgf-LRgJIM 2x'
+  - quote:
+      en: |
+        Excellent professional, highly qualified in cloud computing, infrastructure, and all phases of the software development lifecycle.
+        He is a strong technical lead who can work effectively under pressure and is also an excellent mentor, fostering collaboration and growth within the team.
+        His problem-solving skills, attention to detail, and strategic vision make him an invaluable asset to any project or organization.
+      es: |
+        Excelente profesional, altamente calificado en computación en la nube, infraestructura y todas las fases del ciclo de vida del desarrollo de software.
+        Es un líder técnico sólido que puede trabajar eficazmente bajo
     author:
-      name: 'Michael Rodriguez'
-      description: 'Co-founder of Wavelength Music'
+      name: 'Christian Alvarado'
+      description: 'Senior software engineer| Full Stack Engineer | AWS | Python developer'
       avatar:
-        src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
-        srcset: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
-  - quote: "Emma stands out in her ability to translate complex sustainability data into intuitive interfaces. Her work on EcoTrack wasn't just visually stunning—it fundamentally changed how our users interact with environmental information. She approaches each problem with both creativity and analytical rigor, which is exactly what we needed."
+        src: 'https://media.licdn.com/dms/image/v2/C4E03AQH4YunZpUqsUA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1577127462642?e=1762992000&v=beta&t=Ie2zrWk7IYa7rTNpj1aeBgMGSKeDOtjoONpNJyVM250'
+        srcset: 'https://media.licdn.com/dms/image/v2/C4E03AQH4YunZpUqsUA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1577127462642?e=1762992000&v=beta&t=Ie2zrWk7IYa7rTNpj1aeBgMGSKeDOtjoONpNJyVM250 2x'
+  - quote: 
+      en: |
+        I highly recommend David Cuy. I have been familiar with his professional work for over 10 years.
+        He is an expert in cloud solutions, tech architecture design and software development. He will be a great asset to your company.
+      es: |
+        Recomiendo ampliamente a David Cuy. He estado familiarizado con su trabajo profesional por más de 10 años.
+        Es un experto en soluciones en la nube, diseño de arquitecturas tecnológicas y desarrollo de software. Será un gran activo para su empresa.
     author:
-      name: 'Dr. Aisha Johnson'
-      description: 'Chief Innovation Officer at GreenTech Solutions'
+      name: 'Guillermo Miguel Sanchez Lopez'
+      description: 'Product Manager/Head of tech/PHP Laravel Developer/NET Developer'
       avatar:
-        src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=40&h=40&q=80'
-        srcset: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=80&h=80&q=80 2x'
+        src: 'https://media.licdn.com/dms/image/v2/D5603AQGIke495UG0sw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1709661421670?e=1762992000&v=beta&t=1mVAl-Akcr9P3U93YizTcJVDRyVLLo0TMR1MmXVhwYE'
+        srcset: 'https://media.licdn.com/dms/image/v2/D5603AQGIke495UG0sw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1709661421670?e=1762992000&v=beta&t=1mVAl-Akcr9P3U93YizTcJVDRyVLLo0TMR1MmXVhwYE 2x'
 faq:
   title:
     en: "Frequently Asked Questions"

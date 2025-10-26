@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
 
+const { locale } = useI18n()
+
 defineProps<{
   page: IndexCollectionItem
 }>()
@@ -23,7 +25,7 @@ defineProps<{
       }"
     >
       <UPageCTA
-        :description="item.quote"
+        :description="getLocalized(item.quote, locale?.toString()) || ''"
         variant="naked"
         class="rounded-none"
         :ui="{
