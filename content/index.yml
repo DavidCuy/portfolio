@@ -4,7 +4,7 @@ seo:
     es: "David Cuy - Cloud Engineer"
   description: 
     en: "Welcome to my portfolio! I'm David Cuy, a Cloud Engineer based in Mérida, México. I specialize in AWS Cloud, lead teams, and build scalable applications."
-    es: "¡Bienvenido a mi portafolio! Soy David Cuy, un Cloud Engineer con sede en Mérida, México. Me especializo en AWS Cloud, lidero equipos y construyo aplicaciones escalables."
+    es: "¡Bienvenido a mi portafolio! Soy David Cuy, un Cloud Engineer en Mérida, México. Me especializo en AWS Cloud, lidero equipos y construyo aplicaciones escalables."
 hero:
   links:
     - label: "Use this template"
@@ -24,7 +24,7 @@ hero:
       en: "Cat supervised, coffee powered 🐱☕"
   description: 
     en: "I scale cloud solutions, help teams build scalable applications. Based in Mérida Yucatán, I enjoy growing projects and people."
-    es: "Escalo soluciones en la nube, ayudo a los equipos a construir aplicaciones escalables. Con sede en Mérida Yucatán, me gusta hacer crecer proyectos y personas."
+    es: "Escalo soluciones en la nube, ayudo a los equipos a construir aplicaciones escalables. En Mérida Yucatán, me gusta hacer crecer proyectos y personas."
   images:
     - src: /hero/random-1.avif
       alt: Random Image 1
