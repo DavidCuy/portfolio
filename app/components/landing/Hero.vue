@@ -97,10 +97,28 @@ const availableText = computed(() => {
       >
       {{ title }}
       </Motion>
+
+      <Motion
+        :initial="{
+          scale: 1.1,
+          opacity: 0,
+          filter: 'blur(20px)'
+        }"
+        :animate="{
+          scale: 1,
+          opacity: 1,
+          filter: 'blur(0px)'
+        }"
+        :transition="{
+          duration: 0.6,
+          delay: 0.1
+        }"
+      >
       <TextWriter
         :texts="texts"
         :interval="5000"
       />
+      </Motion>
     </template>
 
     <template #description>

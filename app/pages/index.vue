@@ -45,6 +45,6 @@ useSeoMeta({
       <LandingWorkExperience :page />
     </UPageSection>
     <LandingTestimonials :page />
-    <LandingFAQ :page />
+    <LandingSkills :page />
   </UPage>
 </template>

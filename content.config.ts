@@ -5,6 +5,11 @@ const createBaseSchema = () => z.object({
   description: z.string()
 })
 
+const createLanguageSchema = () => z.object({
+  en: z.string(),
+  es: z.string()
+})
+
 const createButtonSchema = () => z.object({
   label: z.string(),
   icon: z.string().optional(),
@@ -45,10 +50,7 @@ export default defineContentConfig({
           images: z.array(createImageSchema()),
           title: z.string(),
           description: z.string(),
-          highlightedText: z.array(z.object({
-            en: z.string(),
-            es: z.string()
-          }))
+          highlightedText: z.array(createLanguageSchema())
         }),
         about: createBaseSchema(),
         experience: createBaseSchema().extend({
@@ -65,6 +67,20 @@ export default defineContentConfig({
         }),
         testimonials: z.array(createTestimonialSchema()),
         blog: createBaseSchema(),
+        skills: createBaseSchema().extend({
+          viewMoreText: createLanguageSchema(),
+          categories: z.array(
+            z.object({
+              key: z.string(),
+              title: createLanguageSchema(),
+              cards: z.array(z.object({
+                title: createLanguageSchema(),
+                description: createLanguageSchema(),
+                image: createImageSchema()
+              }))
+            })
+          ),
+        }),
         faq: createBaseSchema().extend({
           categories: z.array(
             z.object({

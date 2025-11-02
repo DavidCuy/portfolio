@@ -110,6 +110,21 @@ experience:
         url: "https://www.diram.com"
         color: "#ffd104"
 testimonials:
+  - quote:
+      en: |
+        David has an amazing set of both deep technical expertise and people skills. I have had the pleasure of knowing David for over a decade, where I have seen him grow and I have even been able
+        to collaborate from time to time. David knows what and when a solution is required while correctly balancing product and business requirements, which is critical as a leader. I really
+        recommend David for any strategic position requiring both a technical and strategic architect.
+      es: |
+        David tiene un conjunto increíble de habilidades técnicas profundas y habilidades interpersonales. He tenido el placer de conocer a David durante más de una década, donde lo he visto crecer
+        e incluso he podido colaborar de vez en cuando. David sabe qué y cuándo se requiere una solución mientras equilibra correctamente los requisitos del producto y del negocio, lo cual es
+        fundamental como líder. Realmente recomiendo a David para cualquier posición estratégica que requiera tanto un arquitecto técnico como estratégico.
+    author:
+      name: Henry Serrano
+      description: "iOS Mobile Architect @ Google | Maker"
+      avatar:
+        src: "https://media.licdn.com/dms/image/v2/C5603AQGW4lKNGFaGrw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1590921393861?e=1763596800&v=beta&t=8h--3Wpgy3xvOdLi7Gn1IYWU8bINTOQ3Skuz19wJWrc"
+        srcset: "https://media.licdn.com/dms/image/v2/C5603AQGW4lKNGFaGrw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1590921393861?e=1763596800&v=beta&t=8h--3Wpgy3xvOdLi7Gn1IYWU8bINTOQ3Skuz19wJWrc 2x"
   - quote: 
       es: |
         Tuve la oportunidad de trabajar con David en varias ocasiones, incluyendo proyectos en Gesta Venture, Gesta Labs y Tigo Money. Es un excelente profesional, con un profundo conocimiento en arquitecturas modernas de software, AWS y servicios en la nube.
@@ -152,6 +167,172 @@ testimonials:
       avatar:
         src: 'https://media.licdn.com/dms/image/v2/D5603AQGIke495UG0sw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1709661421670?e=1762992000&v=beta&t=1mVAl-Akcr9P3U93YizTcJVDRyVLLo0TMR1MmXVhwYE'
         srcset: 'https://media.licdn.com/dms/image/v2/D5603AQGIke495UG0sw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1709661421670?e=1762992000&v=beta&t=1mVAl-Akcr9P3U93YizTcJVDRyVLLo0TMR1MmXVhwYE 2x'
+skills:
+  viewMoreText:
+    en: "View More"
+    es: "Ver Más"
+  title:
+    en: "My Skills"
+    es: "Mis Habilidades"
+  description:
+    en: "Here are some of the key skills and technologies I specialize in to deliver effective cloud solutions."
+    es: "Aquí están algunas de las habilidades y tecnologías clave en las que me especializo para ofrecer soluciones efectivas en la nube."
+  categories:
+    - key: cloud-devops
+      title:
+        en: "Cloud & DevOps"
+        es: "Nube y DevOps"
+      cards:
+        - title:
+            en: "AWS Cloud"
+            es: "AWS Cloud"
+          description:
+            en: "Expert in implementing AWS services, cloud architecture, and best practices for scalable and secure applications."
+            es: "Experto en la implementación de servicios de AWS, arquitectura en la nube y mejores prácticas para aplicaciones escalables y seguras."
+          image:
+            src: /skills/aws.png
+            alt: AWS Cloud Skills
+        - title:
+            en: "Cloudformation"
+            es: "Cloudformation"
+          description:
+            en: "Proficient in using CloudFormation for infrastructure as code, enabling automated deployment and management of AWS resources."
+            es: "Competente en el uso de CloudFormation para infraestructura como código, lo que permite el despliegue y la gestión automatizada de recursos de AWS."
+          image:
+            src: /skills/cloudformation.png
+            alt: Cloudformation and Infrastructure as Code Skills
+        - title:
+            en: "Pulumi"
+            es: "Pulumi"
+          description:
+            en: "Skilled in using Pulumi for infrastructure as code, enabling automated and repeatable cloud resource management."
+            es: "Experto en el uso de Pulumi para infraestructura como código, lo que permite la gestión automatizada y repetible de recursos en la nube."
+          image:
+            src: /skills/pulumi.png
+            alt: Pulumi and Infrastructure as Code Skills
+        - title:
+            en: "Docker"
+            es: "Docker"
+          description:
+            en: "Proficient in containerization using Docker to streamline application deployment and ensure consistency across environments."
+            es: "Competente en la contenedorización con Docker para optimizar el despliegue de aplicaciones y garantizar la consistencia entre entornos."
+          image:
+            src: /skills/docker.png
+            alt: Docker and Containerization Skills
+        - title:
+            en: "Github Actions"
+            es: "Github Actions"
+          description:
+            en: "Experienced in setting up CI/CD pipelines using Github Actions for automated testing and deployment."
+            es: "Experto en la configuración de pipelines CI/CD utilizando Github Actions para pruebas y despliegues automatizados."
+          image:
+            src: /skills/github-actions.png
+            alt: Github Actions Skills
+        - title:
+            en: "Cloudwatch & Monitoring"
+            es: "Cloudwatch y Monitoreo"
+          description:
+            en: "Skilled in using Cloudwatch for monitoring AWS resources and applications, ensuring high availability and performance."
+            es: "Experto en el uso de Cloudwatch para monitorear recursos y aplicaciones de AWS, asegurando alta disponibilidad y rendimiento."
+          image:
+            src: /skills/cloudwatch.png
+            alt: Cloudwatch and Monitoring Skills
+    - key: programming-frameworks
+      title:
+        en: "Code stack"
+        es: "Stack de código"
+      cards:
+        - title:
+            en: "Python"
+            es: "Python"
+          description:
+            en: "Proficient in Python programming for building scalable applications, automation scripts, and cloud solutions."
+            es: "Competente en programación en Python para construir aplicaciones escalables, scripts de automatización y soluciones en la nube."
+          image:
+            src: /skills/python.png
+            alt: Python Programming Skills
+        - title:
+            en: "Javascript & Typescript"
+            es: "Javascript y Typescript"
+          description:
+            en: "Proficient in Javascript and Typescript for building interactive web applications."
+            es: "Competente en Javascript y Typescript para construir aplicaciones web interactivas."
+          image:
+            src: /skills/javascript.png
+            alt: Javascript and Typescript Skills
+        - title:
+            en: "PHP - Laravel"
+            es: "PHP - Laravel"
+          description:
+            en: "Proficient in Laravel for building robust web applications."
+            es: "Competente en Laravel para construir aplicaciones web robustas."
+          image:
+            src: /skills/laravel.png
+            alt: Laravel Skills
+    - key: databases-storage
+      title:
+        en: "Databases"
+        es: "Bases de Datos"
+      cards:
+        - title:
+            en: "SQL"
+            es: "SQL"
+          description:
+            en: "Experience with SQL databases, data modeling, and storage solutions to ensure data integrity and performance."
+            es: "Experiencia con bases de datos SQL, modelado de datos y soluciones de almacenamiento para garantizar la integridad y el rendimiento de los datos."
+          image:
+            src: /skills/postgresql.png
+            alt: PostgreSQL Skills
+        - title:
+            en: "DynamoDB"
+            es: "DynamoDB"
+          description:
+            en: "Experience with NoSQL databases like DynamoDB for scalable and high-performance data storage solutions."
+            es: "Experiencia con bases de datos NoSQL como DynamoDB para soluciones de almacenamiento de datos escalables y de alto rendimiento."
+          image:
+            src: /skills/dynamodb.png
+            alt: DynamoDB Skills
+        - title:
+            en: "Snowflake"
+            es: "Snowflake"
+          description:
+            en: "Experience with Snowflake for data warehousing and analytics solutions."
+            es: "Experiencia con Snowflake para soluciones de almacenamiento y análisis de datos."
+          image:
+            src: /skills/snowflake.png
+            alt: Snowflake Skills
+    - key: ai-experiments
+      title:
+        en: "AI Experiments"
+        es: "Experimentos con IA"
+      cards:
+        - title:
+            en: "Amazon Bedrock"
+            es: "Amazon Bedrock"
+          description:
+            en: "Familiarity with Amazon Bedrock for building and scaling generative AI applications."
+            es: "Familiaridad con Amazon Bedrock para construir y escalar aplicaciones de IA generativa."
+          image:
+            src: /skills/amazon-bedrock.webp
+            alt: Amazon Bedrock Skills
+        - title:
+            en: "MCP Servers"
+            es: "Servidores MCP"
+          description:
+            en: "Small server implementations to experiment with LLM models and AI applications."
+            es: "Pequeñas implementaciones de servidores para experimentar con modelos LLM y aplicaciones de IA."
+          image:
+            src: /skills/mcp.png
+            alt: MCP Servers Skills
+        - title:
+            en: "N8N"
+            es: "N8N"
+          description:
+            en: "Experiments with N8N for workflow automation and integration, using LLM models."
+            es: "Experimentos con N8N para la automatización de flujos de trabajo e integración, usando modelos LLM."
+          image:
+            src: /skills/n8n.png
+            alt: N8N Skills
 faq:
   title:
     en: "Frequently Asked Questions"
