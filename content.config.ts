@@ -145,7 +145,11 @@ export default defineContentConfig({
       type: 'page',
       source: 'about.yml',
       schema: z.object({
-        content: z.object({}),
+        principal: z.object({
+          title: createLanguageSchema(),
+          description: createLanguageSchema()
+        }),
+        content: createLanguageSchema(),
         images: z.array(createImageSchema())
       })
     })

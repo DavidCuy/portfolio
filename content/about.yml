@@ -1,27 +1,71 @@
 title: About Me
-description: Learn more about my journey as a Boston-based UX/UI Designer & Front-End Developer, my design philosophy, and my passion for crafting intuitive digital experiences.
-content: |
-  Hi, I'm **David Cuy**, a UX/UI Designer and Front-End Developer based right here in Boston. For the past six years, I've been immersed in the world of digital product creation, focusing on building experiences that are not just functional, but genuinely intuitive and engaging for users.
+description: Learn more about my journey as a cloud architect and developer, my approach to technology with intention, and my passion for creating scalable, human-centered solutions built with purpose (always accompanied by coffee and a family of cats supervising).
+principal:
+  title:
+    en: About Me
+    es: Sobre Mí
+  description:
+    es: Conoce más sobre mi camino como arquitecto de la nube y desarrollador, mi forma de abordar la tecnología con intención y mi pasión por crear soluciones escalables, humanas y construidas con propósito (siempre acompañadas de café y una familia gatuna supervisando).
+    en: Learn more about my journey as a cloud architect and developer, my approach to technology with intention, and my passion for creating scalable, human-centered solutions built with purpose (always accompanied by coffee and a family of cats supervising).
 
-  My path started at **Boston University**, where I earned a degree in Interactive Design. It was there I discovered my dual passion for the visual language of design and the logical puzzle of code. Since then, I've honed my skills in both areas, believing that the best digital products are born from a deep understanding of both aesthetics and implementation.
+content:
+  es: |
+    Hola, soy **David Cuy**, una persona curiosa por naturaleza, alguien que disfruta entender cómo funcionan las cosas y cómo pueden mejorarse.
+    La tecnología para mí no es solo trabajo, es un campo de juego donde las ideas se vuelven reales. Me gusta construir, compartir, aprender y enseñar;
+    y creo profundamente en que las mejores soluciones nacen cuando combinamos pensamiento crítico, empatía y un buen café.
 
-  ### My Design Philosophy
+    ## Mi filosofía
 
-  My design philosophy is rooted in **empathy** and **problem-solving**. I believe great design starts with understanding the 'why' – the user's needs, motivations, and pain points. I use research, iterative prototyping (often with tools like Figma), and user testing to ensure the solutions I build are truly effective.
+    Creo que el software es como un set de Lego: cada pieza tiene una función por sí misma, pero la verdadera magia está en cómo las conectamos para resolver algo real.
+    Como líder y arquitecto, me gusta acercarme a las soluciones desde la perspectiva del negocio, no solo la técnica. Escuchar,
+    entender la necesidad, y entonces crear algo que escale, sea flexible y tenga sentido para quien lo va a usar.
+    La tecnología es una herramienta, pero la intención detrás es lo que marca la diferencia.
 
-  I strive to create interfaces that feel effortless, where functionality and beauty work hand-in-hand. Whether I'm crafting pixel-perfect UIs or writing clean Vue.js/Nuxt.js code, my focus is always on creating value for the end-user.
+    ## Qué me motiva
 
-  ### What Drives Me
+    Me mueven los retos que no vienen con respuesta inmediata. Esos problemas que requieren creatividad, experimentación
+    y ganas de romper el molde. Disfruto explorar nuevas tecnologías, probar ideas, prototipar y ver cómo algo pequeño se
+    convierte en una pieza clave. No me asusta lo desconocido; de hecho, ahí es donde más aprendo y donde las soluciones
+    se vuelven interesantes.
 
-  What keeps me excited about this work is the constant learning and the challenge of translating complex ideas into simple, elegant solutions. There's nothing more rewarding than seeing a design come to life and knowing it's making someone's digital interaction easier or more enjoyable.
+    ## Más allá del trabajo
 
-  ### Beyond the Screen
+    Aunque estoy en roles de liderazgo, nunca dejé de codear. Me gusta estar cerca de la construcción, del cómo se hace, no solo del qué se decide.
+    En casa comparto la vida con mi esposa y nuestros dos gatos, que actúan como supervisores oficiales de teclado y café. Somos amantes del café lento,
+    de ese que se disfruta. Uno de nuestros sueños es tener una cafetería de especialidad algún día. 
+    
+    También me inspira mucho la cultura japonesa: su calma, la belleza de lo simple, y la idea de que todo puede hacerse con cuidado y respeto.
+    Intento llevar un poco de eso a mi trabajo y a mi vida
+  
+  en: |
+    Hi, I'm **David Cuy**, a naturally curious person who enjoys understanding how things work and how they can be improved.
+    Technology for me is not just work; it's a playground where ideas become real. I like to build, share, learn, and teach;
+    and I deeply believe that the best solutions arise when we combine critical thinking, empathy, and a good cup of coffee.
 
-  When I'm not designing or coding, you might find me exploring Boston's latest coffee shops, hiking nearby trails, or occasionally contributing to open-source projects.
+    ## My Philosophy
 
-  Thanks for stopping by. Feel free to browse my [projects](/projects) or [get in touch](/#contact) if you'd like to collaborate!
+    I believe software is like a set of Lego: each piece has its function on its own, but the real magic lies in how we connect them to solve something real.
+    As a leader and architect, I like to approach solutions from a business perspective, not just a technical one. Listening,
+    understanding the need, and then creating something that scales, is flexible, and makes sense for the user.
+    Technology is a tool, but the intention behind it is what makes the difference.
+
+    ## What Drives Me
+
+    I'm driven by challenges that don't come with immediate answers. Those problems that require creativity, experimentation,
+    and a willingness to break the mold. I enjoy exploring new technologies, testing ideas, prototyping, and seeing how something small
+    becomes a key piece. I'm not afraid of the unknown; in fact, that's where I learn the most and where solutions become interesting.
+
+    ## Beyond Work
+
+    Although I'm in leadership roles, I've never stopped coding. I like to stay close to building, to how things are made, not just what is decided.
+    At home, I share life with my wife and our two cats, who act as official keyboard and coffee supervisors. We are slow coffee lovers,
+    the kind that you savor. One of our dreams is to have a specialty coffee shop someday.
+    
+    I'm also greatly inspired by Japanese culture: its calmness, the beauty of simplicity, and the idea that everything can be done with care and respect.
+    I try to bring a bit of that into my work and life.
+
 images:
-  - src: https://images.unsplash.com/photo-1744877478622-a78c7a3336f6?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-    alt: My coffee workspace
-  - src: https://images.unsplash.com/photo-1744429523595-2c06b8611242?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-    alt: My trip to Tokyo
+  - src: /about/coffee.JPEG
+    alt: My latte art
+  - src: /about/japan.JPG
+    alt: My trip to Japan

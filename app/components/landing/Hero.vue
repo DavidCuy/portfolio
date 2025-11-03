@@ -72,6 +72,8 @@ const availableText = computed(() => {
           :light="global.picture?.light!"
           :dark="global.picture?.dark!"
           :alt="global.picture?.alt!"
+          width="256"
+          height="256"
         />
       </Motion>
     </template>

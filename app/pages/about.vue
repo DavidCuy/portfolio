@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { getLocalized } from '~/utils/getLocalized'
+
+const { locale } = useI18n()
 const { data: page } = await useAsyncData('about', () => {
   return queryCollection('about').first()
 })
@@ -12,6 +15,19 @@ if (!page.value) {
 
 const { global } = useAppConfig()
 
+const title = computed(() => {
+  return getLocalized(page.value?.principal?.title, locale.value?.toString()) || getLocalized(page.value?.principal?.title, locale.value?.toString()) || ''
+})
+
+const description = computed(() => {
+  return getLocalized(page.value?.principal?.description, locale.value?.toString()) || getLocalized(page.value?.principal?.description, locale.value?.toString()) || ''
+})
+
+const content = computed(() => {
+  const aboutContent = page.value?.content
+  return getLocalized(aboutContent, locale.value?.toString()) || getLocalized(page.value?.content, locale.value?.toString()) || ''
+})
+
 useSeoMeta({
   title: page.value?.seo?.title || page.value?.title,
   ogTitle: page.value?.seo?.title || page.value?.title,
@@ -23,8 +39,8 @@ useSeoMeta({
 <template>
   <UPage v-if="page">
     <UPageHero
-      :title="page.title"
-      :description="page.description"
+      :title="title"
+      :description="description"
       orientation="horizontal"
       :ui="{
         container: 'lg:flex sm:flex-row items-center',
@@ -38,6 +54,8 @@ useSeoMeta({
         :light="global.picture?.light!"
         :dark="global.picture?.dark!"
         :alt="global.picture?.alt!"
+        width="256"
+        height="256"
       />
     </UPageHero>
     <UPageSection
@@ -46,7 +64,7 @@ useSeoMeta({
       }"
     >
       <MDC
-        :value="page.content"
+        :value="content"
         unwrap="p"
       />
       <div class="flex flex-row justify-center items-center py-10 space-x-[-2rem]">
