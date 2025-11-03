@@ -9,7 +9,7 @@ hero:
   links:
     - label:
         en: "Click here!"
-        es: "Haz clic aquí!"
+        es: "Haz click aquí!"
       to: https://www.nyan.cat/
       target: _blank
       color: "neutral"

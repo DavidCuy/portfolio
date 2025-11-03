@@ -30,6 +30,16 @@ const { data: projects } = await useAsyncData('projects', () => {
 
 const { global } = useAppConfig()
 
+const meetingText = computed(() => {
+  const label = page.value?.links[0]?.label
+  return getLocalized(label, locale.value?.toString()) || ''
+})
+
+const mailMeText = computed(() => {
+  const mailText = page.value?.links[1]?.label
+  return getLocalized(mailText, locale.value?.toString()) || ''
+})
+
 useSeoMeta({
   title: title.value,
   ogTitle: title.value,
@@ -56,13 +66,14 @@ useSeoMeta({
           class="flex items-center gap-2"
         >
           <UButton
-            :label="page.links[0]?.label"
-            :to="global.meetingLink"
-            v-bind="page.links[0]"
+            :label="meetingText"
+            :to="global.meeting.link"
+            target="_blank"
+            :color="page.links[0]?.color"
           />
           <UButton
+            :label="mailMeText"
             :to="`mailto:${global.email}`"
-            v-bind="page.links[1]"
           />
         </div>
       </template>

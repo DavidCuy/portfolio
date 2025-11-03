@@ -1,10 +1,25 @@
 title:
-  en: Designing Interfaces, Building Experiences.
-  es: Diseñando Interfaces, Construyendo Experiencias.
+  es: Tecnología aplicada a problemas reales.
+  en: Technology applied to real problems.
 description:
-  en: I've worked on a variety of projects, focusing on creating intuitive digital experiences where thoughtful design meets clean code. Here are some highlights I'm proud of, showcasing my process from concept to execution.
-  es: He trabajado en una variedad de proyectos, centrándome en crear experiencias digitales intuitivas donde el diseño reflexivo se encuentra con un código limpio. Aquí hay algunos aspectos destacados de los que estoy orgulloso, que muestran mi proceso desde el concepto hasta la ejecución.
+  es: | 
+    A lo largo de mi camino he trabajado en soluciones que van desde arquitecturas en la nube y plataformas escalables,
+    hasta herramientas internas y productos orientados al usuario. Aquí encontrarás algunos de los proyectos que más han
+    marcado mi forma de construir: aquellos donde hubo retos interesantes, aprendizajes reales y resultados que aportaron
+    valor.
+
+    Sin formalismos — solo lo que se creó, por qué se creó y qué impacto tuvo
+  en: |
+    Throughout my journey, I've worked on solutions ranging from cloud architectures and scalable platforms
+    to internal tools and user-focused products. Here, you'll find some of the projects that have most
+    shaped my approach to building: those with interesting challenges, real learnings, and impactful results.
+
+    No formalities — just what was built, why it was built, and the value it delivered.
 links:
-  - label: "Let's talk"
+  - label:
+      en: 'Get in touch'
+      es: 'Contáctame'
     color: "neutral"
-  - label: 'Email me'
+  - label: 
+      en: 'Email me'
+      es: 'Escríbeme'

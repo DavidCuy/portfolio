@@ -172,6 +172,7 @@ const availableText = computed(() => {
             class="gap-2"
             :to="global.available.status ? global.meeting.link : ''"
             :label="availableText"
+            target="_blank"
           >
             <template #leading>
               <span class="relative flex size-2">
