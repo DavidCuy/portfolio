@@ -40,6 +40,10 @@ const mailMeText = computed(() => {
   return getLocalized(mailText, locale.value?.toString()) || ''
 })
 
+const selectLanguage = (selectorObject: object) => {
+  return getLocalized(selectorObject, locale.value?.toString()) || ''
+}
+
 useSeoMeta({
   title: title.value,
   ogTitle: title.value,
@@ -85,15 +89,15 @@ useSeoMeta({
     >
       <Motion
         v-for="(project, index) in projects"
-        :key="project.title"
+        :key="project.key"
         :initial="{ opacity: 0, transform: 'translateY(10px)' }"
         :while-in-view="{ opacity: 1, transform: 'translateY(0)' }"
         :transition="{ delay: 0.2 * index }"
         :in-view-options="{ once: true }"
       >
         <UPageCard
-          :title="project.title"
-          :description="project.description"
+          :title="selectLanguage(project.title)"
+          :description="selectLanguage(project.description)"
           :to="project.url"
           orientation="horizontal"
           variant="naked"
@@ -111,6 +115,7 @@ useSeoMeta({
           <template #footer>
             <ULink
               :to="project.url"
+              target="_blank"
               class="text-sm text-primary flex items-center"
             >
               View Project
@@ -122,7 +127,7 @@ useSeoMeta({
           </template>
           <img
             :src="project.image"
-            :alt="project.title"
+            :alt="selectLanguage(project.title)"
             class="object-cover w-full h-48 rounded-lg"
           >
         </UPageCard>

@@ -1,0 +1,10 @@
+title:
+  es: Dispositivo de monitoreo industrial
+  en: Industrial monitoring system
+description:
+  en: Build the AVI Energy Labs's device for real-time monitoring system, an IoT device to become digital the energy consumption of industrial machines, optimize it based on smart alerts and recommendations based on your operational data.
+  es: Construí el dispositivo de AVI Energy Labs para un sistema de monitoreo en tiempo real, un dispositivo IoT para digitalizar el consumo energético de máquinas industriales, optimizándolo mediante alertas inteligentes y recomendaciones basadas en los datos operacionales.
+image: /projects/avi-energy.png
+url: "https://merida.anahuac.mx/noticias/sistema-de-monitoreo-de-energia-electrica-gana-premio-tecnos"
+tags: ["Entrepeneur", "AWS", "IoT", "Python", "CTO"]
+date: "01-03-2018"

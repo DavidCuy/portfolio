@@ -1,0 +1,11 @@
+key: aeromexico-car-rental
+title:
+  es: Rediseño web autos de Aeromexico
+  en: Aeromexico Car Rental Website Redesign 
+description:
+  es: Lideré el equipo de desarrollo encargado de rediseñar toda la web completa de autos.aeromexico.com, nuevas funcionalidades, mejoras de performance y rediseño completo del sitio web
+  en: Led the development team responsible for the complete redesign of autos.aeromexico.com, including new features, performance improvements, and full website redesign
+image: /projects/autos-am.webp
+url: "http://autos.aeromexico.com/"
+tags: ["Backend", "Frontend"]
+date: "02-01-2025"

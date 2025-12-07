@@ -1,0 +1,10 @@
+title:
+  es: Monitoreo de Red electrica en diram
+  en: Electrical Grid Monitoring at Diram
+description:
+  es: Diseñé la arquitectura de la solución para CloudPQ, un sistema de monitoreo en tiempo real - IoT, para redes eléctricas industriales. Análisis y cálculo de las lectura para la generación de reportes de cumplimiento del Código de Red Eléctrico Mexicano
+  en: Designed the solution architecture for CloudPQ, a real-time IoT monitoring system for industrial electrical grids. Analysis and calculation of readings for generating compliance reports of the Mexican Electrical Grid Code 
+image: /projects/cloudpq-diram.png
+url: "https://cloudpq.diram.com/"
+tags: ["Solution Architect", "Azure", "IoT", "Python - Pandas"]
+date: "08-08-2021"

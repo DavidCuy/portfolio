@@ -1,0 +1,11 @@
+key: tigomoney-lending
+title:
+  es: Creación del Ecosistema de Préstamos en TigoMoney
+  en: Lending Ecosystem at TigoMoney Development 
+description:
+  es: Lideré el desarrollo y la arquitectura de la plataforma de préstamos de Tigo Money en AWS con arquitectura 100% serverless. Se implementaron modelos de riesgo y flujos automatizados para otorgar créditos rápidos y accesibles. El proyecto amplió la inclusión financiera y consolidó la billetera como una solución financiera integral para miles de usuarios.
+  en: Led the development and architecture of the Tigo Money lending platform on AWS using a fully serverless approach. Automated decision flows and risk models enabled fast and accessible credit offerings. The project expanded financial inclusion and strengthened the wallet as a comprehensive financial solution for thousands of users. 
+image: /projects/tigo-money.webp
+url: "https://www.forbes.com.py/negocios/tigo-entra-mundo-microcredito-prestamos-g-150000-7-dias-una-tasa-casi-30-n57970"
+tags: ["AWS", "Cloud developer", "Backend"]
+date: "01-07-2022"
