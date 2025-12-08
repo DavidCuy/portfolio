@@ -74,15 +74,15 @@ const contactButtonLabel = computed(() => {
       }"
     >
       <UCarousel
-          v-slot="{ item }: { item: any }"
-          :items="services"
-          :ui="{
-            viewport: '-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 max-w-(--ui-container)'
-          }"
-          arrows
-          :autoplay="{ delay: 3000 }"
-          loop
-        >
+        v-slot="{ item }: { item: any }"
+        :items="services"
+        :ui="{
+          viewport: '-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 max-w-(--ui-container)'
+        }"
+        arrows
+        :autoplay="{ delay: 3000 }"
+        loop
+      >
         <UCard
           class="p-8 h-full w-full max-w-full border-0 ring-0 shadow-none bg-transparent"
         >

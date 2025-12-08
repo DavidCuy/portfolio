@@ -68,7 +68,7 @@ const ui = {
             :key="index"
             :title="card.label"
             :items="[card.description]"
-            :viewMoreText="skillCardViewMoreText"
+            :view-more-text="skillCardViewMoreText"
             :image="card.image"
           />
         </div>

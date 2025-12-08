@@ -26,10 +26,10 @@ const description = computed(() => {
 })
 
 useSeoMeta({
-  title: title || 'Home',
-  ogTitle: title || 'Home',
-  description: description || '',
-  ogDescription: description || ''
+  title: title.value || 'Home',
+  ogTitle: title.value || 'Home',
+  description: description.value || '',
+  ogDescription: description.value || ''
 })
 </script>
 

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
+import { useNavLinks } from '~/utils/links'
+
 defineProps({
   error: {
     type: Object as PropType<NuxtError>,
@@ -18,8 +20,6 @@ useSeoMeta({
   title: 'Page not found',
   description: 'We are sorry but this page could not be found.'
 })
-
-import { useNavLinks } from '~/utils/links'
 
 const navLinks = useNavLinks()
 

@@ -2,13 +2,16 @@
 import { useNavLinks } from '~/utils/links'
 
 const { locale } = useI18n()
-const navLinks = useNavLinks() 
+const navLinks = useNavLinks()
 </script>
 
 <template>
-  <div> 
+  <div>
     <UContainer class="sm:border-x border-default pt-10">
-      <AppHeader :links="navLinks" :key="locale" />
+      <AppHeader
+        :key="locale"
+        :links="navLinks"
+      />
       <slot />
       <AppFooter />
     </UContainer>

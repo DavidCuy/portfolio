@@ -1,13 +1,15 @@
 <template>
   <div class="typewriter">
     <p
-        :key="currentIndex"
-        :style="{
-            animationDuration: (interval / 1000) - 1,
-            fontFamily: props.fontFamily,
-            fontSize: props.fontSize
-        }"
-    >{{ texts[currentIndex] }}</p>
+      :key="currentIndex"
+      :style="{
+        animationDuration: (interval / 1000) - 1,
+        fontFamily: props.fontFamily,
+        fontSize: props.fontSize
+      }"
+    >
+      {{ texts[currentIndex] }}
+    </p>
   </div>
 </template>
 

@@ -79,7 +79,7 @@ export default defineContentConfig({
                 image: createImageSchema()
               }))
             })
-          ),
+          )
         }),
         faq: createBaseSchema().extend({
           categories: z.array(

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useNavLinks } from '~/utils/links'
+
 const { locale } = useI18n()
 const colorMode = useColorMode()
 
@@ -24,8 +26,6 @@ useSeoMeta({
   twitterImage: 'https://ui.nuxt.com/assets/templates/nuxt/portfolio-light.png',
   twitterCard: 'summary_large_image'
 })
-
-import { useNavLinks } from '~/utils/links'
 
 const navLinks = useNavLinks()
 
@@ -58,8 +58,8 @@ const [{ data: navigation }, { data: files }] = await Promise.all([
 
     <ClientOnly>
       <LazyUContentSearch
-        :files="files"
         :key="locale"
+        :files="files"
         :navigation="navigation"
         shortcut="meta_k"
         :links="navLinks"

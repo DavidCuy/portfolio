@@ -5,8 +5,8 @@ interface Props {
     alt: string
   }
   title: string
-  items: string[],
-  viewMoreText?: string,
+  items: string[]
+  viewMoreText?: string
 }
 
 const props = defineProps<Props>()
@@ -18,8 +18,8 @@ const props = defineProps<Props>()
       <!-- Icono -->
       <div class="text-2xl flex-shrink-0 p-2 w-20 h-20 mx-auto items-center justify-center">
         <img
-          :src="image.src"
-          :alt="image.alt"
+          :src="props.image.src"
+          :alt="props.image.alt"
         >
       </div>
 
@@ -29,13 +29,22 @@ const props = defineProps<Props>()
           {{ title }}
         </h3>
         <UPopover>
-          <UButton :label="viewMoreText" color="neutral" variant="subtle" class="mt-4"/>
+          <UButton
+            :label="viewMoreText"
+            color="neutral"
+            variant="subtle"
+            class="mt-4"
+          />
 
           <template #content>
             <div class="flex items-center gap-4 m-4 p-4 w-60">
-              <p 
-                v-for="(item, index) in items" :key="index"
-                class="text-sm text-gray-600 dark:text-gray-300 mt-1 space-y-0.5">{{ item }}</p>
+              <p
+                v-for="(item, index) in items"
+                :key="index"
+                class="text-sm text-gray-600 dark:text-gray-300 mt-1 space-y-0.5"
+              >
+                {{ item }}
+              </p>
             </div>
           </template>
         </UPopover>

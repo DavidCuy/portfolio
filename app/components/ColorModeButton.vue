@@ -47,16 +47,17 @@ const startViewTransition = (event: MouseEvent) => {
 <template>
   <ClientOnly>
     <UTooltip
-        :text="`${t('topbar.buttons.theme.tooltipTxt')}`"
-        :delay-duration="0.5">
-        <UButton
-            :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
-            color="neutral"
-            variant="ghost"
-            size="sm"
-            class="rounded-full cursor-pointer"
-            @click="startViewTransition"
-        />
+      :text="`${t('topbar.buttons.theme.tooltipTxt')}`"
+      :delay-duration="0.5"
+    >
+      <UButton
+        :icon="`i-lucide-${nextTheme === 'dark' ? 'sun' : 'moon'}`"
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        class="rounded-full cursor-pointer"
+        @click="startViewTransition"
+      />
     </UTooltip>
     <template #fallback>
       <div class="size-4" />

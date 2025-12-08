@@ -25,22 +25,22 @@ const downloadResume = async () => {
     navigateTo(`/files/resume/${locale?.value?.toString() || 'en'}`)
   }
 }
- 
 </script>
 
 <template>
   <ClientOnly>
     <UTooltip
-        :text="`${t('topbar.buttons.resume.tooltipTxt')}`"
-        :delay-duration="0.5">
-        <UButton
-            :icon="`i-lucide-file-text`"
-            color="neutral"
-            variant="ghost"
-            size="sm"
-            class="rounded-full cursor-pointer"
-            @click="downloadResume"
-        />
+      :text="`${t('topbar.buttons.resume.tooltipTxt')}`"
+      :delay-duration="0.5"
+    >
+      <UButton
+        :icon="`i-lucide-file-text`"
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        class="rounded-full cursor-pointer"
+        @click="downloadResume"
+      />
     </UTooltip>
     <template #fallback>
       <div class="size-4" />

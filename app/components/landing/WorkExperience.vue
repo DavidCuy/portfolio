@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IndexCollectionItem } from '@nuxt/content'
+
 const { locale } = useI18n()
 
 const props = defineProps<{
@@ -10,7 +11,6 @@ const title = computed(() => {
   const experienceTitle = props.page?.experience.title
   return getLocalized(experienceTitle, locale.value?.toString()) || ''
 })
-
 </script>
 
 <template>

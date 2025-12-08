@@ -30,7 +30,7 @@ const heroLinks = computed(() => {
 
 const texts = props.page?.hero?.highlightedText?.length
   ? props.page.hero.highlightedText.map((t: any) => getLocalized(t, locale.value?.toString() || 'en'))
-  : [];
+  : []
 
 const availableText = computed(() => {
   const availableSection = global.available
@@ -39,7 +39,6 @@ const availableText = computed(() => {
 
   return getLocalized(availableSection?.unavailableText, locale.value?.toString()) || ''
 })
-
 </script>
 
 <template>
@@ -79,8 +78,7 @@ const availableText = computed(() => {
     </template>
 
     <template #title>
-      <div>
-      </div>
+      <div />
       <Motion
         :initial="{
           scale: 1.1,
@@ -97,7 +95,7 @@ const availableText = computed(() => {
           delay: 0.1
         }"
       >
-      {{ title }}
+        {{ title }}
       </Motion>
 
       <Motion
@@ -116,10 +114,10 @@ const availableText = computed(() => {
           delay: 0.1
         }"
       >
-      <TextWriter
-        :texts="texts"
-        :interval="5000"
-      />
+        <TextWriter
+          :texts="texts"
+          :interval="5000"
+        />
       </Motion>
     </template>
 
@@ -140,7 +138,7 @@ const availableText = computed(() => {
           delay: 0.3
         }"
       >
-  {{ description }}
+        {{ description }}
       </Motion>
     </template>
 
@@ -216,6 +214,5 @@ const availableText = computed(() => {
         </Motion>
       </div>
     </template>
-
   </UPageHero>
 </template>

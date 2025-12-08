@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { locale, t, loadLocaleMessages } = useI18n() 
 import { useRoute, navigateTo } from '#imports'
+
+const { locale, t, loadLocaleMessages } = useI18n()
 
 const switchLanguage = async () => {
   const nextLanguage = locale.value === 'en' ? 'es' : 'en'
@@ -8,9 +9,9 @@ const switchLanguage = async () => {
     await loadLocaleMessages(nextLanguage)
   } catch (error) {
     console.error(`Error loading locale messages for ${nextLanguage}:`, error)
-    return 
+    return
   }
-  locale.value = nextLanguage 
+  locale.value = nextLanguage
 
   // 3. ACTUALIZAR LA RUTA
   const route = useRoute()
@@ -21,14 +22,14 @@ const switchLanguage = async () => {
 
   if (newPath === currentPath) {
     if (currentPath === '/') {
-        newPath = selectedPathLanguage || '/'
+      newPath = selectedPathLanguage || '/'
     } else {
-        newPath = `${selectedPathLanguage}${currentPath}`
+      newPath = `${selectedPathLanguage}${currentPath}`
     }
   }
 
   if (newPath === selectedPathLanguage) {
-     newPath = selectedPathLanguage || '/'
+    newPath = selectedPathLanguage || '/'
   }
   navigateTo(newPath, { replace: true })
 }
