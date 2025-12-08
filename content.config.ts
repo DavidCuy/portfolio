@@ -132,14 +132,16 @@ export default defineContentConfig({
       type: 'page',
       source: 'services.yml',
       schema: z.object({
-        links: z.array(createButtonSchema()),
-        events: z.array(z.object({
-          category: z.enum(['Live talk', 'Podcast', 'Conference']),
-          title: z.string(),
-          date: z.date(),
-          location: z.string(),
-          url: z.string().optional()
-        }))
+        services: z.array(z.object({
+          title: createLanguageSchema(),
+          description: createLanguageSchema(),
+          icon: z.string()
+        })),
+        contact: z.object({
+          title: createLanguageSchema(),
+          description: createLanguageSchema(),
+          buttonLabel: createLanguageSchema()
+        })
       })
     }),
     about: defineCollection({

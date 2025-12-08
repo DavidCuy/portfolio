@@ -1,48 +1,51 @@
-title: Talks & Workshops
-description: Explore talks and workshops I've given on UX design, front-end development, and building better digital products.
-links:
-  - label: Invite me to speak
-    size: md
-events:
-  - category: Conference
-    title: "Bridging the Gap: Design Systems for Designer-Developer Collaboration"
-    date: "2024-10-26"
-    location: "VueConf US, Miami, FL"
-    url: "#"
-  - category: Conference
-    title: "Intuitive Interfaces: Applying UX Principles in Nuxt.js Applications"
-    date: "2024-06-15"
-    location: "Nuxt Nation, Online"
-    url: "#"
-  - category: Conference
-    title: "Accessibility First: Building Inclusive Web Apps"
-    date: "2023-11-08"
-    location: "Boston Web Performance Meetup, Boston, MA"
-  - category: Live talk
-    title: "Mastering Component Design in Figma & Vue"
-    date: "2024-08-20"
-    location: "Design & Dev Boston Meetup, Boston, MA"
-    url: "#"
-  - category: Live talk
-    title: "From Wireframe to Web: A Practical Front-End Workflow"
-    date: "2024-03-05"
-    location: "Internal Workshop @ PreviousCompany Inc."
-  - category: Live talk
-    title: "The Power of User Research in Product Development"
-    date: "2023-09-12"
-    location: "Boston University Guest Lecture, Boston, MA"
-  - category: Podcast
-    title: "Designing for Developers: A UX Perspective"
-    date: "2024-07-18"
-    location: "Syntax.fm (Guest)"
-    url: "#"
-  - category: Podcast
-    title: "The Future of Front-End Frameworks & Design Tooling"
-    date: "2024-01-30"
-    location: "Design Details Podcast (Guest)"
-    url: "#"
-  - category: Podcast
-    title: "Building a Career in UX/UI & Development"
-    date: "2023-05-22"
-    location: "TechForward Boston Podcast"
-    url: "#"
+seo:
+  title:
+    en: "Services - David Cuy"
+    es: "Servicios - David Cuy"
+  description:
+    en: "Explore the services I offer: technological consulting, custom systems, and talks & workshops."
+    es: "Explora los servicios que ofrezco: consultoría tecnológica, sistemas a la medida, y pláticas y charlas."
+
+title:
+  en: "Services"
+  es: "Servicios"
+
+description:
+  en: "I help companies and teams build scalable cloud solutions, develop custom systems, and share knowledge through talks and workshops."
+  es: "Ayudo a empresas y equipos a construir soluciones escalables en la nube, desarrollar sistemas a la medida, y compartir conocimiento a través de pláticas y talleres."
+
+services:
+  - title:
+      en: "Technological Consulting"
+      es: "Consultoría Tecnológica"
+    description:
+      en: "Expert guidance on cloud architecture, AWS services, DevOps practices, and scalable solution design. I help you make the right technical decisions for your business needs."
+      es: "Asesoría experta en arquitectura de la nube, servicios AWS, prácticas DevOps y diseño de soluciones escalables. Te ayudo a tomar las decisiones técnicas correctas para las necesidades de tu negocio."
+    icon: "i-lucide-cloud"
+
+  - title:
+      en: "Custom Systems"
+      es: "Sistemas a la Medida"
+    description:
+      en: "End-to-end development of tailored software solutions. From requirements analysis to deployment, I build robust applications that fit your specific needs using modern technologies."
+      es: "Desarrollo integral de soluciones de software personalizadas. Desde el análisis de requisitos hasta el despliegue, construyo aplicaciones robustas que se ajustan a tus necesidades específicas usando tecnologías modernas."
+    icon: "i-lucide-code"
+
+  - title:
+      en: "Talks & Workshops"
+      es: "Pláticas y Charlas"
+    description:
+      en: "Engaging presentations and hands-on workshops on cloud computing, AWS, DevOps, software architecture, and team leadership. I share practical knowledge and real-world experiences."
+      es: "Presentaciones atractivas y talleres prácticos sobre computación en la nube, AWS, DevOps, arquitectura de software y liderazgo de equipos. Comparto conocimiento práctico y experiencias del mundo real."
+    icon: "i-lucide-presentation"
+
+contact:
+  title:
+    en: "Ready to Work Together?"
+    es: "¿Listo para Trabajar Juntos?"
+  description:
+    en: "I'm available for new projects and consulting opportunities. Whether you need help with cloud architecture, custom development, or want to invite me to speak at your event, let's connect!"
+    es: "Estoy disponible para nuevos proyectos y oportunidades de consultoría. Ya sea que necesites ayuda con arquitectura en la nube, desarrollo personalizado, o quieras invitarme a hablar en tu evento, ¡conectemos!"
+  buttonLabel:
+    en: "Get in Touch"
+    es: "Contáctame"
