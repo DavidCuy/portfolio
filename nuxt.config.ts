@@ -21,12 +21,17 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-11-01',
 
+  app: {
+    baseURL: '/'
+  },
+
   nitro: {
     prerender: {
       routes: [
         '/'
       ],
-      crawlLinks: true
+      crawlLinks: true,
+      failOnError: false
     }
   },
 
