@@ -21,10 +21,6 @@ export default defineNuxtConfig({
     baseURL: '/'
   },
 
-  image: {
-    provider: 'none'
-  },
-
   css: ['~/assets/css/main.css'],
 
   compatibilityDate: '2024-11-01',
@@ -59,6 +55,10 @@ export default defineNuxtConfig({
 
     langDir: 'locales/',
     vueI18n: './i18n.config.ts'
+  },
+
+  image: {
+    provider: 'none'
   },
   ogImage: {
     enabled: false
