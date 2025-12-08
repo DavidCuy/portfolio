@@ -128,9 +128,9 @@ export default defineContentConfig({
         links: z.array(createButtonSchema())
       })
     }),
-    speaking: defineCollection({
+    services: defineCollection({
       type: 'page',
-      source: 'speaking.yml',
+      source: 'services.yml',
       schema: z.object({
         links: z.array(createButtonSchema()),
         events: z.array(z.object({
