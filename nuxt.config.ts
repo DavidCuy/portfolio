@@ -17,13 +17,17 @@ export default defineNuxtConfig({
     enabled: true
   },
 
-  css: ['~/assets/css/main.css'],
-
-  compatibilityDate: '2024-11-01',
-
   app: {
     baseURL: '/'
   },
+
+  image: {
+    provider: 'none'
+  },
+
+  css: ['~/assets/css/main.css'],
+
+  compatibilityDate: '2024-11-01',
 
   nitro: {
     prerender: {
@@ -54,7 +58,7 @@ export default defineNuxtConfig({
     ],
 
     langDir: 'locales/',
-    vueI18n: './i18n.config.ts',
+    vueI18n: './i18n.config.ts'
   },
   ogImage: {
     enabled: false
