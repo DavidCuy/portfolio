@@ -1,20 +1,19 @@
 <template>
   <div class="typewriter">
     <p
-      :key="currentIndex"
       :style="{
-        animationDuration: (interval / 1000) - 1,
         fontFamily: props.fontFamily,
         fontSize: props.fontSize
       }"
+      class="typewriter-text"
     >
-      {{ texts[currentIndex] }}
+      {{ displayedText }}<span class="cursor">|</span>
     </p>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from 'vue'
+import { ref, onMounted, watch, defineProps } from 'vue'
 
 // Recibimos los textos como props
 const props = defineProps({
@@ -33,45 +32,77 @@ const props = defineProps({
   fontSize: {
     type: String,
     default: '1.5rem'
+  },
+  typingSpeed: {
+    type: Number,
+    default: 50 // milisegundos por carácter
   }
 })
 
 const currentIndex = ref(0)
+const displayedText = ref('')
+const charIndex = ref(0)
+let typingInterval = null
+
+// Función para escribir el texto carácter por carácter
+const typeText = () => {
+  const fullText = props.texts[currentIndex.value]
+
+  if (charIndex.value < fullText.length) {
+    displayedText.value = fullText.substring(0, charIndex.value + 1)
+    charIndex.value++
+  } else {
+    // Termina de escribir, espera el intervalo completo
+    clearInterval(typingInterval)
+    setTimeout(() => {
+      currentIndex.value = (currentIndex.value + 1) % props.texts.length
+      charIndex.value = 0
+      displayedText.value = ''
+      startTyping()
+    }, props.interval - (fullText.length * props.typingSpeed))
+  }
+}
+
+const startTyping = () => {
+  typingInterval = setInterval(typeText, props.typingSpeed)
+}
 
 onMounted(() => {
-  setInterval(() => {
-    currentIndex.value = (currentIndex.value + 1) % props.texts.length
-  }, props.interval)
+  startTyping()
+})
+
+watch(currentIndex, () => {
+  charIndex.value = 0
+  displayedText.value = ''
 })
 </script>
 
 <style scoped>
 .typewriter {
   display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-/* Cursor y animación */
-.typewriter p {
+.typewriter-text {
   display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid;
-  width: 0;
-  /* typing: run once, use steps(start) so the first character appears immediately,
-    and keep the final state with 'forwards' so the text stays visible until the next cycle. */
-  animation: typing 2s steps(30, start) 0s 1 normal forwards, blink 0.5s step-end 0s infinite alternate;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  margin: 0;
 }
 
-/* Animación de escritura */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+.cursor {
+  display: inline-block;
+  animation: blink 0.7s step-end infinite;
+  margin-left: 2px;
 }
 
 /* Parpadeo del cursor */
 @keyframes blink {
-  50% { border-color: transparent }
+  50% {
+    opacity: 0;
+  }
 }
 </style>
