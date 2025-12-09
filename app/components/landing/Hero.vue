@@ -161,7 +161,7 @@ const availableText = computed(() => {
       >
         <div
           v-if="heroLinks && heroLinks.length"
-          class="flex items-center gap-2"
+          class="flex flex-wrap sm:flex-nowrap items-center justify-center sm:justify-start gap-2"
         >
           <UButton v-bind="heroLinks[0]" />
           <UButton
