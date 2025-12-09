@@ -31,7 +31,7 @@ const title = computed(() => {
           :while-in-view="{ opacity: 1, transform: 'translateY(0)' }"
           :transition="{ delay: 0.4 + 0.2 * index }"
           :in-view-options="{ once: true }"
-          class="text-muted flex items-center text-nowrap gap-2"
+          class="text-muted experience-item"
         >
           <p class="text-sm">
             {{ getLocalized(experience.date, locale?.toString()) || '' }}
@@ -60,5 +60,35 @@ const title = computed(() => {
 </template>
 
 <style scoped>
+.experience-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  max-width: 100%;
 
+  /* Estilos para el scrollbar en móviles */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+.experience-item::-webkit-scrollbar {
+  height: 4px;
+}
+
+.experience-item::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.experience-item::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 2px;
+}
+
+.experience-item::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(155, 155, 155, 0.7);
+}
 </style>
