@@ -69,12 +69,11 @@ const { data, error } = await useAsyncData<MiTipo[]>('cache-key', () =>
     { name: 'mainImage',   type: 'image',     options: { hotspot: true } },
     { name: 'categories',  type: 'array',     of: [{ type: 'reference', to: { type: 'category' } }] },
     { name: 'publishedAt', type: 'datetime' },
+    { name: 'excerpt',     type: 'text' },          // Resumen corto
     { name: 'body',        type: 'blockContent' },  // Portable Text
   ]
 }
 ```
-
-> **No hay campo `excerpt`**. Para agregar descripción corta, añadir `{ name: 'excerpt', type: 'text', rows: 3 }` al schema y redesplegar el Studio.
 
 ### Tipos relacionados
 - `author`: nombre, bio, imagen
@@ -85,14 +84,16 @@ const { data, error } = await useAsyncData<MiTipo[]>('cache-key', () =>
 
 ## Queries GROQ de referencia
 
-### Blog index
+### Blog index (con paginación)
 ```groq
-*[_type == "post"] | order(publishedAt desc) {
+*[_type == "post"] | order(publishedAt desc) [$start...$end] {
   _id,
   title,
   "slug": slug.current,
+  excerpt,
   "image": mainImage.asset->url,
-  "date": publishedAt
+  "date": publishedAt,
+  "author": author->{ name, "avatar": image.asset->url }
 }
 ```
 
@@ -114,42 +115,6 @@ const { data, error } = await useAsyncData<MiTipo[]>('cache-key', () =>
 ```ts
 sanity.fetch(QUERY, { slug: route.params.slug })
 ```
-
----
-
-## Añadir campo `excerpt` al schema
-
-Si se necesita descripción corta en los posts:
-
-1. Editar `C:\repositories\davidCuy\david-cuys-blog\schemaTypes\post.ts`:
-```ts
-defineField({
-  name: 'excerpt',
-  title: 'Descripción corta',
-  type: 'text',
-  rows: 3
-})
-```
-
-2. Redesplegar el Studio:
-```bash
-cd C:\repositories\davidCuy\david-cuys-blog
-npx sanity deploy
-```
-
-3. Actualizar la interface en `app/pages/blog/index.vue`:
-```ts
-interface SanityPost {
-  _id: string
-  title: string
-  slug: string
-  description: string  // añadir
-  image: string
-  date: string
-}
-```
-
-4. Actualizar el GROQ query para incluir `"description": excerpt`.
 
 ---
 
