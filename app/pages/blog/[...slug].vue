@@ -71,8 +71,68 @@ const { data: surround } = await useAsyncData(`surround-${slug}`, () =>
   )
 )
 
-// Portable Text: custom components for images and links
+// Portable Text: custom components for blocks, marks, and types
 const ptComponents = {
+  block: {
+    h1: defineComponent({
+      setup(_, { slots }) {
+        return () => h('h1', { class: 'text-4xl font-bold mt-10 mb-4 leading-tight' }, slots.default?.())
+      }
+    }),
+    h2: defineComponent({
+      setup(_, { slots }) {
+        return () => h('h2', { class: 'text-3xl font-bold mt-10 mb-3 leading-snug' }, slots.default?.())
+      }
+    }),
+    h3: defineComponent({
+      setup(_, { slots }) {
+        return () => h('h3', { class: 'text-2xl font-bold mt-8 mb-2' }, slots.default?.())
+      }
+    }),
+    h4: defineComponent({
+      setup(_, { slots }) {
+        return () => h('h4', { class: 'text-xl font-semibold mt-6 mb-2' }, slots.default?.())
+      }
+    }),
+    blockquote: defineComponent({
+      setup(_, { slots }) {
+        return () => h('blockquote', { class: 'border-l-4 border-primary/50 pl-4 italic text-muted my-6' }, slots.default?.())
+      }
+    }),
+    normal: defineComponent({
+      setup(_, { slots }) {
+        return () => h('p', { class: 'mb-5 leading-relaxed' }, slots.default?.())
+      }
+    })
+  },
+  marks: {
+    strong: defineComponent({
+      setup(_, { slots }) {
+        return () => h('strong', { class: 'font-bold' }, slots.default?.())
+      }
+    }),
+    em: defineComponent({
+      setup(_, { slots }) {
+        return () => h('em', { class: 'italic' }, slots.default?.())
+      }
+    }),
+    code: defineComponent({
+      setup(_, { slots }) {
+        return () => h('code', { class: 'bg-muted px-1.5 py-0.5 rounded text-sm font-mono' }, slots.default?.())
+      }
+    }),
+    link: defineComponent({
+      props: ['value'],
+      setup(props, { slots }) {
+        return () => h('a', {
+          href: props.value?.href,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          class: 'text-primary underline underline-offset-2 hover:opacity-80'
+        }, slots.default?.())
+      }
+    })
+  },
   types: {
     image: defineComponent({
       props: ['value'],
@@ -84,18 +144,6 @@ const ptComponents = {
               class: 'rounded-lg w-full my-6 object-cover'
             })
           : null
-      }
-    })
-  },
-  marks: {
-    link: defineComponent({
-      props: ['value'],
-      setup(props, { slots }) {
-        return () => h('a', {
-          href: props.value?.href,
-          target: '_blank',
-          rel: 'noopener noreferrer'
-        }, slots.default?.())
       }
     })
   }
