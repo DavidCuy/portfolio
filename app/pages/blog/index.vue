@@ -66,8 +66,7 @@ const loadMore = async () => {
     posts.value.push(...more)
     offset.value += PAGE_SIZE
     if (more.length < PAGE_SIZE) hasMore.value = false
-  }
-  finally {
+  } finally {
     loadingMore.value = false
   }
 }
@@ -76,7 +75,9 @@ const { stop } = useIntersectionObserver(sentinel, ([entry]) => {
   if (entry?.isIntersecting) loadMore()
 }, { threshold: 0.1 })
 
-watch(hasMore, (val) => { if (!val) stop() })
+watch(hasMore, (val) => {
+  if (!val) stop()
+})
 
 const formatDate = (dateString: string | null) => {
   if (!dateString) return ''
@@ -97,12 +98,19 @@ useSeoMeta({
   <UMain class="mt-20">
     <!-- Header -->
     <div class="py-8 border-b border-default px-4">
-      <h1 class="text-3xl font-bold">{{ $t('blog.title') }}</h1>
-      <p class="text-muted mt-1">{{ $t('blog.subtitle') }}</p>
+      <h1 class="text-3xl font-bold">
+        {{ $t('blog.title') }}
+      </h1>
+      <p class="text-muted mt-1">
+        {{ $t('blog.subtitle') }}
+      </p>
     </div>
 
     <!-- Recommended topics -->
-    <div v-if="categories.length" class="px-4 py-4 border-b border-default flex flex-wrap gap-2">
+    <div
+      v-if="categories.length"
+      class="px-4 py-4 border-b border-default flex flex-wrap gap-2"
+    >
       <span
         v-for="cat in categories"
         :key="cat._id"
@@ -112,13 +120,22 @@ useSeoMeta({
       </span>
     </div>
 
-    <div v-if="error" class="py-10 text-center text-red-500 px-4">
+    <div
+      v-if="error"
+      class="py-10 text-center text-red-500 px-4"
+    >
       {{ $t('blog.error') }}
     </div>
 
     <!-- Posts list -->
-    <div v-else class="divide-y divide-default px-4">
-      <p v-if="!posts.length && !loadingMore" class="py-10 text-center text-muted">
+    <div
+      v-else
+      class="divide-y divide-default px-4"
+    >
+      <p
+        v-if="!posts.length && !loadingMore"
+        class="py-10 text-center text-muted"
+      >
         {{ $t('blog.empty') }}
       </p>
 
@@ -131,18 +148,24 @@ useSeoMeta({
         <!-- Left: content -->
         <div class="flex-1 min-w-0 flex flex-col gap-2">
           <!-- Author -->
-          <div v-if="post.author" class="flex items-center gap-2">
+          <div
+            v-if="post.author"
+            class="flex items-center gap-2"
+          >
             <img
               v-if="post.author.avatar"
               :src="post.author.avatar"
               :alt="post.author.name"
               class="w-6 h-6 rounded-full object-cover"
-            />
+            >
             <div
               v-else
               class="w-6 h-6 rounded-full bg-muted flex items-center justify-center flex-shrink-0"
             >
-              <UIcon name="lucide:user" class="text-xs text-muted" />
+              <UIcon
+                name="lucide:user"
+                class="text-xs text-muted"
+              />
             </div>
             <span class="text-sm text-muted">{{ post.author.name }}</span>
           </div>
@@ -153,7 +176,10 @@ useSeoMeta({
           </h2>
 
           <!-- Excerpt -->
-          <p v-if="post.excerpt" class="text-base text-muted line-clamp-2 hidden sm:block">
+          <p
+            v-if="post.excerpt"
+            class="text-base text-muted line-clamp-2 hidden sm:block"
+          >
             {{ post.excerpt }}
           </p>
 
@@ -168,18 +194,24 @@ useSeoMeta({
             :src="post.image"
             :alt="post.title"
             class="w-full h-full object-cover"
-          />
+          >
           <div
             v-else
             class="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center"
           >
-            <UIcon name="lucide:file-text" class="text-primary/60 text-2xl" />
+            <UIcon
+              name="lucide:file-text"
+              class="text-primary/60 text-2xl"
+            />
           </div>
         </div>
       </NuxtLink>
 
       <!-- Infinite scroll sentinel -->
-      <div ref="sentinel" class="py-8 flex justify-center">
+      <div
+        ref="sentinel"
+        class="py-8 flex justify-center"
+      >
         <UIcon
           v-if="loadingMore"
           name="lucide:loader-circle"

@@ -17,7 +17,7 @@ interface SanityPost {
     name: string
     avatar: string | null
   } | null
-  categories: { _id: string; title: string }[] | null
+  categories: { _id: string, title: string }[] | null
   body: any[]
 }
 
@@ -65,7 +65,7 @@ if (!post.value) {
 }
 
 const { data: surround } = await useAsyncData(`surround-${slug}`, () =>
-  sanity.fetch<{ prev: SurroundPost | null; next: SurroundPost | null }>(
+  sanity.fetch<{ prev: SurroundPost | null, next: SurroundPost | null }>(
     SURROUND_QUERY,
     { date: post.value?.date || new Date().toISOString() }
   )
@@ -122,7 +122,7 @@ const ptComponents = {
       }
     }),
     link: defineComponent({
-      props: ['value'],
+      props: { value: { type: Object } },
       setup(props, { slots }) {
         return () => h('a', {
           href: props.value?.href,
@@ -135,7 +135,7 @@ const ptComponents = {
   },
   types: {
     image: defineComponent({
-      props: ['value'],
+      props: { value: { type: Object } },
       setup(props) {
         return () => props.value?.url
           ? h('img', {
@@ -183,7 +183,10 @@ useSeoMeta({
 
         <!-- Header -->
         <div class="flex flex-col gap-4 mt-8 mb-2">
-          <p v-if="post.date" class="text-xs text-muted text-center">
+          <p
+            v-if="post.date"
+            class="text-xs text-muted text-center"
+          >
             {{ formatDate(post.date) }}
           </p>
 
@@ -193,12 +196,15 @@ useSeoMeta({
             :src="post.image"
             :alt="post.title"
             class="rounded-lg w-full h-[300px] sm:h-[400px] object-cover object-center"
-          />
+          >
           <div
             v-else
             class="rounded-lg w-full h-[200px] bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center"
           >
-            <UIcon name="lucide:file-text" class="text-primary/40 text-5xl" />
+            <UIcon
+              name="lucide:file-text"
+              class="text-primary/40 text-5xl"
+            />
           </div>
 
           <!-- Title -->
@@ -207,29 +213,41 @@ useSeoMeta({
           </h1>
 
           <!-- Excerpt -->
-          <p v-if="post.excerpt" class="text-muted text-center max-w-2xl mx-auto">
+          <p
+            v-if="post.excerpt"
+            class="text-muted text-center max-w-2xl mx-auto"
+          >
             {{ post.excerpt }}
           </p>
 
           <!-- Author -->
-          <div v-if="post.author" class="flex items-center justify-center gap-3 mt-2">
+          <div
+            v-if="post.author"
+            class="flex items-center justify-center gap-3 mt-2"
+          >
             <img
               v-if="post.author.avatar"
               :src="post.author.avatar"
               :alt="post.author.name"
               class="w-10 h-10 rounded-full object-cover ring-2 ring-default"
-            />
+            >
             <div
               v-else
               class="w-10 h-10 rounded-full bg-muted flex items-center justify-center ring-2 ring-default"
             >
-              <UIcon name="lucide:user" class="text-muted" />
+              <UIcon
+                name="lucide:user"
+                class="text-muted"
+              />
             </div>
             <span class="text-sm font-medium">{{ post.author.name }}</span>
           </div>
 
           <!-- Categories -->
-          <div v-if="post.categories?.length" class="flex flex-wrap gap-2 justify-center">
+          <div
+            v-if="post.categories?.length"
+            class="flex flex-wrap gap-2 justify-center"
+          >
             <span
               v-for="cat in post.categories"
               :key="cat._id"
