@@ -3,6 +3,9 @@ import type { SanityClient } from '@sanity/client'
 import { PortableText } from '@portabletext/vue'
 import { h, defineComponent } from 'vue'
 
+const localePath = useLocalePath()
+const { t } = useI18n()
+
 interface SanityPost {
   _id: string
   title: string
@@ -123,11 +126,11 @@ useSeoMeta({
     <UContainer class="relative min-h-screen">
       <UPage v-if="post">
         <ULink
-          to="/blog"
+          :to="localePath('/blog')"
           class="text-sm flex items-center gap-1 text-muted hover:text-highlighted transition-colors"
         >
           <UIcon name="lucide:chevron-left" />
-          Blog
+          {{ $t('blog.title') }}
         </ULink>
 
         <!-- Header -->
@@ -204,8 +207,8 @@ useSeoMeta({
               variant="link"
               color="neutral"
               icon="lucide:link"
-              label="Copy link"
-              @click="copyToClipboard(articleLink, 'Link copiado al portapapeles')"
+              :label="$t('blog.copyLink')"
+              @click="copyToClipboard(articleLink, t('blog.linkCopied'))"
             />
           </div>
 
@@ -216,12 +219,12 @@ useSeoMeta({
           >
             <NuxtLink
               v-if="surround?.prev"
-              :to="`/blog/${surround.prev.slug}`"
+              :to="localePath(`/blog/${surround.prev.slug}`)"
               class="flex flex-col gap-1 group"
             >
               <span class="text-xs text-muted flex items-center gap-1">
                 <UIcon name="lucide:chevron-left" />
-                Anterior
+                {{ $t('blog.prev') }}
               </span>
               <span class="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
                 {{ surround.prev.title }}
@@ -231,11 +234,11 @@ useSeoMeta({
 
             <NuxtLink
               v-if="surround?.next"
-              :to="`/blog/${surround.next.slug}`"
+              :to="localePath(`/blog/${surround.next.slug}`)"
               class="flex flex-col gap-1 text-right group"
             >
               <span class="text-xs text-muted flex items-center gap-1 justify-end">
-                Siguiente
+                {{ $t('blog.next') }}
                 <UIcon name="lucide:chevron-right" />
               </span>
               <span class="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">

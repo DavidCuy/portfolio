@@ -1,6 +1,16 @@
 {
   "welcome": "Welcome!",
   "message": "This is an example message.",
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Articles and publications",
+    "error": "Error loading posts.",
+    "empty": "No posts published yet.",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied to clipboard",
+    "prev": "Previous",
+    "next": "Next"
+  },
   "topbar": {
     "home": "Home",
     "projects": "Projects",

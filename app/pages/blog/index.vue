@@ -2,6 +2,9 @@
 import type { SanityClient } from '@sanity/client'
 import { useIntersectionObserver } from '@vueuse/core'
 
+const localePath = useLocalePath()
+const { t } = useI18n()
+
 interface SanityCategory {
   _id: string
   title: string
@@ -85,126 +88,104 @@ const formatDate = (dateString: string | null) => {
 }
 
 useSeoMeta({
-  title: 'Blog',
-  description: 'Artículos y publicaciones'
+  title: t('blog.title'),
+  description: t('blog.subtitle')
 })
 </script>
 
 <template>
-  <UMain class="mt-20 px-2">
-    <UContainer>
-      <div class="py-8 border-b border-default">
-        <h1 class="text-3xl font-bold">Blog</h1>
-        <p class="text-muted mt-1">Artículos y publicaciones</p>
-      </div>
+  <UMain class="mt-20">
+    <!-- Header -->
+    <div class="py-8 border-b border-default px-4">
+      <h1 class="text-3xl font-bold">{{ $t('blog.title') }}</h1>
+      <p class="text-muted mt-1">{{ $t('blog.subtitle') }}</p>
+    </div>
 
-      <div v-if="error" class="py-10 text-center text-red-500">
-        Error al cargar los posts.
-      </div>
+    <!-- Recommended topics -->
+    <div v-if="categories.length" class="px-4 py-4 border-b border-default flex flex-wrap gap-2">
+      <span
+        v-for="cat in categories"
+        :key="cat._id"
+        class="px-4 py-1.5 rounded-full bg-muted/60 text-sm font-medium cursor-pointer hover:bg-muted transition-colors"
+      >
+        {{ cat.title }}
+      </span>
+    </div>
 
-      <div v-else class="flex gap-10 pt-2">
-        <!-- Posts list -->
-        <div class="flex-1 min-w-0 divide-y divide-default">
-          <p v-if="!posts.length && !loadingMore" class="py-10 text-center text-muted">
-            No hay posts publicados aún.
+    <div v-if="error" class="py-10 text-center text-red-500 px-4">
+      {{ $t('blog.error') }}
+    </div>
+
+    <!-- Posts list -->
+    <div v-else class="divide-y divide-default px-4">
+      <p v-if="!posts.length && !loadingMore" class="py-10 text-center text-muted">
+        {{ $t('blog.empty') }}
+      </p>
+
+      <NuxtLink
+        v-for="post in posts"
+        :key="post._id"
+        :to="localePath(`/blog/${post.slug}`)"
+        class="flex items-start gap-6 py-8 group"
+      >
+        <!-- Left: content -->
+        <div class="flex-1 min-w-0 flex flex-col gap-2">
+          <!-- Author -->
+          <div v-if="post.author" class="flex items-center gap-2">
+            <img
+              v-if="post.author.avatar"
+              :src="post.author.avatar"
+              :alt="post.author.name"
+              class="w-6 h-6 rounded-full object-cover"
+            />
+            <div
+              v-else
+              class="w-6 h-6 rounded-full bg-muted flex items-center justify-center flex-shrink-0"
+            >
+              <UIcon name="lucide:user" class="text-xs text-muted" />
+            </div>
+            <span class="text-sm text-muted">{{ post.author.name }}</span>
+          </div>
+
+          <!-- Title -->
+          <h2 class="text-xl sm:text-2xl font-bold text-highlighted group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+            {{ post.title }}
+          </h2>
+
+          <!-- Excerpt -->
+          <p v-if="post.excerpt" class="text-base text-muted line-clamp-2 hidden sm:block">
+            {{ post.excerpt }}
           </p>
 
-          <NuxtLink
-            v-for="post in posts"
-            :key="post._id"
-            :to="`/blog/${post.slug}`"
-            class="flex items-start gap-4 py-6 group"
-          >
-            <!-- Left: content -->
-            <div class="flex-1 min-w-0 flex flex-col gap-2">
-              <!-- Author -->
-              <div v-if="post.author" class="flex items-center gap-2">
-                <img
-                  v-if="post.author.avatar"
-                  :src="post.author.avatar"
-                  :alt="post.author.name"
-                  class="w-5 h-5 rounded-full object-cover"
-                />
-                <div
-                  v-else
-                  class="w-5 h-5 rounded-full bg-muted flex items-center justify-center flex-shrink-0"
-                >
-                  <UIcon name="lucide:user" class="text-[10px] text-muted" />
-                </div>
-                <span class="text-sm text-muted">{{ post.author.name }}</span>
-              </div>
-
-              <!-- Title -->
-              <h2 class="text-base sm:text-xl font-bold text-highlighted group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-                {{ post.title }}
-              </h2>
-
-              <!-- Excerpt -->
-              <p v-if="post.excerpt" class="text-sm text-muted line-clamp-2 hidden sm:block">
-                {{ post.excerpt }}
-              </p>
-
-              <!-- Date -->
-              <span class="text-xs text-muted mt-auto pt-1">{{ formatDate(post.date) }}</span>
-            </div>
-
-            <!-- Right: thumbnail -->
-            <div class="w-20 h-16 sm:w-28 sm:h-20 flex-shrink-0 rounded overflow-hidden">
-              <img
-                v-if="post.image"
-                :src="post.image"
-                :alt="post.title"
-                class="w-full h-full object-cover"
-              />
-              <div
-                v-else
-                class="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center"
-              >
-                <UIcon name="lucide:file-text" class="text-primary/60 text-xl" />
-              </div>
-            </div>
-          </NuxtLink>
-
-          <!-- Infinite scroll sentinel -->
-          <div ref="sentinel" class="py-6 flex justify-center">
-            <UIcon
-              v-if="loadingMore"
-              name="lucide:loader-circle"
-              class="animate-spin text-muted text-xl"
-            />
-          </div>
+          <!-- Date -->
+          <span class="text-sm text-muted mt-auto pt-2">{{ formatDate(post.date) }}</span>
         </div>
 
-        <!-- Sidebar: categories (desktop only) -->
-        <aside v-if="categories.length" class="hidden lg:block w-64 flex-shrink-0">
-          <div class="sticky top-24 pt-6">
-            <h3 class="font-bold text-base mb-4">Recommended topics</h3>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="cat in categories"
-                :key="cat._id"
-                class="px-4 py-2 rounded-full bg-muted/60 text-sm font-medium cursor-pointer hover:bg-muted transition-colors"
-              >
-                {{ cat.title }}
-              </span>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-      <!-- Mobile: categories below posts -->
-      <div v-if="categories.length" class="lg:hidden mt-6 py-6 border-t border-default">
-        <h3 class="font-bold text-base mb-4">Recommended topics</h3>
-        <div class="flex flex-wrap gap-2">
-          <span
-            v-for="cat in categories"
-            :key="cat._id"
-            class="px-4 py-2 rounded-full bg-muted/60 text-sm font-medium"
+        <!-- Right: thumbnail -->
+        <div class="w-28 h-20 sm:w-40 sm:h-28 flex-shrink-0 rounded overflow-hidden">
+          <img
+            v-if="post.image"
+            :src="post.image"
+            :alt="post.title"
+            class="w-full h-full object-cover"
+          />
+          <div
+            v-else
+            class="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center"
           >
-            {{ cat.title }}
-          </span>
+            <UIcon name="lucide:file-text" class="text-primary/60 text-2xl" />
+          </div>
         </div>
+      </NuxtLink>
+
+      <!-- Infinite scroll sentinel -->
+      <div ref="sentinel" class="py-8 flex justify-center">
+        <UIcon
+          v-if="loadingMore"
+          name="lucide:loader-circle"
+          class="animate-spin text-muted text-xl"
+        />
       </div>
-    </UContainer>
+    </div>
   </UMain>
 </template>
