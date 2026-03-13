@@ -12,7 +12,8 @@ export function useNavLinks() {
       { label: t('topbar.home'), icon: 'i-lucide-home', to: `${prefix}/` },
       { label: t('topbar.projects'), icon: 'i-lucide-folder', to: `${prefix}/projects` },
       { label: t('topbar.services'), icon: 'i-lucide-briefcase', to: `${prefix}/services` },
-      { label: t('topbar.about'), icon: 'i-lucide-user', to: `${prefix}/about` }
+      { label: t('topbar.about'), icon: 'i-lucide-user', to: `${prefix}/about` },
+      { label: t('topbar.blog'), icon: 'i-lucide-file-text', to: `${prefix}/blog` }
     ]
   })
 }
