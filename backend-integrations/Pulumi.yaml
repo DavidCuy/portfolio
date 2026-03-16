@@ -1,0 +1,23 @@
+name: sync-personal-blog
+runtime:
+  name: python
+  options:
+    toolchain: poetry
+    virtualenv: venv
+description: |
+  Sistema de sincronización de blog personal
+
+main: .
+
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-python
+  
+  global:env: prod
+  global:app-name: sync-personal-blog
+  aws:region: us-east-1
+
+template:
+  description: |
+    Plantilla de proyecto para infraestructura en AWS utilizando Python y Pulumi.

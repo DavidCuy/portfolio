@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "sync_personal_blog"
+version = "0.1.0"
+description = "Sincronización de blog personal"
+authors = ["David Cuy"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+pulumi = "^3.191.0"
+pulumi-aws = "^7.6.0"
+
