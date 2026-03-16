@@ -51,15 +51,8 @@ class LambdaSyncBlogToPlatformsStack(pulumi.ComponentResource):
                 "ENVIRONMENT": environment,
                 "APP_NAME": app_name,
                 "LOG_LEVEL": "INFO",
-                "PUBLISH_PLATFORM": "devto",
-                "DEVTO_API_KEY": "sMoZC1VNWRyEm7aYk9uPzkUY",
-                "MEDIUM_INTEGRATION_TOKEN": "your_medium_integration_token_here",
-                "HASHNODE_ACCESS_TOKEN": "your_hashnode_access_token_here",
-                "HASHNODE_PUBLICATION_ID": "your_hashnode_publication_id_here",
-                "SANITY_TOKEN": "skw38XPcFJE46w85AF63eKHAkUt96EQ9iefpWff1au3BRNozErGtDxBznrKDlPjM5JJa5c1cVkbr8eGK72XrFDlCYR9WoFzQtAamKVpEHfBLVdhNp8ESSqMuScWmav6Gd4SUraiU9Sveu5rs502SSmxYAoH5xRPjId80CoQ8OMhUSJYzpiIp",
-                "SANITY_WEBHOOK_SECRET": "7AMgeutlmW+vunEoVkcYSZXFsxiRmdltqpmWUQCgWeM=",
-                "BLOG_BASE_URL": "https://davidcuy.github.io/es/blog"
-
+                # Las credenciales se leen en runtime desde AWS Secrets Manager:
+                # {environment}-{app_name}-secret-variables
             }),
             logging_config={
                 "log_format": "Text",

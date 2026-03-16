@@ -3,15 +3,22 @@ Lambda: Sanity Webhook → Plataforma de publicación
 ====================================================
 Trigger: API Gateway POST /publish
 
-Variables de entorno requeridas:
-  PUBLISH_PLATFORM      → plataformas separadas por coma: "devto" | "devto,medium" | "devto,medium,hashnode"
-  DEVTO_API_KEY         → solo si PUBLISH_PLATFORM incluye "devto"
+Variables de entorno requeridas (no sensibles):
+  ENVIRONMENT  → entorno de despliegue (ej: dev, prod)
+  APP_NAME     → nombre del proyecto (ej: portfolio)
+
+El resto de credenciales se leen automáticamente del secreto en AWS Secrets Manager:
+  {ENVIRONMENT}-{APP_NAME}-secret-variables
+
+Claves esperadas en el secreto:
+  PUBLISH_PLATFORM          → plataformas separadas por coma: "devto" | "devto,medium" | "devto,medium,hashnode"
+  DEVTO_API_KEY             → solo si PUBLISH_PLATFORM incluye "devto"
   MEDIUM_INTEGRATION_TOKEN  → solo si PUBLISH_PLATFORM incluye "medium"
   HASHNODE_ACCESS_TOKEN     → solo si PUBLISH_PLATFORM incluye "hashnode"
   HASHNODE_PUBLICATION_ID   → solo si PUBLISH_PLATFORM incluye "hashnode"
-  SANITY_TOKEN          → token de lectura de Sanity
-  SANITY_WEBHOOK_SECRET → secret del webhook de Sanity
-  BLOG_BASE_URL         → URL base del blog (ej: https://davidcuy.com/blog)
+  SANITY_TOKEN              → token de lectura de Sanity
+  SANITY_WEBHOOK_SECRET     → secret del webhook de Sanity
+  BLOG_BASE_URL             → URL base del blog (ej: https://davidcuy.com/blog)
 """
 
 from __future__ import annotations
@@ -28,11 +35,53 @@ import base64
 import json
 import logging
 
+import boto3
+from botocore.exceptions import ClientError
+
 from adapters import BlogPublisher
 from utils.sanity_client import fetch_post_from_sanity, verify_sanity_signature
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+
+# ---------------------------------------------------------------------------
+# Cache de secretos: se carga una vez por instancia Lambda (warm start)
+# ---------------------------------------------------------------------------
+_secrets_cache: dict | None = None
+
+
+def _load_secrets() -> dict:
+    """
+    Lee las credenciales desde AWS Secrets Manager.
+    El nombre del secreto se construye como: {ENVIRONMENT}-{APP_NAME}-secret-variables
+
+    El resultado se cachea en memoria para evitar llamadas repetidas en warm starts.
+    """
+    global _secrets_cache
+    if _secrets_cache is not None:
+        return _secrets_cache
+
+    environment = os.environ.get("ENVIRONMENT", "")
+    app_name = os.environ.get("APP_NAME", "")
+
+    if not environment or not app_name:
+        raise RuntimeError(
+            "Variables de entorno ENVIRONMENT y APP_NAME son requeridas para construir el nombre del secreto"
+        )
+
+    secret_name = f"{environment}-{app_name}-secret-variables"
+    logger.info(f"Cargando secreto: {secret_name}")
+
+    client = boto3.client("secretsmanager")
+    try:
+        response = client.get_secret_value(SecretId=secret_name)
+    except ClientError as e:
+        logger.error(f"Error al leer el secreto '{secret_name}': {e}")
+        raise RuntimeError(f"No se pudo leer el secreto '{secret_name}'") from e
+
+    _secrets_cache = json.loads(response["SecretString"])
+    logger.info(f"Secreto '{secret_name}' cargado correctamente")
+    return _secrets_cache
 
 
 # ---------------------------------------------------------------------------
@@ -47,26 +96,26 @@ def _response(status_code: int, body: dict) -> dict:
     }
 
 
-def _build_publisher(platform: str) -> BlogPublisher:
-    """Instancia un BlogPublisher para la plataforma dada leyendo credenciales del entorno."""
+def _build_publisher(platform: str, secrets: dict) -> BlogPublisher:
+    """Instancia un BlogPublisher para la plataforma dada leyendo credenciales del secreto."""
     if platform == "devto":
-        api_key = os.environ.get("DEVTO_API_KEY", "")
+        api_key = secrets.get("DEVTO_API_KEY", "")
         if not api_key:
-            raise EnvironmentError("Falta variable de entorno: DEVTO_API_KEY")
+            raise EnvironmentError("Falta clave en el secreto: DEVTO_API_KEY")
         return BlogPublisher("devto", api_key=api_key)
 
     if platform == "medium":
-        token = os.environ.get("MEDIUM_INTEGRATION_TOKEN", "")
+        token = secrets.get("MEDIUM_INTEGRATION_TOKEN", "")
         if not token:
-            raise EnvironmentError("Falta variable de entorno: MEDIUM_INTEGRATION_TOKEN")
+            raise EnvironmentError("Falta clave en el secreto: MEDIUM_INTEGRATION_TOKEN")
         return BlogPublisher("medium", integration_token=token)
 
     if platform == "hashnode":
-        token = os.environ.get("HASHNODE_ACCESS_TOKEN", "")
-        pub_id = os.environ.get("HASHNODE_PUBLICATION_ID", "")
+        token = secrets.get("HASHNODE_ACCESS_TOKEN", "")
+        pub_id = secrets.get("HASHNODE_PUBLICATION_ID", "")
         if not token or not pub_id:
             raise EnvironmentError(
-                "Faltan variables de entorno: HASHNODE_ACCESS_TOKEN, HASHNODE_PUBLICATION_ID"
+                "Faltan claves en el secreto: HASHNODE_ACCESS_TOKEN, HASHNODE_PUBLICATION_ID"
             )
         return BlogPublisher("hashnode", access_token=token, publication_id=pub_id)
 
@@ -96,17 +145,24 @@ def _parse_platforms(raw: str) -> list[str]:
 # ---------------------------------------------------------------------------
 
 def lambda_handler(event: dict, context) -> dict:
-    platforms_raw  = os.environ.get("PUBLISH_PLATFORM", "devto")
-    sanity_token   = os.environ.get("SANITY_TOKEN", "")
-    webhook_secret = os.environ.get("SANITY_WEBHOOK_SECRET", "")
-    blog_base_url  = os.environ.get("BLOG_BASE_URL", "https://davidcuy.com/blog")
+    # ── Cargar credenciales desde Secrets Manager ──────────────────────────
+    try:
+        secrets = _load_secrets()
+    except RuntimeError as e:
+        logger.error(str(e))
+        return _response(500, {"error": "Server misconfigured", "detail": str(e)})
+
+    platforms_raw  = secrets.get("PUBLISH_PLATFORM", "devto")
+    sanity_token   = secrets.get("SANITY_TOKEN", "")
+    webhook_secret = secrets.get("SANITY_WEBHOOK_SECRET", "")
+    blog_base_url  = secrets.get("BLOG_BASE_URL", "https://davidcuy.com/blog")
 
     # ── Construir publishers (falla rápido si falta alguna credencial) ─────
     platforms = _parse_platforms(platforms_raw)
     publishers: list[BlogPublisher] = []
     for platform in platforms:
         try:
-            publishers.append(_build_publisher(platform))
+            publishers.append(_build_publisher(platform, secrets))
         except (EnvironmentError, ValueError) as e:
             logger.error(str(e))
             return _response(500, {"error": "Server misconfigured", "detail": str(e)})
