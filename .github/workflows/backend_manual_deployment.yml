@@ -1,0 +1,75 @@
+name: Backend - Deploy Manual Stack
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'prod'
+        type: environment
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    env:
+      APP_NAME: sync-personal-blog
+      ENVIRONMENT: ${{ github.event.inputs.environment }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_ASSUMED_ROLE: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      PULUMI_STACK: ${{ github.event.inputs.environment }}
+      PULUMI_BUCKET: ${{ secrets.PULUMI_BUCKET }}
+      PULUMI_KMS_ALIAS: ${{ secrets.PULUMI_KMS_ALIAS }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install poetry==2.0.0
+          cd backend-integrations
+          python -m venv venv
+          source venv/bin/activate
+          poetry install
+          pip install sphinx
+  
+      - name: Setup Pulumi
+        uses: pulumi/setup-pulumi@v2
+
+      - name: Login to Pulumi (local or S3)
+        run: pulumi login s3://${{ env.PULUMI_BUCKET }}
+
+      - name: Select or Init stack
+        run: |
+            set -euo pipefail
+            cd backend-integrations
+
+            if pulumi stack select $PULUMI_STACK -C . ; then
+                echo "Stack encontrado: $PULUMI_STACK"
+            else
+                echo "Stack no existe; creando con KMS provider..."
+                pulumi stack init $PULUMI_STACK -C . --secrets-provider="awskms://alias/$PULUMI_KMS_ALIAS"
+            fi
+
+            pulumi stack change-secrets-provider "awskms://alias/$PULUMI_KMS_ALIAS" -C . --non-interactive
+
+      - name: Set config
+        run: |
+          cd backend-integrations
+          pulumi config set project:env $ENVIRONMENT
+          pulumi config set aws:region $AWS_REGION
+      - name: Deploy infra
+        run: |
+          cd backend-integrations
+          pulumi up --yes
