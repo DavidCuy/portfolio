@@ -23,3 +23,30 @@
     background-color: #474747;
   }
 }
+
+/* Shiki syntax highlighting — dual theme (light / dark) */
+.shiki-wrapper .shiki {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  margin: 0;
+  background-color: var(--shiki-light-bg) !important;
+}
+.shiki-wrapper.rounded-t-none .shiki {
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+.shiki-wrapper .shiki span {
+  color: var(--shiki-light) !important;
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+}
+.dark .shiki-wrapper .shiki {
+  background-color: var(--shiki-dark-bg) !important;
+}
+.dark .shiki-wrapper .shiki span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SanityClient } from '@sanity/client'
 import { PortableText } from '@portabletext/vue'
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, onMounted } from 'vue'
 
 const localePath = useLocalePath()
 const { t } = useI18n()
@@ -105,6 +105,30 @@ const ptComponents = {
       }
     })
   },
+  list: {
+    bullet: defineComponent({
+      setup(_, { slots }) {
+        return () => h('ul', { class: 'list-disc list-outside pl-6 mb-5 space-y-1' }, slots.default?.())
+      }
+    }),
+    number: defineComponent({
+      setup(_, { slots }) {
+        return () => h('ol', { class: 'list-decimal list-outside pl-6 mb-5 space-y-1' }, slots.default?.())
+      }
+    })
+  },
+  listItem: {
+    bullet: defineComponent({
+      setup(_, { slots }) {
+        return () => h('li', { class: 'leading-relaxed' }, slots.default?.())
+      }
+    }),
+    number: defineComponent({
+      setup(_, { slots }) {
+        return () => h('li', { class: 'leading-relaxed' }, slots.default?.())
+      }
+    })
+  },
   marks: {
     strong: defineComponent({
       setup(_, { slots }) {
@@ -144,6 +168,45 @@ const ptComponents = {
               class: 'rounded-lg w-full my-6 object-cover'
             })
           : null
+      }
+    }),
+    code: defineComponent({
+      props: { value: { type: Object } },
+      setup(props) {
+        const highlightedHtml = ref('')
+
+        onMounted(async () => {
+          const { codeToHtml } = await import('shiki')
+          const lang = props.value?.language || 'text'
+          const code = props.value?.code || ''
+          const highlight = (l: string) => codeToHtml(code, {
+            lang: l,
+            themes: { light: 'github-light', dark: 'github-dark' },
+            defaultColor: false,
+          })
+          try {
+            highlightedHtml.value = await highlight(lang)
+          } catch {
+            highlightedHtml.value = await highlight('text')
+          }
+        })
+
+        return () => h('div', { class: 'relative my-6 not-prose' }, [
+          props.value?.filename && h('div', {
+            class: 'px-4 py-2 text-xs font-mono border-b border-default text-muted bg-muted/40 rounded-t-lg'
+          }, props.value.filename),
+          highlightedHtml.value
+            ? h('div', {
+                innerHTML: highlightedHtml.value,
+                class: props.value?.filename ? 'shiki-wrapper rounded-t-none' : 'shiki-wrapper',
+              })
+            : h('pre', {
+                class: [
+                  'overflow-x-auto p-4 text-sm font-mono leading-relaxed bg-muted/40 border border-default',
+                  props.value?.filename ? 'rounded-b-lg' : 'rounded-lg'
+                ]
+              }, [h('code', {}, props.value?.code || '')])
+        ])
       }
     })
   }
