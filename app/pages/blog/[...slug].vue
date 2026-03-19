@@ -72,7 +72,8 @@ const { data: surround } = await useAsyncData(`surround-${slug}`, () =>
 )
 
 // Portable Text: custom components for blocks, marks, and types
-const ptComponents = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ptComponents: any = {
   block: {
     h1: defineComponent({
       setup(_, { slots }) {
@@ -167,6 +168,19 @@ const ptComponents = {
               alt: props.value.alt || '',
               class: 'rounded-lg w-full my-6 object-cover'
             })
+          : null
+      }
+    }),
+    customHtml: defineComponent({
+      props: { value: { type: Object } },
+      setup(props) {
+        return () => props.value?.html
+          ? h('figure', { class: 'my-6 not-prose' }, [
+              h('div', { innerHTML: props.value.html }),
+              props.value.caption && h('figcaption', {
+                class: 'mt-2 text-center text-xs text-muted'
+              }, props.value.caption)
+            ])
           : null
       }
     }),
