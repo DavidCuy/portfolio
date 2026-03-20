@@ -47,16 +47,6 @@ query GetPost($publicationId: ObjectId!, $slug: String!) {
 }
 """
 
-_QUERY_SEARCH_TAGS = """
-query SearchTags($query: String!) {
-  searchTags(query: $query) {
-    id
-    name
-    slug
-  }
-}
-"""
-
 
 class HashnodeAdapter(PublishingAdapter):
     """
@@ -107,35 +97,6 @@ class HashnodeAdapter(PublishingAdapter):
             logger.warning(f"Error buscando post en Hashnode (slug={slug!r}): {e}")
             return None
 
-    def _resolve_tags(self, categories: list[dict]) -> list[dict]:
-        """
-        Intenta resolver las categorías del post como tags de Hashnode.
-        Busca por nombre; si no hay coincidencia exacta, omite la categoría.
-        Devuelve lista de {id: ...} lista para usar en la mutation.
-        """
-        tags: list[dict] = []
-        for cat in categories:
-            name = cat.get("title", "").strip()
-            if not name:
-                continue
-            slug = name.lower().replace(" ", "-")
-            try:
-                data = self._gql(_QUERY_SEARCH_TAGS, {"query": name})
-                results: list[dict] = data.get("searchTags") or []
-                match = next(
-                    (t for t in results
-                     if t.get("slug") == slug
-                     or t.get("name", "").lower() == name.lower()),
-                    None,
-                )
-                if match:
-                    tags.append({"id": match["id"]})
-                else:
-                    logger.info(f"Tag no encontrado en Hashnode: {name!r}")
-            except Exception as e:
-                logger.warning(f"Error resolviendo tag {name!r}: {e}")
-        return tags
-
     def render(self, post: dict, blog_base_url: str) -> dict:
         """
         Construye el input para PublishPostInput / UpdatePostInput.
@@ -143,14 +104,12 @@ class HashnodeAdapter(PublishingAdapter):
         """
         slug = post.get("slug", "")
         title = post.get("title", "")
-        categories = post.get("categories") or []
         image_url = post.get("image", "")
         excerpt = post.get("excerpt", "")
         published_at = post.get("date", "")
 
         canonical_url = f"{blog_base_url.rstrip('/')}/{slug}" if slug else ""
         markdown_body = portable_text_to_markdown(post.get("body", []))
-        tags = self._resolve_tags(categories)
 
         payload: dict = {
             "title": title,
@@ -165,8 +124,6 @@ class HashnodeAdapter(PublishingAdapter):
             payload["subtitle"] = excerpt
         if image_url:
             payload["coverImageOptions"] = {"coverImageURL": image_url}
-        if tags:
-            payload["tags"] = tags
         if published_at:
             payload["publishedAt"] = published_at
 
@@ -182,7 +139,6 @@ class HashnodeAdapter(PublishingAdapter):
             'slug': input_data.get('slug'),
             'canonical_url': input_data.get('originalArticleURL'),
             'has_cover': bool(input_data.get('coverImageOptions')),
-            'tags_count': len(input_data.get('tags', [])),
             'body_length': len(input_data.get('contentMarkdown', '')),
         })}")
 
