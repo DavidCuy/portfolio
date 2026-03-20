@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 
 from adapters.base import PublishingAdapter
 from utils.http_client import http_get, http_post, http_put
@@ -57,7 +58,7 @@ class DevToAdapter(PublishingAdapter):
 
         # Tags: máximo 4, solo letras/números (requisito Dev.to)
         tags = [
-            c["title"].lower().replace(" ", "").replace("-", "")[:20]
+            re.sub(r"[^a-z0-9]", "", c["title"].lower())[:20]
             for c in categories if c.get("title")
         ][:4]
 
