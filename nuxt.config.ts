@@ -18,7 +18,16 @@ export default defineNuxtConfig({
   },
 
   app: {
-    baseURL: '/'
+    baseURL: '/',
+    head: {
+      script: [
+        {
+          src: 'https://cloud.umami.is/script.js',
+          'data-website-id': 'c7c52c95-4a75-4329-a207-212c600b910e',
+          defer: true,
+        },
+      ]
+    }
   },
 
   css: ['~/assets/css/main.css'],
