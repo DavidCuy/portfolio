@@ -188,11 +188,25 @@ const ptComponents: any = {
       props: { value: { type: Object } },
       setup(props) {
         const highlightedHtml = ref('')
+        const colorMode = useColorMode()
 
         onMounted(async () => {
-          const { codeToHtml } = await import('shiki')
           const lang = props.value?.language || 'text'
           const code = props.value?.code || ''
+
+          if (lang === 'mermaid') {
+            const mermaid = (await import('mermaid')).default
+            mermaid.initialize({
+              startOnLoad: false,
+              theme: colorMode.value === 'dark' ? 'dark' : 'default',
+            })
+            const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`
+            const { svg } = await mermaid.render(id, code)
+            highlightedHtml.value = svg
+            return
+          }
+
+          const { codeToHtml } = await import('shiki')
           const highlight = (l: string) => codeToHtml(code, {
             lang: l,
             themes: { light: 'github-light', dark: 'github-dark' },
@@ -205,22 +219,35 @@ const ptComponents: any = {
           }
         })
 
-        return () => h('div', { class: 'relative my-6 not-prose' }, [
-          props.value?.filename && h('div', {
-            class: 'px-4 py-2 text-xs font-mono border-b border-default text-muted bg-muted/40 rounded-t-lg'
-          }, props.value.filename),
-          highlightedHtml.value
-            ? h('div', {
-                innerHTML: highlightedHtml.value,
-                class: props.value?.filename ? 'shiki-wrapper rounded-t-none' : 'shiki-wrapper',
-              })
-            : h('pre', {
-                class: [
-                  'overflow-x-auto p-4 text-sm font-mono leading-relaxed bg-muted/40 border border-default',
-                  props.value?.filename ? 'rounded-b-lg' : 'rounded-lg'
-                ]
-              }, [h('code', {}, props.value?.code || '')])
-        ])
+        return () => {
+          const lang = props.value?.language || 'text'
+
+          if (lang === 'mermaid') {
+            return highlightedHtml.value
+              ? h('figure', {
+                  class: 'my-6 not-prose flex justify-center overflow-x-auto',
+                  innerHTML: highlightedHtml.value,
+                })
+              : h('div', { class: 'my-6 flex justify-center py-4 text-sm text-muted' }, 'Cargando diagrama...')
+          }
+
+          return h('div', { class: 'relative my-6 not-prose' }, [
+            props.value?.filename && h('div', {
+              class: 'px-4 py-2 text-xs font-mono border-b border-default text-muted bg-muted/40 rounded-t-lg'
+            }, props.value.filename),
+            highlightedHtml.value
+              ? h('div', {
+                  innerHTML: highlightedHtml.value,
+                  class: props.value?.filename ? 'shiki-wrapper rounded-t-none' : 'shiki-wrapper',
+                })
+              : h('pre', {
+                  class: [
+                    'overflow-x-auto p-4 text-sm font-mono leading-relaxed bg-muted/40 border border-default',
+                    props.value?.filename ? 'rounded-b-lg' : 'rounded-lg'
+                  ]
+                }, [h('code', {}, props.value?.code || '')])
+          ])
+        }
       }
     })
   }
