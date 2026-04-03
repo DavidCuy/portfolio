@@ -69,12 +69,12 @@ export default defineNuxtConfig({
 
   icon: {
     serverBundle: {
-      collections: ['lucide', 'simple-icons'],
+      collections: ['lucide', 'simple-icons', 'flag'],
     },
     fallbackToApi: false,
     clientBundle: {
       scan: true,
-      icons: ['lucide:sun', 'lucide:moon'],
+      icons: ['lucide:sun', 'lucide:moon', 'flag:us-4x3', 'flag:mx-4x3'],
     },
   },
 
