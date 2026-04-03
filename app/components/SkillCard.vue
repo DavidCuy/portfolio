@@ -20,6 +20,8 @@ const props = defineProps<Props>()
         <img
           :src="props.image.src"
           :alt="props.image.alt"
+          width="80"
+          height="80"
         >
       </div>
 

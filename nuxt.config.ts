@@ -20,6 +20,9 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/',
     head: {
+      link: [
+        { rel: 'preconnect', href: 'https://api.iconify.design' }
+      ],
       script: [
         {
           src: 'https://cloud.umami.is/script.js',
