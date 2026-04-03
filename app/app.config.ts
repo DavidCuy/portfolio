@@ -1,8 +1,8 @@
 export default defineAppConfig({
   global: {
     picture: {
-      dark: '/avatar/coding-dark.png',
-      light: '/avatar/coding-light.png',
+      dark: '/avatar/coding-dark.webp',
+      light: '/avatar/coding-light.webp',
       alt: 'My profile picture'
     },
     meeting: {
