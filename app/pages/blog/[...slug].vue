@@ -72,6 +72,60 @@ const { data: surround } = await useAsyncData(`surround-${slug}`, () =>
 )
 
 // Portable Text: custom components for blocks, marks, and types
+// Singleton Shiki highlighter — carga solo los lenguajes necesarios en lugar del bundle completo (~300 langs)
+const SUPPORTED_LANGS = [
+  'javascript', 'typescript', 'jsx', 'tsx',
+  'python', 'bash', 'shell', 'sh', 'zsh',
+  'html', 'css', 'json', 'yaml', 'toml',
+  'go', 'rust', 'java', 'sql',
+  'markdown', 'vue', 'xml', 'dockerfile',
+]
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let highlighterPromise: Promise<any> | null = null
+
+function getShikiHighlighter() {
+  if (!highlighterPromise) {
+    highlighterPromise = Promise.all([
+      import('shiki/core'),
+      import('shiki/engine/oniguruma'),
+    ]).then(([{ createHighlighterCore }, { createOnigurumaEngine }]) =>
+      createHighlighterCore({
+        themes: [
+          import('@shikijs/themes/github-light'),
+          import('@shikijs/themes/github-dark'),
+        ],
+        langs: [
+          import('@shikijs/langs/javascript'),
+          import('@shikijs/langs/typescript'),
+          import('@shikijs/langs/jsx'),
+          import('@shikijs/langs/tsx'),
+          import('@shikijs/langs/python'),
+          import('@shikijs/langs/bash'),
+          import('@shikijs/langs/shell'),
+          import('@shikijs/langs/sh'),
+          import('@shikijs/langs/zsh'),
+          import('@shikijs/langs/html'),
+          import('@shikijs/langs/css'),
+          import('@shikijs/langs/json'),
+          import('@shikijs/langs/yaml'),
+          import('@shikijs/langs/toml'),
+          import('@shikijs/langs/go'),
+          import('@shikijs/langs/rust'),
+          import('@shikijs/langs/java'),
+          import('@shikijs/langs/sql'),
+          import('@shikijs/langs/markdown'),
+          import('@shikijs/langs/vue'),
+          import('@shikijs/langs/xml'),
+          import('@shikijs/langs/dockerfile'),
+        ],
+        engine: createOnigurumaEngine(import('shiki/wasm')),
+      })
+    )
+  }
+  return highlighterPromise
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ptComponents: any = {
   block: {
@@ -206,16 +260,14 @@ const ptComponents: any = {
             return
           }
 
-          const { codeToHtml } = await import('shiki')
-          const highlight = (l: string) => codeToHtml(code, {
-            lang: l,
-            themes: { light: 'github-light', dark: 'github-dark' },
-            defaultColor: false,
-          })
-          try {
-            highlightedHtml.value = await highlight(lang)
-          } catch {
-            highlightedHtml.value = await highlight('text')
+          const safeLang = SUPPORTED_LANGS.includes(lang) ? lang : null
+          if (safeLang) {
+            const highlighter = await getShikiHighlighter()
+            highlightedHtml.value = highlighter.codeToHtml(code, {
+              lang: safeLang,
+              themes: { light: 'github-light', dark: 'github-dark' },
+              defaultColor: false,
+            })
           }
         })
 
