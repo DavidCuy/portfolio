@@ -20,9 +20,7 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/',
     head: {
-      link: [
-        { rel: 'preconnect', href: 'https://api.iconify.design' }
-      ],
+      link: [],
       script: [
         {
           src: 'https://cloud.umami.is/script.js',
@@ -67,6 +65,13 @@ export default defineNuxtConfig({
 
     langDir: 'locales/',
     vueI18n: './i18n.config.ts'
+  },
+
+  icon: {
+    serverBundle: false,
+    clientBundle: {
+      scan: true,
+    },
   },
 
   image: {
