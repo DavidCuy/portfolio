@@ -78,22 +78,21 @@ const SUPPORTED_LANGS = [
   'python', 'bash', 'shell', 'sh', 'zsh',
   'html', 'css', 'json', 'yaml', 'toml',
   'go', 'rust', 'java', 'sql',
-  'markdown', 'vue', 'xml', 'dockerfile',
+  'markdown', 'vue', 'xml', 'dockerfile'
 ]
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let highlighterPromise: Promise<any> | null = null
 
 function getShikiHighlighter() {
   if (!highlighterPromise) {
     highlighterPromise = Promise.all([
       import('shiki/core'),
-      import('shiki/engine/oniguruma'),
+      import('shiki/engine/oniguruma')
     ]).then(([{ createHighlighterCore }, { createOnigurumaEngine }]) =>
       createHighlighterCore({
         themes: [
           import('@shikijs/themes/github-light'),
-          import('@shikijs/themes/github-dark'),
+          import('@shikijs/themes/github-dark')
         ],
         langs: [
           import('@shikijs/langs/javascript'),
@@ -117,16 +116,15 @@ function getShikiHighlighter() {
           import('@shikijs/langs/markdown'),
           import('@shikijs/langs/vue'),
           import('@shikijs/langs/xml'),
-          import('@shikijs/langs/dockerfile'),
+          import('@shikijs/langs/dockerfile')
         ],
-        engine: createOnigurumaEngine(import('shiki/wasm')),
+        engine: createOnigurumaEngine(import('shiki/wasm'))
       })
     )
   }
   return highlighterPromise
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ptComponents: any = {
   block: {
     h1: defineComponent({
@@ -252,7 +250,7 @@ const ptComponents: any = {
             const mermaid = (await import('mermaid')).default
             mermaid.initialize({
               startOnLoad: false,
-              theme: colorMode.value === 'dark' ? 'dark' : 'default',
+              theme: colorMode.value === 'dark' ? 'dark' : 'default'
             })
             const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`
             const { svg } = await mermaid.render(id, code)
@@ -266,7 +264,7 @@ const ptComponents: any = {
             highlightedHtml.value = highlighter.codeToHtml(code, {
               lang: safeLang,
               themes: { light: 'github-light', dark: 'github-dark' },
-              defaultColor: false,
+              defaultColor: false
             })
           }
         })
@@ -278,7 +276,7 @@ const ptComponents: any = {
             return highlightedHtml.value
               ? h('figure', {
                   class: 'my-6 not-prose flex justify-center overflow-x-auto',
-                  innerHTML: highlightedHtml.value,
+                  innerHTML: highlightedHtml.value
                 })
               : h('div', { class: 'my-6 flex justify-center py-4 text-sm text-muted' }, 'Cargando diagrama...')
           }
@@ -290,7 +288,7 @@ const ptComponents: any = {
             highlightedHtml.value
               ? h('div', {
                   innerHTML: highlightedHtml.value,
-                  class: props.value?.filename ? 'shiki-wrapper rounded-t-none' : 'shiki-wrapper',
+                  class: props.value?.filename ? 'shiki-wrapper rounded-t-none' : 'shiki-wrapper'
                 })
               : h('pre', {
                   class: [

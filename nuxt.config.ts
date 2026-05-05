@@ -23,10 +23,10 @@ export default defineNuxtConfig({
       link: [],
       script: [
         {
-          src: 'https://cloud.umami.is/script.js',
+          'src': 'https://cloud.umami.is/script.js',
           'data-website-id': 'c7c52c95-4a75-4329-a207-212c600b910e',
-          defer: true,
-        },
+          'defer': true
+        }
       ]
     }
   },
@@ -47,8 +47,8 @@ export default defineNuxtConfig({
       'prerender:routes': async (routes) => {
         try {
           const res = await fetch(
-            'https://my6ptkxm.apicdn.sanity.io/v2024-01-01/data/query/production?query=' +
-            encodeURIComponent('*[_type=="post" && defined(slug.current)]{"slug":slug.current}')
+            'https://my6ptkxm.apicdn.sanity.io/v2024-01-01/data/query/production?query='
+            + encodeURIComponent('*[_type=="post" && defined(slug.current)]{"slug":slug.current}')
           )
           const { result } = await res.json() as { result: { slug: string }[] }
           for (const p of result) {
@@ -87,13 +87,13 @@ export default defineNuxtConfig({
 
   icon: {
     serverBundle: {
-      collections: ['lucide', 'simple-icons', 'flag'],
+      collections: ['lucide', 'simple-icons', 'flag']
     },
     fallbackToApi: false,
     clientBundle: {
       scan: true,
-      icons: ['lucide:sun', 'lucide:moon', 'flag:us-4x3', 'flag:mx-4x3'],
-    },
+      icons: ['lucide:sun', 'lucide:moon', 'flag:us-4x3', 'flag:mx-4x3']
+    }
   },
 
   image: {
