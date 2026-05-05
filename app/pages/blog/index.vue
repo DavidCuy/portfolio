@@ -40,20 +40,28 @@ const POSTS_QUERY = `*[_type == "post"] | order(publishedAt desc) [$start...$end
 
 const CATEGORIES_QUERY = `*[_type == "category"] | order(title asc) { _id, title }`
 
-const { data: initialData, error } = await useAsyncData('sanity-blog', async () => {
-  const [posts, categories] = await Promise.all([
-    sanity.fetch<SanityPost[]>(POSTS_QUERY, { start: 0, end: PAGE_SIZE }),
-    sanity.fetch<SanityCategory[]>(CATEGORIES_QUERY)
-  ])
-  return { posts, categories }
-}, { server: false })
-
-const posts = ref<SanityPost[]>(initialData.value?.posts || [])
-const categories = ref<SanityCategory[]>(initialData.value?.categories || [])
-const offset = ref(PAGE_SIZE)
-const hasMore = ref((initialData.value?.posts?.length || 0) >= PAGE_SIZE)
+const posts = ref<SanityPost[]>([])
+const categories = ref<SanityCategory[]>([])
+const offset = ref(0)
+const hasMore = ref(true)
 const loadingMore = ref(false)
+const error = ref<unknown>(null)
 const sentinel = ref<HTMLElement | null>(null)
+
+onMounted(async () => {
+  try {
+    const [initPosts, initCats] = await Promise.all([
+      sanity.fetch<SanityPost[]>(POSTS_QUERY, { start: 0, end: PAGE_SIZE }),
+      sanity.fetch<SanityCategory[]>(CATEGORIES_QUERY)
+    ])
+    posts.value = initPosts
+    categories.value = initCats
+    offset.value = PAGE_SIZE
+    hasMore.value = initPosts.length >= PAGE_SIZE
+  } catch (err) {
+    error.value = err
+  }
+})
 
 const loadMore = async () => {
   if (loadingMore.value || !hasMore.value) return
