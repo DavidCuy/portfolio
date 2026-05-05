@@ -42,6 +42,24 @@ export default defineNuxtConfig({
       ],
       crawlLinks: true,
       failOnError: false
+    },
+    hooks: {
+      'prerender:routes': async (routes) => {
+        try {
+          const res = await fetch(
+            'https://my6ptkxm.apicdn.sanity.io/v2024-01-01/data/query/production?query=' +
+            encodeURIComponent('*[_type=="post" && defined(slug.current)]{"slug":slug.current}')
+          )
+          const { result } = await res.json() as { result: { slug: string }[] }
+          for (const p of result) {
+            routes.add(`/blog/${p.slug}`)
+            routes.add(`/es/blog/${p.slug}`)
+          }
+          console.log(`[prerender] Added ${result.length * 2} blog post routes from Sanity`)
+        } catch (err) {
+          console.warn('[prerender] Failed to fetch Sanity slugs:', err)
+        }
+      }
     }
   },
 

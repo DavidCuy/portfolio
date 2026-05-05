@@ -46,7 +46,7 @@ const { data: initialData, error } = await useAsyncData('sanity-blog', async () 
     sanity.fetch<SanityCategory[]>(CATEGORIES_QUERY)
   ])
   return { posts, categories }
-})
+}, { server: false })
 
 const posts = ref<SanityPost[]>(initialData.value?.posts || [])
 const categories = ref<SanityCategory[]>(initialData.value?.categories || [])
