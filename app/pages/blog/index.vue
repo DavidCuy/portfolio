@@ -85,7 +85,7 @@ useSeoMeta({
       <div class="blog-hero">
         <div>
           <div class="hero-eyebrow">
-{{ t('blog.eyebrow') }}
+            {{ t('blog.eyebrow') }}
           </div>
           <h1>{{ t('blog.h1') }}</h1>
           <p>{{ t('blog.subtitle') }}</p>

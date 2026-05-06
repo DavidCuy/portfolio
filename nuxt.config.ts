@@ -17,9 +17,9 @@ export default defineNuxtConfig({
     baseURL: '/',
     head: {
       link: [
-        {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
-        {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: ''},
-        {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..900;1,300..900&display=swap'}
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..900;1,300..900&display=swap' }
       ],
       script: [
         {
@@ -93,7 +93,6 @@ export default defineNuxtConfig({
       scan: true,
       icons: ['lucide:sun', 'lucide:moon', 'flag:us-4x3', 'flag:mx-4x3']
     }
-  },
-
+  }
 
 })

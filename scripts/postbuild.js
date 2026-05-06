@@ -28,14 +28,14 @@ async function generateRss() {
   const { result } = await res.json()
   if (!result?.length) throw new Error('No posts returned')
 
-  const escape = (s) => String(s ?? '')
+  const escape = s => String(s ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;')
 
-  const items = result.map((p) => `    <item>
+  const items = result.map(p => `    <item>
       <title>${escape(p.title)}</title>
       <link>${SITE_URL}/blog/${p.slug}</link>
       <guid isPermaLink="true">${SITE_URL}/blog/${p.slug}</guid>

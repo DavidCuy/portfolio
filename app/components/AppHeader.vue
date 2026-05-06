@@ -15,7 +15,9 @@ onMounted(() => {
   onUnmounted(() => window.removeEventListener('scroll', onScroll))
 })
 
-watch(() => route.path, () => { menuOpen.value = false })
+watch(() => route.path, () => {
+  menuOpen.value = false
+})
 
 const links = computed(() => [
   { id: 'home', label: t('nav.home'), to: localePath('/') },
