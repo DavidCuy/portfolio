@@ -18,6 +18,16 @@ const localePath = useLocalePath()
 const { data } = await useAsyncData('site-cta', () =>
   sanity.fetch<CtaData | null>(groq`*[_type=="settings"][0]{ cta }`)
 )
+
+const isExternal = (url?: string) => !!url && /^https?:\/\//.test(url)
+const primaryTo = computed(() => {
+  const u = data.value?.cta?.primary?.to
+  return u && !isExternal(u) ? localePath(u) : undefined
+})
+const primaryHref = computed(() => {
+  const u = data.value?.cta?.primary?.to
+  return isExternal(u) ? u : undefined
+})
 </script>
 
 <template>
@@ -30,8 +40,8 @@ const { data } = await useAsyncData('site-cta', () =>
       :headline="localized(data.cta.headline)"
       :body="localized(data.cta.body)"
       :primary-label="localized(data.cta.primary?.label) || 'Book a call'"
-      :primary-to="data.cta.primary?.to && !/^https?:\/\//.test(data.cta.primary.to) ? localePath(data.cta.primary.to) : undefined"
-      :primary-href="data.cta.primary?.to && /^https?:\/\//.test(data.cta.primary.to) ? data.cta.primary.to : undefined"
+      :primary-to="primaryTo"
+      :primary-href="primaryHref"
       :secondary-note="localized(data.cta.secondaryNote)"
     />
   </section>

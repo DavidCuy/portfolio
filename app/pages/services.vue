@@ -43,6 +43,16 @@ const bulletsFor = (s: Service) => {
   return (locale.value === 'es' ? list.es : list.en) || []
 }
 
+const isExternal = (url?: string) => !!url && /^https?:\/\//.test(url)
+const ctaPrimaryTo = computed(() => {
+  const u = data.value?.cta?.primary?.to
+  return u && !isExternal(u) ? localePath(u) : undefined
+})
+const ctaPrimaryHref = computed(() => {
+  const u = data.value?.cta?.primary?.to
+  return isExternal(u) ? u : undefined
+})
+
 useSeoMeta({
   title: t('services.seoTitle', 'Services · David Cuy'),
   description: t('services.seoDescription', 'Three ways to work together. Architecture review, fractional tech leadership, new system design.')
@@ -122,8 +132,8 @@ useSeoMeta({
         :headline="localized(data.cta.headline)"
         :body="localized(data.cta.body)"
         :primary-label="localized(data.cta.primary?.label) || 'Book a call'"
-        :primary-to="data.cta.primary?.to && !/^https?:\/\//.test(data.cta.primary.to) ? localePath(data.cta.primary.to) : undefined"
-        :primary-href="data.cta.primary?.to && /^https?:\/\//.test(data.cta.primary.to) ? data.cta.primary.to : undefined"
+        :primary-to="ctaPrimaryTo"
+        :primary-href="ctaPrimaryHref"
         :secondary-note="localized(data.cta.secondaryNote)"
       />
     </section>
