@@ -6,6 +6,7 @@ interface HeroData {
   hero?: {
     eyebrow?: LocalizedString
     titleLines?: { en?: string[], es?: string[] }
+    phrases?: { en?: string[], es?: string[] }
     lede?: LocalizedText
     ctaPrimary?: { label?: LocalizedString, to?: string }
     ctaSecondary?: { label?: LocalizedString, to?: string }
@@ -35,6 +36,12 @@ const titleLines = computed(() => {
   return (locale.value === 'es' ? lines.es : lines.en) || []
 })
 
+const phrases = computed(() => {
+  const p = data.value?.hero?.phrases
+  if (!p) return []
+  return (locale.value === 'es' ? p.es : p.en) || []
+})
+
 function renderLine(line: string) {
   const m = line.match(/^(.*?)\*(.+?)\*(.*)$/)
   if (!m) return { plain: line, italic: null, after: null }
@@ -59,18 +66,27 @@ const iconMap: Record<string, string> = {
         <div class="hero-eyebrow">
           {{ localized(data.hero.eyebrow) }}
         </div>
-        <h1>
-          <template
-            v-for="(line, i) in titleLines"
-            :key="i"
-          >
-            <br v-if="i > 0">
-            <template v-if="renderLine(line).italic">
-              {{ renderLine(line).plain }}{{ renderLine(line).italic }}{{ renderLine(line).after }}
+        <h1 class="hero-title">
+          <template v-if="phrases.length">
+            <DcTypeWriter
+              :phrases="phrases"
+              caret-color="var(--coffee-600)"
+            />
+          </template>
+          <template v-else>
+            <template
+              v-for="(line, i) in titleLines"
+              :key="i"
+            >
+              <br v-if="i > 0">
+              <template v-if="renderLine(line).italic">
+                {{ renderLine(line).plain }}<span style="color: var(--coffee-600)">{{ renderLine(line).italic }}</span>{{ renderLine(line).after }}
+              </template>
+              <template v-else>
+                {{ line }}
+              </template>
             </template>
-            <template v-else>
-              {{ line }}
-            </template>
+            <span class="cursor" />
           </template>
         </h1>
         <p class="lede">

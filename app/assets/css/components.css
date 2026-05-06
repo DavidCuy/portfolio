@@ -220,6 +220,7 @@ body {
   color: var(--fg-strong);
   font-weight: 700;
   margin: 0 0 20px;
+  min-height: calc(1.02em * 3);
 }
 .hero h1 .cursor {
   display: inline-block;
