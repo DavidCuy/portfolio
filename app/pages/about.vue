@@ -1,80 +1,85 @@
 <script setup lang="ts">
-import { getLocalized } from '~/utils/getLocalized'
+import groq from 'groq'
+import type { LocalizedString, LocalizedText } from '~/composables/useSanity'
 
-const { locale } = useI18n()
-const { data: page } = await useAsyncData('about', () => {
-  return queryCollection('about').first()
-})
-if (!page.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: 'Page not found',
-    fatal: true
-  })
+interface AboutData {
+  badge?: LocalizedString
+  title?: LocalizedString
+  intro?: LocalizedText
+  paragraphs?: { en?: string[], es?: string[] }
+  blockquote?: { text?: LocalizedText, cite?: LocalizedString }
+  contactEmail?: string
 }
 
-const { global } = useAppConfig()
+const sanity = useSanity()
+const localized = useLocalizedFn()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
-const title = computed(() => {
-  return getLocalized(page.value?.principal?.title, locale.value?.toString()) || getLocalized(page.value?.principal?.title, locale.value?.toString()) || ''
-})
+const { data } = await useAsyncData('about-page', () =>
+  sanity.fetch<AboutData | null>(groq`*[_type=="aboutPage"][0]`)
+)
 
-const description = computed(() => {
-  return getLocalized(page.value?.principal?.description, locale.value?.toString()) || getLocalized(page.value?.principal?.description, locale.value?.toString()) || ''
-})
-
-const content = computed(() => {
-  const aboutContent = page.value?.content
-  return getLocalized(aboutContent, locale.value?.toString()) || getLocalized(page.value?.content, locale.value?.toString()) || ''
+const paragraphs = computed(() => {
+  const p = data.value?.paragraphs
+  if (!p) return []
+  return (locale.value === 'es' ? p.es : p.en) || []
 })
 
 useSeoMeta({
-  title: page.value?.seo?.title || page.value?.title,
-  ogTitle: page.value?.seo?.title || page.value?.title,
-  description: page.value?.seo?.description || page.value?.description,
-  ogDescription: page.value?.seo?.description || page.value?.description
+  title: t('about.seoTitle', 'About · David Cuy'),
+  description: t('about.seoDescription', 'Cloud Architect & Software Engineer based in Mérida, MX.')
 })
 </script>
 
 <template>
-  <UPage v-if="page">
-    <UPageHero
-      :title="title"
-      :description="description"
-      orientation="horizontal"
-      :ui="{
-        container: 'lg:flex sm:flex-row items-center',
-        title: '!mx-0 text-left',
-        description: '!mx-0 text-left',
-        links: 'justify-start'
-      }"
+  <main
+    v-if="data"
+    class="page-enter"
+  >
+    <section
+      class="container-narrow"
+      style="padding: 80px 32px 40px"
     >
-      <UColorModeAvatar
-        class="sm:rotate-4 size-36 rounded-lg ring ring-default ring-offset-3 ring-offset-(--ui-bg)"
-        :light="global.picture?.light!"
-        :dark="global.picture?.dark!"
-        :alt="global.picture?.alt!"
-        width="256"
-        height="256"
-      />
-    </UPageHero>
-    <UPageSection
-      :ui="{
-        container: '!pt-0'
-      }"
-    >
-      <MDC
-        :value="content"
-        unwrap="p"
-      />
-      <div class="flex flex-row justify-center items-center py-10 space-x-[-2rem]">
-        <PolaroidItem
-          v-for="(image, index) in page.images"
-          :key="index"
-          :image="image"
-          :index
-        />
+      <DcBadge category="leadership">
+        {{ localized(data.badge) }}
+      </DcBadge>
+      <h1 style="font-family: var(--font-display); font-size: clamp(40px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.02em; color: var(--fg-strong); font-weight: 700; margin: 18px 0 20px">
+        {{ localized(data.title) }}
+      </h1>
+      <p style="font-family: var(--font-display); font-size: 22px; line-height: 34px; color: var(--fg-strong); font-weight: 600; letter-spacing: -0.01em; margin-bottom: 28px">
+        {{ localized(data.intro) }}
+      </p>
+      <p
+        v-for="(p, i) in paragraphs"
+        :key="i"
+        style="font-size: 17px; line-height: 29px; color: var(--fg); margin-bottom: 20px"
+      >
+        {{ p }}
+      </p>
+      <blockquote
+        v-if="data.blockquote"
+        style="font-family: var(--font-display); font-size: 28px; line-height: 38px; font-weight: 500; color: var(--fg-strong); margin: 48px 0; padding: 0; border: 0; background: transparent; letter-spacing: -0.01em; max-width: 640px"
+      >
+        {{ localized(data.blockquote.text) }}
+      </blockquote>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px">
+        <DcButton
+          v-if="data.contactEmail"
+          variant="primary"
+          icon="i-lucide-mail"
+          :href="`mailto:${data.contactEmail}`"
+        >
+          {{ data.contactEmail }}
+        </DcButton>
+        <DcButton
+          variant="ghost"
+          icon-after="i-lucide-arrow-up-right"
+          :to="localePath('/services')"
+        >
+          {{ t('about.seeServices', 'See services') }}
+        </DcButton>
       </div>
-    </UPageSection>
-  </UPage>
+    </section>
+  </main>
 </template>

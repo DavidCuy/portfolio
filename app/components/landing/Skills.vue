@@ -1,78 +1,67 @@
 <script setup lang="ts">
-import type { IndexCollectionItem } from '@nuxt/content'
+import groq from 'groq'
+import type { LocalizedText } from '~/composables/useSanity'
 
-const { locale } = useI18n()
-
-const props = defineProps<{
-  page: IndexCollectionItem
-}>()
-
-const items = computed(() => {
-  return props.page.skills?.categories.map((skill) => {
-    return {
-      label: getLocalized(skill.title, locale.value?.toString()) || '',
-      key: skill.key,
-      cards: skill.cards.map((card: any) => ({
-        label: getLocalized(card.title, locale.value?.toString()) || '',
-        description: getLocalized(card.description, locale.value?.toString()) || '',
-        image: card.image
-      }))
-    }
-  })
-})
-
-const skillCardViewMoreText = computed(() => {
-  const skillsSection = props.page?.skills
-  console.log(getLocalized(skillsSection?.viewMoreText, locale.value?.toString()))
-  return getLocalized(skillsSection?.viewMoreText, locale.value?.toString()) || ''
-})
-
-const skillsTitle = computed(() => {
-  const titleSection = props.page.skills
-  return getLocalized(titleSection?.title, locale.value?.toString()) || ''
-})
-
-const skillsDescription = computed(() => {
-  const descSection = props.page.skills
-  return getLocalized(descSection?.description, locale.value?.toString()) || ''
-})
-
-const ui = {
-  root: 'flex items-center gap-4 w-full',
-  list: 'relative flex bg-transparent dark:bg-transparent gap-2 px-0',
-  indicator: 'absolute top-[4px] duration-200 ease-out focus:outline-none rounded-lg bg-elevated/60',
-  trigger: 'px-3 py-2 rounded-lg hover:bg-muted/50 data-[state=active]:text-highlighted data-[state=inactive]:text-muted',
-  label: 'truncate'
+interface Skill {
+  _id: string
+  tabId: 'cloud' | 'code' | 'data' | 'ai'
+  name: string
+  description: LocalizedText
+  level: number
+  icon?: string
 }
+
+const sanity = useSanity()
+const localized = useLocalizedFn()
+const { t } = useI18n()
+
+const { data } = await useAsyncData('home-skills', () =>
+  sanity.fetch<Skill[]>(groq`*[_type=="skill"] | order(tabId asc, order asc)`)
+)
+
+const tabs = computed(() => [
+  { id: 'cloud', label: t('skills.tabs.cloud') },
+  { id: 'code', label: t('skills.tabs.code') },
+  { id: 'data', label: t('skills.tabs.data') },
+  { id: 'ai', label: t('skills.tabs.ai') }
+])
+
+const tab = ref<'cloud' | 'code' | 'data' | 'ai'>('cloud')
+
+const filtered = computed(() => (data.value || []).filter(s => s.tabId === tab.value))
+const countByTab = computed(() => {
+  const map: Record<string, number> = {}
+  for (const s of data.value || []) map[s.tabId] = (map[s.tabId] || 0) + 1
+  return map
+})
 </script>
 
 <template>
-  <UPageSection
-    :title="skillsTitle"
-    :description="skillsDescription"
-    :ui="{
-      container: 'px-0 !pt-0 gap-4 sm:gap-4',
-      title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',
-      description: 'text-left mt-2 text-sm sm:text-md lg:text-sm text-muted'
-    }"
+  <section
+    v-if="data?.length"
+    class="container section"
   >
-    <UTabs
-      :items
-      orientation="horizontal"
-      :ui
-    >
-      <template #content="{ item }">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <SkillCard
-            v-for="(card, index) in item.cards"
-            :key="index"
-            :title="card.label"
-            :items="[card.description]"
-            :view-more-text="skillCardViewMoreText"
-            :image="card.image"
-          />
-        </div>
-      </template>
-    </UTabs>
-  </UPageSection>
+    <DcSectionHead
+      :label="t('skills.label', '03 · Tools')"
+      :title="t('skills.title', 'The tools I reach for almost every day.')"
+      num="— /skills"
+    />
+    <div class="skills-tabs">
+      <button
+        v-for="tb in tabs"
+        :key="tb.id"
+        :class="{ active: tab === tb.id }"
+        @click="tab = tb.id as 'cloud' | 'code' | 'data' | 'ai'"
+      >
+        {{ tb.label }} <span class="count">· {{ countByTab[tb.id] || 0 }}</span>
+      </button>
+    </div>
+    <div class="skills-grid">
+      <DcSkillCard
+        v-for="s in filtered"
+        :key="s._id"
+        :skill="{ name: s.name, description: localized(s.description), level: s.level, icon: s.icon }"
+      />
+    </div>
+  </section>
 </template>

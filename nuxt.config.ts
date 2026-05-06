@@ -2,13 +2,9 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    '@nuxt/image',
     '@nuxt/ui',
     '@nuxt/icon',
-    '@nuxt/content',
     '@vueuse/nuxt',
-    'nuxt-og-image',
-    'motion-v/nuxt',
     '@nuxtjs/i18n'
   ],
   ssr: true,
@@ -20,7 +16,11 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/',
     head: {
-      link: [],
+      link: [
+        {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
+        {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: ''},
+        {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..900;1,300..900&display=swap'}
+      ],
       script: [
         {
           'src': 'https://cloud.umami.is/script.js',
@@ -48,14 +48,14 @@ export default defineNuxtConfig({
         try {
           const res = await fetch(
             'https://my6ptkxm.apicdn.sanity.io/v2024-01-01/data/query/production?query='
-            + encodeURIComponent('*[_type=="post" && defined(slug.current)]{"slug":slug.current}')
+            + encodeURIComponent('*[_type=="post" && defined(slug.current)] | order(publishedAt desc) [0...5] {"slug":slug.current}')
           )
           const { result } = await res.json() as { result: { slug: string }[] }
           for (const p of result) {
             routes.add(`/blog/${p.slug}`)
             routes.add(`/es/blog/${p.slug}`)
           }
-          console.log(`[prerender] Added ${result.length * 2} blog post routes from Sanity`)
+          console.log(`[prerender] Added ${result.length * 2} latest blog post routes (top 5)`)
         } catch (err) {
           console.warn('[prerender] Failed to fetch Sanity slugs:', err)
         }
@@ -75,7 +75,7 @@ export default defineNuxtConfig({
   i18n: {
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
-
+    lazy: false,
     locales: [
       { code: 'en', file: 'en.json' },
       { code: 'es', file: 'es.json' }
@@ -96,10 +96,5 @@ export default defineNuxtConfig({
     }
   },
 
-  image: {
-    provider: 'none'
-  },
-  ogImage: {
-    enabled: false
-  }
+
 })

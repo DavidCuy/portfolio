@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
-import { useNavLinks } from '~/utils/links'
-
 defineProps({
   error: {
     type: Object as PropType<NuxtError>,
     required: true
   }
 })
+
+const localePath = useLocalePath()
 
 useHead({
   htmlAttrs: {
@@ -20,52 +20,27 @@ useSeoMeta({
   title: 'Page not found',
   description: 'We are sorry but this page could not be found.'
 })
-
-const navLinks = useNavLinks()
-
-const [{ data: navigation }, { data: files }] = await Promise.all([
-  useAsyncData('navigation', () => {
-    return Promise.all([
-      queryCollectionNavigation('blog')
-    ])
-  }, {
-    transform: data => data.flat()
-  }),
-  useLazyAsyncData('search', () => {
-    return Promise.all([
-      queryCollectionSearchSections('blog')
-    ])
-  }, {
-    server: false,
-    transform: data => data.flat()
-  })
-])
 </script>
 
 <template>
-  <div>
-    <AppHeader :links="navLinks" />
-
-    <UMain>
-      <UContainer>
-        <UPage>
-          <UError :error="error" />
-        </UPage>
-      </UContainer>
-    </UMain>
-
+  <div class="page">
+    <AppHeader />
+    <main
+      class="container"
+      style="padding: 80px 32px; min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center"
+    >
+      <h1>{{ error.statusCode }}</h1>
+      <p style="color: var(--fg-muted); margin: 12px 0 24px">
+        {{ error.message }}
+      </p>
+      <DcButton
+        variant="primary"
+        :to="localePath('/')"
+        icon-after="i-lucide-arrow-right"
+      >
+        Home
+      </DcButton>
+    </main>
     <AppFooter />
-
-    <ClientOnly>
-      <LazyUContentSearch
-        :files="files"
-        shortcut="meta_k"
-        :navigation="navigation"
-        :links="navLinks"
-        :fuse="{ resultLimit: 42 }"
-      />
-    </ClientOnly>
-
-    <UToaster />
   </div>
 </template>

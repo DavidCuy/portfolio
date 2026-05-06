@@ -1,28 +1,7 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
-
-@source "../../../content/**/*";
-
-@theme static {
-  --font-sans: 'Public Sans', sans-serif;
-  --font-serif: 'Instrument Serif', serif;
-}
-
-:root {
-  --ui-container: var(--container-4xl);
-
-  ::selection {
-    color: #282a30;
-    background-color: #c8c8c8;
-  }
-}
-
-.dark {
-  ::selection {
-    color: #ffffff;
-    background-color: #474747;
-  }
-}
+@import "./tokens.css";
+@import "./components.css";
 
 /* Shiki syntax highlighting — dual theme (light / dark) */
 .shiki-wrapper .shiki {
@@ -42,10 +21,12 @@
   font-style: var(--shiki-light-font-style);
   font-weight: var(--shiki-light-font-weight);
 }
-.dark .shiki-wrapper .shiki {
+:root.dark .shiki-wrapper .shiki,
+:root[data-theme='dark'] .shiki-wrapper .shiki {
   background-color: var(--shiki-dark-bg) !important;
 }
-.dark .shiki-wrapper .shiki span {
+:root.dark .shiki-wrapper .shiki span,
+:root[data-theme='dark'] .shiki-wrapper .shiki span {
   color: var(--shiki-dark) !important;
   font-style: var(--shiki-dark-font-style);
   font-weight: var(--shiki-dark-font-weight);

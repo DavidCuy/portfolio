@@ -1,0 +1,286 @@
+/* =============================================================
+   David Cuy — Cloud + Coffee Design System
+   Colors & Type foundation
+   ============================================================= */
+
+/* ---------- Fonts ---------- */
+@font-face {
+  font-family: 'Syne';
+  src: url('./fonts/Syne-Variable.ttf') format('truetype-variations');
+  /* fonts live in ./fonts/ relative to this css */
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('./fonts/DMSans-Variable.ttf') format('truetype-variations');
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('./fonts/DMSans-Italic-Variable.ttf') format('truetype-variations');
+  font-weight: 100 1000;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---------- Root tokens: LIGHT mode ---------- */
+:root {
+  /* -- Core brand scales ----------------------------------- */
+
+  /* Navy — dominant, structural */
+  --navy-50:  #F2F5FA;
+  --navy-100: #DFE7F1;
+  --navy-200: #BFCFE4;
+  --navy-300: #93AECC;
+  --navy-400: #5F85AE;
+  --navy-500: #3A6292;
+  --navy-600: #254C7C;
+  --navy-700: #1B3A6B; /* ★ brand Navy */
+  --navy-800: #152E55;
+  --navy-900: #0F2240;
+  --navy-950: #08152A;
+
+  /* Sky — accent, interactive */
+  --sky-50:  #EEF9FC;
+  --sky-100: #D6F0F7;
+  --sky-200: #AEE1EF;
+  --sky-300: #82CEE3;
+  --sky-400: #4FB3D4; /* ★ brand Sky */
+  --sky-500: #2C95BB;
+  --sky-600: #1F789A;
+  --sky-700: #1C607C;
+  --sky-800: #1B4F65;
+  --sky-900: #173F52;
+  --sky-950: #0C2635;
+
+  /* Coffee — mascot, warmth */
+  --coffee-50:  #FAF4F0;
+  --coffee-100: #F0E2D8;
+  --coffee-200: #DEC2AE;
+  --coffee-300: #C79C80;
+  --coffee-400: #AD7759;
+  --coffee-500: #935E42;
+  --coffee-600: #7B4E38; /* ★ brand Coffee */
+  --coffee-700: #633E2D;
+  --coffee-800: #4E3124;
+  --coffee-900: #3A241B;
+  --coffee-950: #20130E;
+
+  /* Neutral (warm-tinted gray, leans coffee) */
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #FAF8F6;
+  --neutral-100: #F3F0EC;
+  --neutral-200: #E6E1DA;
+  --neutral-300: #CFC7BC;
+  --neutral-400: #A89F92;
+  --neutral-500: #7E7467;
+  --neutral-600: #5A5249;
+  --neutral-700: #3E3832;
+  --neutral-800: #26221E;
+  --neutral-900: #17140F;
+  --neutral-950: #0B0906;
+
+  /* Category palette — distinct-but-coherent (for 8 blog categories) */
+  --cat-architecture: var(--navy-700);      /* Cloud Architecture */
+  --cat-serverless:   var(--sky-400);       /* Serverless & Event-Driven */
+  --cat-legacy:       var(--coffee-600);    /* Legacy Integration */
+  --cat-decisions:    var(--navy-500);      /* Architecture Decisions */
+  --cat-productivity: #6B9A7B;              /* Developer Productivity (moss, coherent warm-cool) */
+  --cat-leadership:   #B07A3C;              /* Technical Leadership (amber coffee) */
+  --cat-observ:       #8F5FA8;              /* Observability & Operations (dusk) */
+  --cat-realsystems:  var(--sky-700);       /* Building Real Systems */
+
+  /* Semantic status */
+  --success: #3F8F6B;
+  --warning: #C78A2C;
+  --danger:  #B4452F;
+  --info:    var(--sky-500);
+
+  /* -- Semantic tokens (LIGHT) ----------------------------- */
+  --bg:           var(--neutral-0);
+  --bg-subtle:    var(--neutral-50);
+  --bg-muted:     var(--neutral-100);
+  --bg-inverse:   var(--navy-900);
+  --bg-brand:     var(--navy-700);
+
+  --surface:      var(--neutral-0);
+  --surface-alt:  var(--neutral-50);
+  --surface-code: var(--navy-950);        /* code blocks first-class */
+
+  --border:       var(--neutral-200);
+  --border-strong:var(--neutral-300);
+  --border-brand: var(--sky-400);
+
+  --fg:           var(--neutral-900);
+  --fg-strong:    var(--neutral-950);
+  --fg-muted:     var(--neutral-600);
+  --fg-subtle:    var(--neutral-500);
+  --fg-inverse:   var(--neutral-0);
+  --fg-brand:     var(--navy-700);
+  --fg-accent:    var(--sky-500);
+  --fg-warm:      var(--coffee-600);
+  --fg-link:      var(--sky-600);
+
+  --ring:         var(--sky-400);
+  --ring-offset:  var(--neutral-0);
+
+  /* -- Type system --------------------------------------- */
+  --font-display: 'Syne', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body:    'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', ui-monospace, Menlo, Consolas, monospace;
+
+  /* Sizes / line-heights (matches suggested scale) */
+  --fs-display: 64px;   --lh-display: 72px;
+  --fs-h1:      48px;   --lh-h1:      56px;
+  --fs-h2:      36px;   --lh-h2:      44px;
+  --fs-h3:      28px;   --lh-h3:      36px;
+  --fs-h4:      22px;   --lh-h4:      30px;
+  --fs-body:    16px;   --lh-body:    26px;
+  --fs-small:   14px;   --lh-small:   20px;
+  --fs-caption: 14px;   --lh-caption: 20px;
+  --fs-micro:   12px;   --lh-micro:   16px;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold:600;
+  --fw-bold:    700;
+
+  /* Tracking — Syne benefits from small negative on display */
+  --track-display: -0.02em;
+  --track-heading: -0.01em;
+  --track-body:     0em;
+  --track-caps:     0.08em;
+
+  /* -- Spacing (4-based) ---------------------------------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-16:64px;
+  --space-20:80px;
+  --space-24:96px;
+
+  /* -- Radii ---------------------------------------------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;   /* buttons, badges */
+  --radius-lg: 12px;  /* cards */
+  --radius-xl: 16px;
+  --radius-2xl:20px;
+  --radius-full: 999px;
+
+  /* -- Elevation (subtle, never flashy) ------------------- */
+  --shadow-xs: 0 1px 2px 0 rgb(15 34 64 / 0.04);
+  --shadow-sm: 0 1px 2px 0 rgb(15 34 64 / 0.05), 0 1px 3px 0 rgb(15 34 64 / 0.06);
+  --shadow-md: 0 4px 6px -2px rgb(15 34 64 / 0.06), 0 2px 4px -2px rgb(15 34 64 / 0.05);
+  --shadow-lg: 0 12px 20px -8px rgb(15 34 64 / 0.10), 0 4px 8px -4px rgb(15 34 64 / 0.06);
+  --shadow-focus: 0 0 0 2px var(--ring-offset), 0 0 0 4px var(--ring);
+
+  /* -- Motion --------------------------------------------- */
+  --dur-fast:  120ms;
+  --dur-base:  180ms;
+  --dur-slow:  240ms;
+  --ease-standard: cubic-bezier(.2, .6, .2, 1);    /* confident, no bounce */
+  --ease-emphatic: cubic-bezier(.16, .84, .3, 1);
+  --ease-exit:     cubic-bezier(.4, 0, 1, 1);
+}
+
+/* ---------- Root tokens: DARK mode ---------- */
+:root[data-theme='dark'],
+.dark {
+  --bg:           var(--navy-950);
+  --bg-subtle:    var(--navy-900);
+  --bg-muted:     var(--navy-800);
+  --bg-inverse:   var(--neutral-50);
+  --bg-brand:     var(--navy-700);
+
+  --surface:      var(--navy-900);
+  --surface-alt:  var(--navy-800);
+  --surface-code: #05101E;
+
+  --border:       rgba(255,255,255,0.08);
+  --border-strong:rgba(255,255,255,0.14);
+  --border-brand: var(--sky-400);
+
+  --fg:           #EAF1F8;
+  --fg-strong:    #FFFFFF;
+  --fg-muted:     #A6B6C7;
+  --fg-subtle:    #7E8FA1;
+  --fg-inverse:   var(--navy-900);
+  --fg-brand:     var(--sky-300);
+  --fg-accent:    var(--sky-300);
+  --fg-warm:      var(--coffee-300);
+  --fg-link:      var(--sky-300);
+
+  --ring:         var(--sky-300);
+  --ring-offset:  var(--navy-950);
+
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.35), 0 1px 3px 0 rgb(0 0 0 / 0.35);
+  --shadow-md: 0 4px 10px -2px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 16px 30px -12px rgb(0 0 0 / 0.55);
+}
+
+/* ---------- Base element styles (semantic) ---------- */
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display);
+  color: var(--fg-strong);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--track-heading);
+  margin: 0;
+}
+
+.display {
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+  font-weight: 700;
+}
+
+h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); }
+h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); }
+h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+h4 { font-size: var(--fs-h4); line-height: var(--lh-h4); font-weight: var(--fw-semibold); }
+
+p  { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--fg); margin: 0 0 1em; }
+small, .caption { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--fg-muted); }
+.micro { font-size: var(--fs-micro); line-height: var(--lh-micro); text-transform: uppercase; letter-spacing: var(--track-caps); color: var(--fg-muted); }
+
+code, pre, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+a {
+  color: var(--fg-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+a:hover { color: var(--sky-500); }
+
+::selection { background: var(--sky-200); color: var(--navy-900); }
+:root[data-theme='dark'] ::selection { background: var(--sky-700); color: #fff; }

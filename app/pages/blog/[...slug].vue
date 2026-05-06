@@ -13,11 +13,14 @@ interface SanityPost {
   excerpt: string | null
   image: string | null
   date: string | null
+  category: 'architecture' | 'serverless' | 'legacy' | 'decisions' | 'productivity' | 'leadership' | 'observ' | 'realsystems'
+  tags?: string[] | null
+  cover?: 'architecture' | 'serverless' | 'legacy' | 'decisions' | 'leadership' | 'observ' | null
+  readingTime?: number | null
   author: {
     name: string
     avatar: string | null
   } | null
-  categories: { _id: string, title: string }[] | null
   body: any[]
 }
 
@@ -37,10 +40,13 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
   title,
   "slug": slug.current,
   excerpt,
+  category,
+  tags,
+  cover,
+  readingTime,
   "image": mainImage.asset->url,
   "date": publishedAt,
   "author": author->{ name, "avatar": image.asset->url },
-  "categories": categories[]->{ _id, title },
   "body": body[]{
     ...,
     _type == "image" => { "url": asset->url, "alt": alt }
@@ -324,150 +330,189 @@ useSeoMeta({
 </script>
 
 <template>
-  <UMain class="mt-20 px-2">
-    <UContainer class="relative min-h-screen">
-      <UPage v-if="post">
-        <ULink
-          :to="localePath('/blog')"
-          class="text-sm flex items-center gap-1 text-muted hover:text-highlighted transition-colors"
+  <main
+    v-if="post"
+    class="page-enter"
+  >
+    <article
+      class="container-narrow"
+      style="padding: 64px 32px 40px"
+    >
+      <NuxtLink
+        :to="localePath('/blog')"
+        style="font-size: 13px; display: inline-flex; align-items: center; gap: 4px; color: var(--fg-muted); margin-bottom: 24px"
+      >
+        <UIcon name="i-lucide-chevron-left" />
+        {{ $t('blog.title') }}
+      </NuxtLink>
+
+      <DcBadge :category="post.category">
+        {{ $t(`categories.${post.category}`) }}
+      </DcBadge>
+
+      <div
+        v-if="post.tags?.length"
+        class="post-tags"
+      >
+        <span
+          v-for="tg in post.tags"
+          :key="tg"
+          class="post-tag"
+        >#{{ tg }}</span>
+      </div>
+
+      <h1 style="font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); line-height: 1.1; letter-spacing: -0.02em; color: var(--fg-strong); font-weight: 700; margin: 18px 0 16px">
+        {{ post.title }}
+      </h1>
+
+      <p
+        v-if="post.excerpt"
+        style="font-size: 19px; line-height: 30px; color: var(--fg-muted); margin: 0 0 24px"
+      >
+        {{ post.excerpt }}
+      </p>
+
+      <div style="display: flex; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 32px; font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted)">
+        <span v-if="post.date">{{ formatDate(post.date) }}</span>
+        <span v-if="post.readingTime">· {{ post.readingTime }} min</span>
+        <span
+          v-if="post.author?.name"
+          style="margin-left: auto"
+        >{{ post.author.name }}</span>
+      </div>
+
+      <div
+        v-if="!post.image"
+        style="aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; margin-bottom: 32px; background: var(--surface-code)"
+      >
+        <DcPostCover :kind="post.cover || (post.category === 'productivity' || post.category === 'leadership' ? 'leadership' : post.category === 'realsystems' ? 'architecture' : post.category)" />
+      </div>
+      <img
+        v-else
+        :src="post.image"
+        :alt="post.title"
+        style="border-radius: 14px; width: 100%; aspect-ratio: 16/9; object-fit: cover; margin-bottom: 32px"
+      >
+
+      <div class="prose-body">
+        <PortableText
+          v-if="post.body?.length"
+          :value="post.body"
+          :components="ptComponents"
+        />
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 40px">
+        <button
+          class="btn btn-ghost btn-sm"
+          @click="copyToClipboard(articleLink, t('blog.linkCopied'))"
         >
-          <UIcon name="lucide:chevron-left" />
-          {{ $t('blog.title') }}
-        </ULink>
+          <UIcon name="i-lucide-link" />
+          {{ $t('blog.copyLink') }}
+        </button>
+      </div>
 
-        <!-- Header -->
-        <div class="flex flex-col gap-4 mt-8 mb-2">
-          <p
-            v-if="post.date"
-            class="text-xs text-muted text-center"
-          >
-            {{ formatDate(post.date) }}
-          </p>
+      <div
+        v-if="surround?.prev || surround?.next"
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border)"
+      >
+        <NuxtLink
+          v-if="surround?.prev"
+          :to="localePath(`/blog/${surround.prev.slug}`)"
+          style="display: flex; flex-direction: column; gap: 4px; text-decoration: none"
+        >
+          <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-muted); display: inline-flex; align-items: center; gap: 4px">
+            <UIcon name="i-lucide-chevron-left" />
+            {{ $t('blog.prev') }}
+          </span>
+          <span style="font-family: var(--font-display); font-weight: 600; color: var(--fg-strong); font-size: 15px">
+            {{ surround.prev.title }}
+          </span>
+        </NuxtLink>
+        <div v-else />
 
-          <!-- Cover image -->
-          <img
-            v-if="post.image"
-            :src="post.image"
-            :alt="post.title"
-            class="rounded-lg w-full h-[300px] sm:h-[400px] object-cover object-center"
-          >
-          <div
-            v-else
-            class="rounded-lg w-full h-[200px] bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center"
-          >
-            <UIcon
-              name="lucide:file-text"
-              class="text-primary/40 text-5xl"
-            />
-          </div>
-
-          <!-- Title -->
-          <h1 class="text-3xl sm:text-4xl text-center font-bold max-w-3xl mx-auto mt-2 leading-tight">
-            {{ post.title }}
-          </h1>
-
-          <!-- Excerpt -->
-          <p
-            v-if="post.excerpt"
-            class="text-muted text-center max-w-2xl mx-auto"
-          >
-            {{ post.excerpt }}
-          </p>
-
-          <!-- Author -->
-          <div
-            v-if="post.author"
-            class="flex items-center justify-center gap-3 mt-2"
-          >
-            <img
-              v-if="post.author.avatar"
-              :src="post.author.avatar"
-              :alt="post.author.name"
-              class="w-10 h-10 rounded-full object-cover ring-2 ring-default"
-            >
-            <div
-              v-else
-              class="w-10 h-10 rounded-full bg-muted flex items-center justify-center ring-2 ring-default"
-            >
-              <UIcon
-                name="lucide:user"
-                class="text-muted"
-              />
-            </div>
-            <span class="text-sm font-medium">{{ post.author.name }}</span>
-          </div>
-
-          <!-- Categories -->
-          <div
-            v-if="post.categories?.length"
-            class="flex flex-wrap gap-2 justify-center"
-          >
-            <span
-              v-for="cat in post.categories"
-              :key="cat._id"
-              class="px-3 py-1 rounded-full bg-muted/60 text-xs font-medium"
-            >
-              {{ cat.title }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Body -->
-        <UPageBody class="max-w-3xl mx-auto prose dark:prose-invert prose-headings:font-bold prose-a:text-primary prose-img:rounded-lg">
-          <PortableText
-            v-if="post.body?.length"
-            :value="post.body"
-            :components="ptComponents"
-          />
-
-          <!-- Actions -->
-          <div class="flex items-center justify-end gap-2 text-sm text-muted mt-8 not-prose">
-            <UButton
-              size="sm"
-              variant="link"
-              color="neutral"
-              icon="lucide:link"
-              :label="$t('blog.copyLink')"
-              @click="copyToClipboard(articleLink, t('blog.linkCopied'))"
-            />
-          </div>
-
-          <!-- Prev / Next -->
-          <div
-            v-if="surround?.prev || surround?.next"
-            class="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-default not-prose"
-          >
-            <NuxtLink
-              v-if="surround?.prev"
-              :to="localePath(`/blog/${surround.prev.slug}`)"
-              class="flex flex-col gap-1 group"
-            >
-              <span class="text-xs text-muted flex items-center gap-1">
-                <UIcon name="lucide:chevron-left" />
-                {{ $t('blog.prev') }}
-              </span>
-              <span class="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
-                {{ surround.prev.title }}
-              </span>
-            </NuxtLink>
-            <div v-else />
-
-            <NuxtLink
-              v-if="surround?.next"
-              :to="localePath(`/blog/${surround.next.slug}`)"
-              class="flex flex-col gap-1 text-right group"
-            >
-              <span class="text-xs text-muted flex items-center gap-1 justify-end">
-                {{ $t('blog.next') }}
-                <UIcon name="lucide:chevron-right" />
-              </span>
-              <span class="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
-                {{ surround.next.title }}
-              </span>
-            </NuxtLink>
-          </div>
-        </UPageBody>
-      </UPage>
-    </UContainer>
-  </UMain>
+        <NuxtLink
+          v-if="surround?.next"
+          :to="localePath(`/blog/${surround.next.slug}`)"
+          style="display: flex; flex-direction: column; gap: 4px; text-align: right; text-decoration: none"
+        >
+          <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-muted); display: inline-flex; align-items: center; gap: 4px; justify-content: flex-end">
+            {{ $t('blog.next') }}
+            <UIcon name="i-lucide-chevron-right" />
+          </span>
+          <span style="font-family: var(--font-display); font-weight: 600; color: var(--fg-strong); font-size: 15px">
+            {{ surround.next.title }}
+          </span>
+        </NuxtLink>
+      </div>
+    </article>
+  </main>
 </template>
+
+<style scoped>
+.prose-body :deep(h2) {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 40px 0 16px;
+  color: var(--fg-strong);
+}
+.prose-body :deep(h3) {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 32px 0 12px;
+  color: var(--fg-strong);
+}
+.prose-body :deep(p) {
+  font-size: 17px;
+  line-height: 29px;
+  color: var(--fg);
+  margin: 0 0 20px;
+}
+.prose-body :deep(a) {
+  color: var(--fg-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-body :deep(ul),
+.prose-body :deep(ol) {
+  padding-left: 24px;
+  margin: 0 0 20px;
+}
+.prose-body :deep(li) {
+  margin-bottom: 8px;
+  font-size: 17px;
+  line-height: 29px;
+}
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.post-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+  text-transform: lowercase;
+  padding: 2px 4px;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+.post-tag:hover {
+  color: var(--fg-accent);
+}
+.prose-body :deep(blockquote) {
+  margin: 32px 0;
+  padding: 0 0 0 20px;
+  border-left: 2px solid var(--border-strong);
+  background: transparent;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 32px;
+  letter-spacing: -0.005em;
+  color: var(--fg-strong);
+}
+</style>

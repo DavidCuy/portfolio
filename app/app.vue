@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { useNavLinks } from '~/utils/links'
-
 const { locale } = useI18n()
 const colorMode = useColorMode()
 
-const color = computed(() => colorMode.value === 'dark' ? '#020618' : 'white')
+const color = computed(() => colorMode.value === 'dark' ? '#08152A' : '#FFFFFF')
 
 useHead({
   meta: [
@@ -21,50 +19,15 @@ useHead({
 })
 
 useSeoMeta({
-  titleTemplate: '%s - Nuxt Portfolio Template',
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/portfolio-light.png',
-  twitterImage: 'https://ui.nuxt.com/assets/templates/nuxt/portfolio-light.png',
+  titleTemplate: '%s',
   twitterCard: 'summary_large_image'
 })
-
-const navLinks = useNavLinks()
-
-const [{ data: navigation }, { data: files }] = await Promise.all([
-  useAsyncData('navigation', () => {
-    return Promise.all([
-      queryCollectionNavigation('blog')
-    ])
-  }, {
-    transform: data => data.flat()
-  }),
-  useLazyAsyncData('search', () => {
-    return Promise.all([
-      queryCollectionSearchSections('blog')
-    ])
-  }, {
-    server: false,
-    transform: data => data.flat()
-  })
-])
 </script>
 
 <template>
   <UApp>
     <NuxtLayout>
-      <UMain class="relative">
-        <NuxtPage />
-      </UMain>
+      <NuxtPage />
     </NuxtLayout>
-
-    <ClientOnly>
-      <LazyUContentSearch
-        :key="locale"
-        :files="files"
-        :navigation="navigation"
-        shortcut="meta_k"
-        :links="navLinks"
-        :fuse="{ resultLimit: 42 }"
-      />
-    </ClientOnly>
   </UApp>
 </template>

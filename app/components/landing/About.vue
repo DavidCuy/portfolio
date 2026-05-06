@@ -1,34 +1,60 @@
 <script setup lang="ts">
-import type { IndexCollectionItem } from '@nuxt/content'
+import groq from 'groq'
+import type { LocalizedString, LocalizedText } from '~/composables/useSanity'
 
-const { locale } = useI18n()
-const props = defineProps<{
-  page: IndexCollectionItem
-}>()
+interface AboutData {
+  label?: LocalizedString
+  title?: LocalizedString
+  paragraph1?: LocalizedText
+  paragraph2?: LocalizedText
+  ctaLabel?: LocalizedString
+  stats?: Array<{ n: string, u: LocalizedString }>
+}
 
-const aboutTitle = computed(() => {
-  const aboutSection = props.page.about
-  return getLocalized(aboutSection?.title, locale.value?.toString()) || ''
-})
+const sanity = useSanity()
+const localized = useLocalizedFn()
+const localePath = useLocalePath()
 
-const aboutDescription = computed(() => {
-  const aboutSection = props.page.about
-  return getLocalized(aboutSection?.description, locale.value?.toString()) || ''
-})
+const { data } = await useAsyncData('home-about', () =>
+  sanity.fetch<AboutData | null>(groq`*[_type=="home"][0].about`)
+)
 </script>
 
 <template>
-  <UPageSection
-    :title="aboutTitle"
-    :description="aboutDescription"
-    :ui="{
-      container: '!p-0',
-      title: 'text-left text-xl sm:text-xl lg:text-2xl font-medium',
-      description: 'text-left mt-3 text-sm sm:text-md lg:text-sm text-muted'
-    }"
-  />
+  <section
+    v-if="data"
+    class="container section"
+  >
+    <DcSectionHead
+      :label="localized(data.label)"
+      :title="localized(data.title)"
+      num="— /about"
+    />
+    <div class="about-grid">
+      <div>
+        <p class="lead">
+          {{ localized(data.paragraph1) }}
+        </p>
+        <p>{{ localized(data.paragraph2) }}</p>
+        <DcButton
+          v-if="data.ctaLabel"
+          variant="ghost"
+          icon-after="i-lucide-arrow-right"
+          :to="localePath('/about')"
+        >
+          {{ localized(data.ctaLabel) }}
+        </DcButton>
+      </div>
+      <div>
+        <div
+          v-for="(s, i) in data.stats || []"
+          :key="i"
+          class="about-stat"
+        >
+          <span class="n">{{ s.n }}</span>
+          <span class="u">{{ localized(s.u) }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
-
-<style scoped>
-
-</style>

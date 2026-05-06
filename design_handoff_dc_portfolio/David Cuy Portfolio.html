@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>David Cuy — Cloud Architect & Software Engineer</title>
+<link rel="icon" href="assets/logo-iso.jpg">
+<link rel="stylesheet" href="assets/colors_and_type.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel" src="Nav.jsx"></script>
+<script type="text/babel" src="Pages.jsx"></script>
+<script type="text/babel" src="Home.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "theme": "dark",
+    "mood": "pragmatic",
+    "density": "standard",
+    "texture": "dots"
+  }/*EDITMODE-END*/;
+
+  const MOODS = [
+    { id: 'pragmatic', name: 'Pragmatic',  desc: 'Default · navy + sky', preview: 'mood-preview-pragmatic', preview_text: 'Tradeoffs.' },
+    { id: 'warm',      name: 'Warm',       desc: 'Coffee · soft · round', preview: 'mood-preview-warm',      preview_text: 'Served warm.' },
+    { id: 'editorial', name: 'Editorial',  desc: 'Serif · magazine voice', preview: 'mood-preview-editorial', preview_text: 'In theory…' },
+    { id: 'terminal',  name: 'Terminal',   desc: 'Mono · scanlines · CRT', preview: 'mood-preview-terminal',  preview_text: '$ ssh prod' },
+  ];
+
+  function applyMood(m) {
+    if (m === 'pragmatic') document.documentElement.removeAttribute('data-mood');
+    else document.documentElement.setAttribute('data-mood', m);
+  }
+  function applyDensity(d) {
+    if (d === 'standard') document.documentElement.removeAttribute('data-density');
+    else document.documentElement.setAttribute('data-density', d);
+  }
+  function applyTexture(t) {
+    if (t === 'clean') document.documentElement.removeAttribute('data-texture');
+    else document.documentElement.setAttribute('data-texture', t);
+  }
+  function applyTheme(t) {
+    if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+  }
+
+  function TweaksPanel({ open, onClose, theme, setTheme, mood, setMood, density, setDensity, texture, setTexture }) {
+    if (!open) return null;
+    return (
+      <div className="tweaks-panel open">
+        <h4>Tweaks <span className="x" onClick={onClose}>close</span></h4>
+        <div className="tweaks-row">
+          <label>Mood</label>
+          <div className="mood-grid">
+            {MOODS.map(m => (
+              <button key={m.id} className={`mood-card${mood === m.id ? ' active' : ''}`} onClick={() => setMood(m.id)}>
+                <span className="name">{m.name}</span>
+                <span className="desc">{m.desc}</span>
+                <span className={`preview ${m.preview}`}>{m.preview_text}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="tweaks-row">
+          <label>Density</label>
+          <div className="seg">
+            <button className={density === 'roomy' ? 'active' : ''} onClick={() => setDensity('roomy')}>Roomy</button>
+            <button className={density === 'standard' ? 'active' : ''} onClick={() => setDensity('standard')}>Standard</button>
+            <button className={density === 'tight' ? 'active' : ''} onClick={() => setDensity('tight')}>Tight</button>
+          </div>
+        </div>
+        <div className="tweaks-row">
+          <label>Texture</label>
+          <div className="seg">
+            <button className={texture === 'clean' ? 'active' : ''} onClick={() => setTexture('clean')}>Clean</button>
+            <button className={texture === 'grid' ? 'active' : ''} onClick={() => setTexture('grid')}>Grid</button>
+            <button className={texture === 'noise' ? 'active' : ''} onClick={() => setTexture('noise')}>Noise</button>
+            <button className={texture === 'dots' ? 'active' : ''} onClick={() => setTexture('dots')}>Dots</button>
+          </div>
+        </div>
+        <div className="tweaks-row">
+          <label>Theme</label>
+          <div className="seg">
+            <button className={theme === 'light' ? 'active' : ''} onClick={() => setTheme('light')}>Light</button>
+            <button className={theme === 'dark' ? 'active' : ''} onClick={() => setTheme('dark')}>Dark</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function App() {
+    const [screen, setScreen] = React.useState(() => localStorage.getItem('dc.screen') || 'home');
+    const [lang, setLang] = React.useState(() => localStorage.getItem('dc.lang') || 'EN');
+    const [theme, setTheme] = React.useState(() => localStorage.getItem('dc.theme') || TWEAKS.theme || 'light');
+    const [mood, setMood] = React.useState(() => localStorage.getItem('dc.mood') || TWEAKS.mood || 'pragmatic');
+    const [density, setDensity] = React.useState(() => localStorage.getItem('dc.density') || TWEAKS.density || 'standard');
+    const [texture, setTexture] = React.useState(() => localStorage.getItem('dc.texture') || TWEAKS.texture || 'clean');
+    const [editOpen, setEditOpen] = React.useState(false);
+
+    React.useEffect(() => { localStorage.setItem('dc.screen', screen); window.scrollTo(0, 0); }, [screen]);
+    React.useEffect(() => { localStorage.setItem('dc.lang', lang); }, [lang]);
+    React.useEffect(() => { localStorage.setItem('dc.theme', theme); applyTheme(theme); }, [theme]);
+    React.useEffect(() => { localStorage.setItem('dc.mood', mood); applyMood(mood); }, [mood]);
+    React.useEffect(() => { localStorage.setItem('dc.density', density); applyDensity(density); }, [density]);
+    React.useEffect(() => { localStorage.setItem('dc.texture', texture); applyTexture(texture); }, [texture]);
+
+    // edit-mode protocol
+    React.useEffect(() => {
+      const onMsg = (e) => {
+        if (e.data?.type === '__activate_edit_mode') setEditOpen(true);
+        else if (e.data?.type === '__deactivate_edit_mode') setEditOpen(false);
+      };
+      window.addEventListener('message', onMsg);
+      window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+      return () => window.removeEventListener('message', onMsg);
+    }, []);
+
+    React.useEffect(() => {
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { theme, mood, density, texture } }, '*');
+    }, [theme, mood, density, texture]);
+
+    const pages = {
+      home:     <HomePage lang={lang} onNav={setScreen} />,
+      projects: <ProjectsPage lang={lang} onNav={setScreen} />,
+      services: <ServicesPage lang={lang} onNav={setScreen} />,
+      about:    <AboutPage lang={lang} onNav={setScreen} />,
+      blog:     <BlogPage lang={lang} onNav={setScreen} />,
+    };
+
+    return (
+      <React.Fragment>
+        <div className="tx-layer" aria-hidden="true" />
+        <div className="page" data-screen-label={screen}>
+          <Nav current={screen} onNav={setScreen} lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
+          {pages[screen] || pages.home}
+          <Footer lang={lang} onNav={setScreen} />
+          <TweaksPanel open={editOpen} onClose={() => setEditOpen(false)}
+            theme={theme} setTheme={setTheme}
+            mood={mood} setMood={setMood}
+            density={density} setDensity={setDensity}
+            texture={texture} setTexture={setTexture} />
+        </div>
+      </React.Fragment>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

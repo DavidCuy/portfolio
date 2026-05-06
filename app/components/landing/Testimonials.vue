@@ -1,44 +1,40 @@
 <script setup lang="ts">
-import type { IndexCollectionItem } from '@nuxt/content'
+import groq from 'groq'
+import type { LocalizedString, LocalizedText } from '~/composables/useSanity'
 
-const { locale } = useI18n()
+interface Testimonial {
+  _id: string
+  name: string
+  role: LocalizedString
+  quote: LocalizedText
+  avatar?: string
+}
 
-defineProps<{
-  page: IndexCollectionItem
-}>()
+const sanity = useSanity()
+const localized = useLocalizedFn()
+const { t } = useI18n()
+
+const { data } = await useAsyncData('home-testimonials', () =>
+  sanity.fetch<Testimonial[]>(groq`*[_type=="testimonial"] | order(order asc)`)
+)
 </script>
 
 <template>
-  <UPageSection
-    :ui="{
-      container: 'px-0 !pt-0'
-    }"
+  <section
+    v-if="data?.length"
+    class="container section"
   >
-    <UCarousel
-      v-slot="{ item }"
-      :items="page.testimonials"
-      :autoplay="{ delay: 4000 }"
-      loop
-      dots
-      :ui="{
-        viewport: '-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 max-w-(--ui-container)'
-      }"
-    >
-      <UPageCTA
-        :description="getLocalized(item.quote, locale?.toString()) || ''"
-        variant="naked"
-        class="rounded-none"
-        :ui="{
-          container: 'sm:py-12 lg:py-12 sm:gap-8',
-          description: '!text-base text-balance before:content-[open-quote] before:text-5xl lg:before:text-7xl before:inline-block before:text-dimmed before:absolute before:-ml-6 lg:before:-ml-10 before:-mt-2 lg:before:-mt-4 after:content-[close-quote] after:text-5xl lg:after:text-7xl after:inline-block after:text-dimmed after:absolute after:mt-1 lg:after:mt-0 after:ml-1 lg:after:ml-2'
-        }"
-      >
-        <UUser
-          v-bind="item.author"
-          size="xl"
-          class="justify-center"
-        />
-      </UPageCTA>
-    </UCarousel>
-  </UPageSection>
+    <DcSectionHead
+      :label="t('tmnl.label', '04 · References')"
+      :title="t('tmnl.title', 'What people who worked with me say.')"
+      num="— /testimonials"
+    />
+    <div class="tmnl-grid">
+      <DcTestimonialCard
+        v-for="item in data"
+        :key="item._id"
+        :testimonial="{ name: item.name, role: localized(item.role), quote: localized(item.quote), avatar: item.avatar }"
+      />
+    </div>
+  </section>
 </template>

@@ -1,132 +1,130 @@
 <script setup lang="ts">
-const { locale } = useI18n()
+import groq from 'groq'
+import type { LocalizedString, LocalizedText } from '~/composables/useSanity'
 
-const { data: page } = await useAsyncData('services', () => {
-  return queryCollection('services').first()
-})
-
-if (!page.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: 'Page not found',
-    fatal: true
-  })
+interface Service {
+  _id: string
+  num: string
+  title: LocalizedString
+  description: LocalizedText
+  bullets: { en?: string[], es?: string[] }
+  featured: boolean
+  ctaLabel?: LocalizedString
 }
 
-const title = computed(() => {
-  return getLocalized(page.value?.seo?.title, locale.value?.toString()) || getLocalized(page.value?.title, locale.value?.toString()) || ''
-})
+interface ProcessStep {
+  _id: string
+  num: string
+  title: LocalizedString
+  description: LocalizedText
+}
 
-const description = computed(() => {
-  return getLocalized(page.value?.seo?.description, locale.value?.toString()) || getLocalized(page.value?.description, locale.value?.toString()) || ''
-})
+const sanity = useSanity()
+const localized = useLocalizedFn()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
+
+const { data } = await useAsyncData('services-page', () =>
+  Promise.all([
+    sanity.fetch<Service[]>(groq`*[_type=="service"] | order(order asc)`),
+    sanity.fetch<ProcessStep[]>(groq`*[_type=="processStep"] | order(order asc)`),
+    sanity.fetch<{
+      headline?: LocalizedString
+      body?: LocalizedText
+      primary?: { label?: LocalizedString, to?: string }
+      secondaryNote?: LocalizedString
+    } | null>(groq`*[_type=="settings"][0].cta`),
+    sanity.fetch<string | null>(groq`*[_type=="settings"][0].footer.contact.email`)
+  ]).then(([services, steps, cta, contactEmail]) => ({ services, steps, cta, contactEmail }))
+)
+
+const bulletsFor = (s: Service) => {
+  const list = s.bullets || {}
+  return (locale.value === 'es' ? list.es : list.en) || []
+}
 
 useSeoMeta({
-  title: title,
-  ogTitle: title,
-  description: description,
-  ogDescription: description
-})
-
-const { global } = useAppConfig()
-
-const services = computed(() => {
-  const pageData = page.value as any
-  return pageData?.services?.map((service: any) => ({
-    title: getLocalized(service.title, locale.value?.toString()) || '',
-    description: getLocalized(service.description, locale.value?.toString()) || '',
-    icon: service.icon
-  })) || []
-})
-
-const contactTitle = computed(() => {
-  const pageData = page.value as any
-  return getLocalized(pageData?.contact?.title, locale.value?.toString()) || ''
-})
-
-const contactDescription = computed(() => {
-  const pageData = page.value as any
-  return getLocalized(pageData?.contact?.description, locale.value?.toString()) || ''
-})
-
-const contactButtonLabel = computed(() => {
-  const pageData = page.value as any
-  return getLocalized(pageData?.contact?.buttonLabel, locale.value?.toString()) || ''
+  title: t('services.seoTitle', 'Services · David Cuy'),
+  description: t('services.seoDescription', 'Three ways to work together. Architecture review, fractional tech leadership, new system design.')
 })
 </script>
 
-<template cla>
-  <UPage v-if="page">
-    <UPageHero
-      :title="title"
-      :description="description"
-      :ui="{
-        title: '!mx-0 text-left',
-        description: '!mx-0 text-left',
-        links: 'justify-start'
-      }"
-    />
-
-    <!-- Services Section -->
-    <UPageSection
-      :ui="{
-        container: '!pt-0'
-      }"
-    >
-      <UCarousel
-        v-slot="{ item }: { item: any }"
-        :items="services"
-        :ui="{
-          viewport: '-mx-4 sm:-mx-12 lg:-mx-16 bg-elevated/50 max-w-(--ui-container)'
-        }"
-        arrows
-        :autoplay="{ delay: 3000 }"
-        loop
-      >
-        <UCard
-          class="p-8 h-full w-full max-w-full border-0 ring-0 shadow-none bg-transparent"
-        >
-          <div class="flex flex-col md:flex-row items-start gap-6 w-full">
-            <!-- Icon -->
-            <div class="p-4 rounded-lg bg-primary/10 flex-shrink-0">
-              <UIcon
-                :name="item?.icon"
-                class="size-12 text-primary"
-              />
-            </div>
-
-            <!-- Content -->
-            <div class="flex-1 min-w-0">
-              <h3 class="text-2xl font-semibold text-highlighted mb-3 break-words">
-                {{ item?.title }}
-              </h3>
-              <p class="text-base text-muted leading-relaxed break-words">
-                {{ item?.description }}
-              </p>
-            </div>
+<template>
+  <main class="page-enter">
+    <section class="container">
+      <div class="blog-hero">
+        <div>
+          <div class="hero-eyebrow">
+            {{ t('services.eyebrow', 'Booking Q3 2026') }}
           </div>
-        </UCard>
-      </UCarousel>
-    </UPageSection>
+          <h1>{{ t('services.h1', 'How I can help.') }}</h1>
+          <p>{{ t('services.intro', 'Three ways to work together. All include honesty, ADRs, and a coffee.') }}</p>
+        </div>
+        <div class="mascot">
+          <img
+            src="/mascots/mascot-speaker.webp"
+            alt=""
+          >
+        </div>
+      </div>
 
-    <!-- Contact Section -->
-    <UPageSection
-      :title="contactTitle"
-      :description="contactDescription"
-      :ui="{
-        container: 'py-16',
-        title: 'text-center text-2xl sm:text-3xl font-semibold',
-        description: 'text-center mt-3 text-md text-muted max-w-2xl mx-auto'
-      }"
-    >
-      <div class="flex justify-center mt-8">
-        <UButton
-          :to="`mailto:${global.email}`"
-          :label="contactButtonLabel"
-          size="xl"
-          icon="i-lucide-mail"
+      <div
+        v-if="data?.services?.length"
+        class="services-grid"
+      >
+        <DcServiceCard
+          v-for="s in data.services"
+          :key="s._id"
+          :service="{
+            num: s.num,
+            title: localized(s.title),
+            description: localized(s.description),
+            bullets: bulletsFor(s),
+            featured: s.featured,
+            ctaLabel: localized(s.ctaLabel) || t('services.getInTouch', 'Get in touch')
+          }"
+          :most-booked-label="t('services.mostBooked')"
+          :contact-email="data.contactEmail || undefined"
         />
       </div>
-    </UPageSection>
-  </UPage>
+    </section>
+
+    <section
+      v-if="data?.steps?.length"
+      class="container section"
+    >
+      <DcSectionHead
+        :label="t('process.label', 'How we work')"
+        :title="t('process.title', 'A short process, no mystery.')"
+        num="— /process"
+      />
+      <div class="process-steps">
+        <div
+          v-for="s in data.steps"
+          :key="s._id"
+          class="process-step"
+        >
+          <div class="n">
+            {{ s.num }}
+          </div>
+          <h4>{{ localized(s.title) }}</h4>
+          <p>{{ localized(s.description) }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      v-if="data?.cta"
+      class="container"
+      style="padding-bottom: 96px"
+    >
+      <DcCtaBand
+        :headline="localized(data.cta.headline)"
+        :body="localized(data.cta.body)"
+        :primary-label="localized(data.cta.primary?.label) || 'Book a call'"
+        :primary-to="data.cta.primary?.to ? localePath(data.cta.primary.to) : undefined"
+        :secondary-note="localized(data.cta.secondaryNote)"
+      />
+    </section>
+  </main>
 </template>

@@ -1,32 +1,103 @@
 {
-  "welcome": "Welcome!",
-  "message": "This is an example message.",
+  "seo": {
+    "home": {
+      "title": "David Cuy — Cloud Architect",
+      "description": "Cloud Architect & Software Engineer based in Mérida, MX."
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "services": "Services",
+    "about": "About",
+    "blog": "Blog",
+    "hire": "Hire me",
+    "toggleTheme": "Toggle theme"
+  },
+  "footer": {
+    "site": "Site",
+    "contact": "Contact",
+    "allPosts": "All posts",
+    "madeWith": "Made with cloud + coffee.",
+    "deployed": "deployed on the edge"
+  },
   "blog": {
     "title": "Blog",
-    "subtitle": "Articles and publications",
+    "subtitle": "One post a month, give or take. No hype, no listicles, just real decisions.",
+    "eyebrow": "Cloud + Coffee",
+    "h1": "Essays on real architecture.",
     "error": "Error loading posts.",
     "empty": "No posts published yet.",
     "copyLink": "Copy link",
     "linkCopied": "Link copied to clipboard",
     "prev": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "all": "All",
+    "viewAll": "View all posts"
+  },
+  "categories": {
+    "architecture": "Architecture",
+    "serverless": "Serverless",
+    "decisions": "Decisions",
+    "leadership": "Leadership",
+    "observ": "Observability",
+    "legacy": "Legacy",
+    "productivity": "Productivity",
+    "realsystems": "Real Systems"
+  },
+  "exp": {
+    "label": "02 · Experience",
+    "title": "A decade, a few war stories."
+  },
+  "skills": {
+    "label": "03 · Tools",
+    "title": "The tools I reach for almost every day.",
+    "level": "Level",
+    "tabs": {
+      "cloud": "Cloud & DevOps",
+      "code": "Code stack",
+      "data": "Databases",
+      "ai": "AI experiments"
+    }
+  },
+  "tmnl": {
+    "label": "04 · References",
+    "title": "What people who worked with me say."
+  },
+  "latest": {
+    "label": "05 · Writing",
+    "title": "Recent essays from the blog."
+  },
+  "projects": {
+    "eyebrow": "Selected work",
+    "h1": "Projects that actually made it to production.",
+    "intro": "Cloud systems shipped over the last decade. Each one has an ADR, a postmortem, and at least one decision I regret.",
+    "seoTitle": "Projects · David Cuy",
+    "seoDescription": "Selected cloud systems shipped to production over the last decade."
+  },
+  "services": {
+    "eyebrow": "Booking Q3 2026",
+    "h1": "How I can help.",
+    "intro": "Three ways to work together. All include honesty, ADRs, and a coffee.",
+    "mostBooked": "Most booked",
+    "getInTouch": "Get in touch",
+    "seoTitle": "Services · David Cuy",
+    "seoDescription": "Three ways to work together. Architecture review, fractional tech leadership, new system design."
+  },
+  "process": {
+    "label": "How we work",
+    "title": "A short process, no mystery."
+  },
+  "about": {
+    "seoTitle": "About · David Cuy",
+    "seoDescription": "Cloud Architect & Software Engineer based in Mérida, MX.",
+    "seeServices": "See services"
   },
   "topbar": {
-    "home": "Home",
-    "projects": "Projects",
-    "about": "About",
-    "blog": "Blog",
-    "services": "Services",
     "buttons": {
-      "language": {
-        "tooltipTxt": "Switch language"
-      },
-      "theme": {
-        "tooltipTxt": "Toggle dark/light mode"
-      },
-      "resume": {
-        "tooltipTxt": "Get my resume"
-      }
+      "language": {"tooltipTxt": "Switch language"},
+      "theme": {"tooltipTxt": "Toggle dark/light mode"},
+      "resume": {"tooltipTxt": "Get my resume"}
     }
   }
 }

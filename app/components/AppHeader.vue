@@ -1,46 +1,121 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
-import { useI18n } from '#i18n'
-import { computed, onBeforeMount } from 'vue'
+const { locale, t, setLocale } = useI18n()
+const localePath = useLocalePath()
+const route = useRoute()
+const colorMode = useColorMode()
 
-const { locale, t, getLocaleMessage, availableLocales, loadLocaleMessages } = useI18n()
+const scrolled = ref(false)
+const menuOpen = ref(false)
 
-onBeforeMount(async () => {
-  if (!availableLocales.includes(locale.value)) {
-    await loadLocaleMessages(locale.value)
+onMounted(() => {
+  const onScroll = () => {
+    scrolled.value = window.scrollY > 20
   }
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onUnmounted(() => window.removeEventListener('scroll', onScroll))
 })
 
-const props = defineProps<{
-  links: NavigationMenuItem[] | any // ref or array
-}>()
+watch(() => route.path, () => { menuOpen.value = false })
 
-// ✅ Desenrollamos ref o array dinámicamente
-const links = computed(() => props.links?.value ?? props.links)
+const links = computed(() => [
+  { id: 'home', label: t('nav.home'), to: localePath('/') },
+  { id: 'projects', label: t('nav.projects'), to: localePath('/projects') },
+  { id: 'services', label: t('nav.services'), to: localePath('/services') },
+  { id: 'about', label: t('nav.about'), to: localePath('/about') },
+  { id: 'blog', label: 'Blog', to: localePath('/blog') }
+])
 
-console.log('[HEADER] locale:', locale.value)
-console.log('[HEADER] messages:', getLocaleMessage(locale.value))
-console.log('[HEADER] t(home):', t('topbar.home'))
+const isActive = (to: string) => {
+  if (to === localePath('/')) return route.path === to
+  return route.path.startsWith(to)
+}
+
+const toggleTheme = () => {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+
+const toggleLang = async () => {
+  const target = locale.value === 'en' ? 'es' : 'en'
+  await setLocale(target)
+}
 </script>
 
 <template>
-  <div class="fixed top-2 sm:top-4 left-1/2 -translate-x-1/2 z-10 w-max max-w-[calc(100vw-1rem)]">
-    <UNavigationMenu
-      :items="links"
-      variant="link"
-      color="neutral"
-      class="bg-muted/80 backdrop-blur-sm rounded-full px-1 sm:px-4 border border-muted/50 shadow-lg shadow-neutral-950/5"
-      :ui="{
-        link: 'px-1.5 sm:px-2 py-1',
-        linkLeadingIcon: 'sm:hidden',
-        linkLabel: 'hidden sm:inline'
-      }"
+  <div :class="['nav-wrap', { scrolled, 'menu-open': menuOpen }]">
+    <div class="nav">
+      <NuxtLink
+        :to="localePath('/')"
+        class="brand"
+      >
+        <img
+          src="/logo-iso.jpg"
+          alt=""
+        >
+        <span class="brand-text">
+          <span>David Cuy</span>
+          <span class="sub">Cloud + Coffee</span>
+        </span>
+      </NuxtLink>
+      <div class="nav-links">
+        <NuxtLink
+          v-for="l in links"
+          :key="l.id"
+          :to="l.to"
+          :class="{ active: isActive(l.to) }"
+        >
+          {{ l.label }}
+        </NuxtLink>
+      </div>
+      <div class="nav-actions">
+        <button
+          class="theme-toggle"
+          :title="t('nav.toggleTheme')"
+          @click="toggleTheme"
+        >
+          <UIcon :name="colorMode.value === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'" />
+        </button>
+        <button
+          class="lang-switch"
+          :title="t('topbar.buttons.language.tooltipTxt')"
+          :aria-label="t('topbar.buttons.language.tooltipTxt')"
+          @click="toggleLang"
+        >
+          <span :class="{ active: locale === 'en' }">EN</span>
+          <span :class="{ active: locale === 'es' }">ES</span>
+        </button>
+        <DcButton
+          variant="secondary"
+          size="sm"
+          icon="i-lucide-calendar"
+          :to="localePath('/services')"
+          class="nav-cta"
+        >
+          <span class="nav-cta-label">{{ t('nav.hire') }}</span>
+        </DcButton>
+        <button
+          class="nav-burger"
+          :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
+          :aria-expanded="menuOpen"
+          @click="menuOpen = !menuOpen"
+        >
+          <UIcon :name="menuOpen ? 'i-lucide-x' : 'i-lucide-menu'" />
+        </button>
+      </div>
+    </div>
+
+    <div
+      v-if="menuOpen"
+      class="nav-drawer"
     >
-      <template #list-trailing>
-        <ColorModeButton />
-        <LanguageButton />
-        <ResumeButton />
-      </template>
-    </UNavigationMenu>
+      <NuxtLink
+        v-for="l in links"
+        :key="l.id"
+        :to="l.to"
+        :class="{ active: isActive(l.to) }"
+        @click="menuOpen = false"
+      >
+        {{ l.label }}
+      </NuxtLink>
+    </div>
   </div>
 </template>

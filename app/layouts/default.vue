@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { useNavLinks } from '~/utils/links'
-
 const { locale } = useI18n()
-const navLinks = useNavLinks()
 </script>
 
 <template>
-  <div>
-    <UContainer class="sm:border-x border-default pt-10">
-      <AppHeader
-        :key="locale"
-        :links="navLinks"
-      />
-      <slot />
-      <AppFooter />
-    </UContainer>
+  <div class="page">
+    <div
+      class="tx-layer"
+      aria-hidden="true"
+    />
+    <AppHeader :key="locale" />
+    <slot />
+    <AppFooter />
   </div>
 </template>
