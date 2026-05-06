@@ -122,7 +122,8 @@ useSeoMeta({
         :headline="localized(data.cta.headline)"
         :body="localized(data.cta.body)"
         :primary-label="localized(data.cta.primary?.label) || 'Book a call'"
-        :primary-to="data.cta.primary?.to ? localePath(data.cta.primary.to) : undefined"
+        :primary-to="data.cta.primary?.to && !/^https?:\/\//.test(data.cta.primary.to) ? localePath(data.cta.primary.to) : undefined"
+        :primary-href="data.cta.primary?.to && /^https?:\/\//.test(data.cta.primary.to) ? data.cta.primary.to : undefined"
         :secondary-note="localized(data.cta.secondaryNote)"
       />
     </section>
