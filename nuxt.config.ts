@@ -16,11 +16,7 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/',
     head: {
-      link: [
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..900;1,300..900&display=swap' }
-      ],
+      link: [],
       script: [
         {
           'src': 'https://cloud.umami.is/script.js',
@@ -93,6 +89,14 @@ export default defineNuxtConfig({
       scan: true,
       icons: ['lucide:sun', 'lucide:moon', 'flag:us-4x3', 'flag:mx-4x3']
     }
+  },
+
+  fonts: {
+    families: [
+      { name: 'DM Sans', provider: 'google', weights: [400, 500, 600, 700], styles: ['normal', 'italic'] },
+      { name: 'Public Sans', provider: 'google', weights: [600, 700, 800] },
+      { name: 'JetBrains Mono', provider: 'google', weights: [400, 600] }
+    ]
   }
 
 })

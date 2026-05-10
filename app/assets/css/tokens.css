@@ -3,24 +3,9 @@
    Tokens (colors, type, spacing, radii, motion)
    ============================================================= */
 
-/* Body: DM Sans (self-hosted) */
-@font-face {
-  font-family: 'DM Sans';
-  src: url('/fonts/DMSans-Variable.ttf') format('truetype-variations');
-  font-weight: 100 1000;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'DM Sans';
-  src: url('/fonts/DMSans-Italic-Variable.ttf') format('truetype-variations');
-  font-weight: 100 1000;
-  font-style: italic;
-  font-display: swap;
-}
-
-/* Display/headings: Public Sans — declared via <link> in nuxt.config head */
+/* Fonts auto-downloaded by @nuxt/fonts (auto-active via @nuxt/ui).
+   Detected from font-family declarations below: DM Sans, Public Sans, JetBrains Mono.
+   Served as woff2 from /_fonts/ on same origin. */
 
 :root {
   /* Navy */
