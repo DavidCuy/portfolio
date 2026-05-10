@@ -40,6 +40,9 @@ const toggleLang = async () => {
   const target = locale.value === 'en' ? 'es' : 'en'
   await setLocale(target)
 }
+
+const resumeFilename = computed(() => `CV_David_Cuy_Sanchez_${(locale.value || 'en').toUpperCase()}.pdf`)
+const resumeHref = computed(() => `/files/resume/${resumeFilename.value}`)
 </script>
 
 <template>
@@ -73,6 +76,15 @@ const toggleLang = async () => {
         </NuxtLink>
       </div>
       <div class="nav-actions">
+        <a
+          class="theme-toggle"
+          :href="resumeHref"
+          :download="resumeFilename"
+          :title="t('topbar.buttons.resume.tooltipTxt')"
+          :aria-label="t('topbar.buttons.resume.tooltipTxt')"
+        >
+          <UIcon name="i-lucide-file-text" />
+        </a>
         <button
           class="theme-toggle"
           :title="t('nav.toggleTheme')"

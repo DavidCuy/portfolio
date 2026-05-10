@@ -71,7 +71,7 @@ export default defineNuxtConfig({
   fonts: {
     families: [
       { name: 'DM Sans', provider: 'google', weights: [400, 500, 600, 700], styles: ['normal', 'italic'] },
-      { name: 'Public Sans', provider: 'google', weights: [600, 700, 800] },
+      { name: 'Public Sans', provider: 'google', weights: [600, 700, 800], preload: true, display: 'swap' },
       { name: 'JetBrains Mono', provider: 'google', weights: [400, 600] }
     ]
   },
