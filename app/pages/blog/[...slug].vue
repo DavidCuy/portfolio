@@ -336,13 +336,15 @@ useSeoMeta({
       class="container-narrow"
       style="padding: 64px 32px 40px"
     >
-      <NuxtLink
-        :to="localePath('/blog')"
-        style="font-size: 13px; display: inline-flex; align-items: center; gap: 4px; color: var(--fg-muted); margin-bottom: 24px"
-      >
-        <UIcon name="i-lucide-chevron-left" />
-        {{ $t('blog.title') }}
-      </NuxtLink>
+      <div style="margin-bottom: 24px">
+        <NuxtLink
+          :to="localePath('/blog')"
+          style="font-size: 13px; display: inline-flex; align-items: center; gap: 4px; color: var(--fg-muted); text-decoration: none"
+        >
+          <UIcon name="i-lucide-chevron-left" />
+          {{ $t('blog.title') }}
+        </NuxtLink>
+      </div>
 
       <DcBadge :category="post.category">
         {{ $t(`categories.${post.category}`) }}
