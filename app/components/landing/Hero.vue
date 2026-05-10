@@ -123,10 +123,16 @@ const iconMap: Record<string, string> = {
       </div>
       <div class="hero-visual">
         <div class="hero-avatar">
-          <img
-            src="/mascots/mascot-coder-opt.webp"
-            alt="David Cuy — illustrated as a cat barista coding"
-          >
+          <picture>
+            <source
+              media="(min-width: 768px)"
+              srcset="/mascots/mascot-coder-hd.webp"
+            >
+            <img
+              src="/mascots/mascot-coder-opt.webp"
+              alt="David Cuy — illustrated as a cat barista coding"
+            >
+          </picture>
         </div>
         <div
           v-if="data.badges?.[0]"

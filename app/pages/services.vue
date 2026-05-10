@@ -71,10 +71,16 @@ useSeoMeta({
           <p>{{ t('services.intro', 'Three ways to work together. All include honesty, ADRs, and a coffee.') }}</p>
         </div>
         <div class="mascot">
-          <img
-            src="/mascots/mascot-speaker-opt.webp"
-            alt=""
-          >
+          <picture>
+            <source
+              media="(min-width: 768px)"
+              srcset="/mascots/mascot-speaker-hd.webp"
+            >
+            <img
+              src="/mascots/mascot-speaker-opt.webp"
+              alt=""
+            >
+          </picture>
         </div>
       </div>
 

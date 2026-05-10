@@ -91,10 +91,16 @@ useSeoMeta({
           <p>{{ t('blog.subtitle') }}</p>
         </div>
         <div class="mascot">
-          <img
-            src="/mascots/mascot-barista-opt.webp"
-            alt=""
-          >
+          <picture>
+            <source
+              media="(min-width: 768px)"
+              srcset="/mascots/mascot-barista-hd.webp"
+            >
+            <img
+              src="/mascots/mascot-barista-opt.webp"
+              alt=""
+            >
+          </picture>
         </div>
       </div>
 

@@ -58,10 +58,16 @@ useSeoMeta({
           <p>{{ t('projects.intro', 'Cloud systems shipped over the last decade. Each one has an ADR, a postmortem, and at least one decision I regret.') }}</p>
         </div>
         <div class="mascot">
-          <img
-            src="/mascots/mascot-chaser-opt.webp"
-            alt=""
-          >
+          <picture>
+            <source
+              media="(min-width: 768px)"
+              srcset="/mascots/mascot-chaser-hd.webp"
+            >
+            <img
+              src="/mascots/mascot-chaser-opt.webp"
+              alt=""
+            >
+          </picture>
         </div>
       </div>
       <div class="projects-filter">
