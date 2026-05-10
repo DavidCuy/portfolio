@@ -37,8 +37,12 @@ const year = new Date().getFullYear()
         <div class="footer-brand">
           <div class="row">
             <img
-              src="/logo-iso.jpg"
+              src="/logo-iso.webp"
               alt=""
+              width="36"
+              height="36"
+              loading="lazy"
+              decoding="async"
             >
             <span>{{ data?.brand || 'David Cuy' }}</span>
           </div>

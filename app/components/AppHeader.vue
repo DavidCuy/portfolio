@@ -50,8 +50,12 @@ const toggleLang = async () => {
         class="brand"
       >
         <img
-          src="/logo-iso.jpg"
+          src="/logo-iso.webp"
           alt=""
+          width="30"
+          height="30"
+          loading="eager"
+          decoding="async"
         >
         <span class="brand-text">
           <span>David Cuy</span>
