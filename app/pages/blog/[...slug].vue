@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { SanityClient } from '@sanity/client'
 import { PortableText } from '@portabletext/vue'
 import { h, defineComponent, ref, onMounted } from 'vue'
 
@@ -32,8 +31,7 @@ interface SurroundPost {
 const route = useRoute()
 const slug = Array.isArray(route.params.slug) ? route.params.slug[0] : route.params.slug
 
-const { $sanity } = useNuxtApp()
-const sanity = $sanity as unknown as SanityClient
+const sanity = useSanity()
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
   _id,

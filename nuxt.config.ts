@@ -68,6 +68,14 @@ export default defineNuxtConfig({
     }
   },
 
+  fonts: {
+    families: [
+      { name: 'DM Sans', provider: 'google', weights: [400, 500, 600, 700], styles: ['normal', 'italic'] },
+      { name: 'Public Sans', provider: 'google', weights: [600, 700, 800] },
+      { name: 'JetBrains Mono', provider: 'google', weights: [400, 600] }
+    ]
+  },
+
   i18n: {
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
@@ -89,14 +97,6 @@ export default defineNuxtConfig({
       scan: true,
       icons: ['lucide:sun', 'lucide:moon', 'flag:us-4x3', 'flag:mx-4x3']
     }
-  },
-
-  fonts: {
-    families: [
-      { name: 'DM Sans', provider: 'google', weights: [400, 500, 600, 700], styles: ['normal', 'italic'] },
-      { name: 'Public Sans', provider: 'google', weights: [600, 700, 800] },
-      { name: 'JetBrains Mono', provider: 'google', weights: [400, 600] }
-    ]
   }
 
 })

@@ -18,7 +18,6 @@
     "@nuxt/ui": "^4.0.1",
     "@nuxtjs/i18n": "^10.1.1",
     "@portabletext/vue": "^1.0.14",
-    "@sanity/client": "^7.17.0",
     "@shikijs/langs": "^3.13.0",
     "@shikijs/themes": "^3.13.0",
     "@vueuse/nuxt": "^13.9.0",
