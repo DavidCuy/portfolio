@@ -58,9 +58,11 @@ const coverKind = computed<Cover>(() => {
     <div class="pc-cover-wrap">
       <img
         v-if="post.image"
-        :src="post.image"
+        :src="sanityImg(post.image, { w: large ? 1000 : 600 })"
         :alt="post.title"
         class="pc-cover-img"
+        loading="lazy"
+        decoding="async"
       >
       <DcPostCover
         v-else

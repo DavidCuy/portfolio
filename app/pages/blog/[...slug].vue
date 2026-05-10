@@ -389,8 +389,10 @@ useSeoMeta({
       </div>
       <img
         v-else
-        :src="post.image"
+        :src="sanityImg(post.image, { w: 1200 })"
         :alt="post.title"
+        loading="eager"
+        decoding="async"
         style="border-radius: 14px; width: 100%; aspect-ratio: 16/9; object-fit: cover; margin-bottom: 32px"
       >
 
