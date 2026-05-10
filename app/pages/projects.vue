@@ -59,7 +59,7 @@ useSeoMeta({
         </div>
         <div class="mascot">
           <img
-            src="/mascots/mascot-chaser.webp"
+            src="/mascots/mascot-chaser-opt.webp"
             alt=""
           >
         </div>

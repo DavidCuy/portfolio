@@ -124,7 +124,7 @@ const iconMap: Record<string, string> = {
       <div class="hero-visual">
         <div class="hero-avatar">
           <img
-            src="/mascots/mascot-coder.webp"
+            src="/mascots/mascot-coder-opt.webp"
             alt="David Cuy — illustrated as a cat barista coding"
           >
         </div>

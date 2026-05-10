@@ -72,7 +72,7 @@ useSeoMeta({
         </div>
         <div class="mascot">
           <img
-            src="/mascots/mascot-speaker.webp"
+            src="/mascots/mascot-speaker-opt.webp"
             alt=""
           >
         </div>
