@@ -31,6 +31,15 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-11-01',
 
+  hooks: {
+    async 'nitro:build:public-assets'(nitro) {
+      const { resolve } = await import('path')
+      const { copyFileSync } = await import('fs')
+      const publicDir = nitro.options.output.publicDir
+      copyFileSync(resolve(publicDir, 'index.html'), resolve(publicDir, '404.html'))
+    }
+  },
+
   nitro: {
     prerender: {
       routes: [
@@ -44,14 +53,14 @@ export default defineNuxtConfig({
         try {
           const res = await fetch(
             'https://my6ptkxm.apicdn.sanity.io/v2024-01-01/data/query/production?query='
-            + encodeURIComponent('*[_type=="post" && defined(slug.current)] | order(publishedAt desc) [0...5] {"slug":slug.current}')
+            + encodeURIComponent('*[_type=="post" && defined(slug.current)] | order(publishedAt desc) {"slug":slug.current}')
           )
           const { result } = await res.json() as { result: { slug: string }[] }
           for (const p of result) {
             routes.add(`/blog/${p.slug}`)
             routes.add(`/es/blog/${p.slug}`)
           }
-          console.log(`[prerender] Added ${result.length * 2} latest blog post routes (top 5)`)
+          console.log(`[prerender] Added ${result.length * 2} blog post routes`)
         } catch (err) {
           console.warn('[prerender] Failed to fetch Sanity slugs:', err)
         }
