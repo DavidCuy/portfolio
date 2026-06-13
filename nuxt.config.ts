@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: true,
 
   modules: [
     '@nuxt/eslint',
@@ -9,6 +8,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/i18n'
   ],
+  ssr: true,
 
   devtools: {
     enabled: true
@@ -31,15 +31,6 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   compatibilityDate: '2024-11-01',
-
-  hooks: {
-    async 'nitro:build:public-assets'(nitro) {
-      const { resolve } = await import('path')
-      const { copyFileSync } = await import('fs')
-      const publicDir = nitro.options.output.publicDir
-      copyFileSync(resolve(publicDir, 'index.html'), resolve(publicDir, '404.html'))
-    }
-  },
 
   nitro: {
     prerender: {
@@ -66,6 +57,15 @@ export default defineNuxtConfig({
           console.warn('[prerender] Failed to fetch Sanity slugs:', err)
         }
       }
+    }
+  },
+
+  hooks: {
+    async 'nitro:build:public-assets'(nitro) {
+      const { resolve } = await import('path')
+      const { copyFileSync } = await import('fs')
+      const publicDir = nitro.options.output.publicDir
+      copyFileSync(resolve(publicDir, 'index.html'), resolve(publicDir, '404.html'))
     }
   },
 
